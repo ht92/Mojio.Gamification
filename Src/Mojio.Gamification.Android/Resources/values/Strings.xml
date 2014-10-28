@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Connect to Mojio</string>
+	<string name="app_name">Mojio.Gamification.Android</string>
+
+    <string-array name="pages_array">
+        <item>Home</item>
+        <item>Score Breakdown</item>
+        <item>Badges</item>
+        <item>Help</item>
+    </string-array>
+</resources>

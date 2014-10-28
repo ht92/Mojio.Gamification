@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mojio.Gamification.Android", "Mojio.Gamification.Android\Mojio.Gamification.Android.csproj", "{17F991A7-CE80-4449-96DE-94D45C3E1823}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{16F2DD56-B0D2-44C1-A1E3-332D7692F3F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mojio", "Libs\Mojio.Client\Src\Mojio\Mojio.csproj", "{FAECCBE3-5E0C-4140-90F0-FF35059673E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mojio.Client", "Libs\Mojio.Client\Src\Mojio.Client\Mojio.Client.csproj", "{64B1AA53-3183-400B-82D7-DC34CA2EE35A}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Mojio.Gamification.Core", "Mojio.Gamification.Core\Mojio.Gamification.Core.shproj", "{EA3BB96F-D1D9-48E9-A59D-5697B2DC5A16}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17F991A7-CE80-4449-96DE-94D45C3E1823}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17F991A7-CE80-4449-96DE-94D45C3E1823}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17F991A7-CE80-4449-96DE-94D45C3E1823}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17F991A7-CE80-4449-96DE-94D45C3E1823}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64B1AA53-3183-400B-82D7-DC34CA2EE35A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64B1AA53-3183-400B-82D7-DC34CA2EE35A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64B1AA53-3183-400B-82D7-DC34CA2EE35A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64B1AA53-3183-400B-82D7-DC34CA2EE35A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAECCBE3-5E0C-4140-90F0-FF35059673E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAECCBE3-5E0C-4140-90F0-FF35059673E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAECCBE3-5E0C-4140-90F0-FF35059673E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAECCBE3-5E0C-4140-90F0-FF35059673E9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FAECCBE3-5E0C-4140-90F0-FF35059673E9} = {16F2DD56-B0D2-44C1-A1E3-332D7692F3F6}
+		{64B1AA53-3183-400B-82D7-DC34CA2EE35A} = {16F2DD56-B0D2-44C1-A1E3-332D7692F3F6}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Mojio.Gamification.Android\Mojio.Gamification.Android.csproj
+	EndGlobalSection
+EndGlobal
