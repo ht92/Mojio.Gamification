@@ -75,6 +75,7 @@
     <Compile Include="NavigationFragment.cs" />
     <Compile Include="HomeNavigationFragment.cs" />
     <Compile Include="ScoreBreakdownNavigationFragment.cs" />
+    <Compile Include="BadgeView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -88,7 +89,6 @@
     <AndroidResource Include="Resources\drawable\round_button.xml" />
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\layout\drawer_list_item.axml" />
-    <AndroidResource Include="Resources\layout\ScoringBreakdownLayout.axml" />
     <AndroidResource Include="Resources\Menu\navigation_drawer.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\action_search.png" />
     <AndroidResource Include="Resources\drawable-hdpi\drawer_shadow.9.png" />
@@ -99,9 +99,12 @@
     <AndroidResource Include="Resources\drawable-xhdpi\action_search.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\drawer_shadow.9.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_drawer.png" />
-    <AndroidResource Include="Resources\layout\HomeLayout.axml" />
     <AndroidResource Include="Resources\Animator\slide_in_left.xml" />
     <AndroidResource Include="Resources\Animator\slide_out_right.xml" />
+    <AndroidResource Include="Resources\Animator\fade_out.xml" />
+    <AndroidResource Include="Resources\Animator\zoom_in.xml" />
+    <AndroidResource Include="Resources\layout\home_frag_layout.axml" />
+    <AndroidResource Include="Resources\layout\scoring_frag_layout.axml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

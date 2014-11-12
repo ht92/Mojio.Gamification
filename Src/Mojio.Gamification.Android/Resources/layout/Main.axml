@@ -3,7 +3,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFCC00">
+    android:background="#38362E">
 <!-- The main content view -->
     <FrameLayout
         android:id="@+id/content_frame"
@@ -15,8 +15,8 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#515151"
+        android:background="#191919"
         android:choiceMode="singleChoice"
-        android:divider="#000"
-        android:dividerHeight="1px" />
+        android:divider="#515151"
+        android:dividerHeight="2px" />
 </android.support.v4.widget.DrawerLayout>

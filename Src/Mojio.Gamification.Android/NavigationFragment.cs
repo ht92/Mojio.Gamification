@@ -21,9 +21,9 @@ namespace Mojio.Gamification.Android
 		{
 		}
 
-		public static Fragment NewInstance(int position)
+		public static NavigationFragment NewInstance(int position)
 		{
-			Fragment fragment;
+			NavigationFragment fragment;
 			switch (position) {
 			case 1: 
 				fragment = new ScoreBreakdownNavigationFragment ();
@@ -39,6 +39,7 @@ namespace Mojio.Gamification.Android
 		}
 
 		public abstract override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+
 	}
 }
 

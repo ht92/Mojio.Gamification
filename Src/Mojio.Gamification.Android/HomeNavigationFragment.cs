@@ -24,7 +24,7 @@ namespace Mojio.Gamification.Android
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			//inflate the layout for this fragment
-			View rootView = inflater.Inflate(Resource.Layout.HomeLayout, container, false);
+			View rootView = inflater.Inflate(Resource.Layout.home_frag_layout, container, false);
 			this.Activity.Title = Resources.GetStringArray (Resource.Array.pages_array) [Arguments.GetInt (ARG_FRAG_NUMBER)];
 			return rootView;
 		}

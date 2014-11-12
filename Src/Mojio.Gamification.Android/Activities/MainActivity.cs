@@ -56,8 +56,25 @@ namespace Mojio.Gamification.Android
 			mDrawerLayout.SetDrawerListener (mDrawerToggle);
 
 			if (savedInstanceState == null) {
-				selectItem (0);
+				selectFragment (0);
 			}
+		}
+
+		protected override void OnPostCreate(Bundle savedInstanceState)
+		{
+			base.OnPostCreate (savedInstanceState);
+			mDrawerToggle.SyncState ();
+		}
+
+		protected override void OnTitleChanged (Java.Lang.ICharSequence title, global::Android.Graphics.Color color)
+		{
+			this.ActionBar.Title = title.ToString ();
+		}
+
+		public override void OnConfigurationChanged (Configuration newConfig)
+		{
+			base.OnConfigurationChanged (newConfig);
+			mDrawerToggle.OnConfigurationChanged (newConfig);
 		}
 
 		public override bool OnCreateOptionsMenu (IMenu menu) 
@@ -93,39 +110,33 @@ namespace Mojio.Gamification.Android
 			}
 		}
 
-		protected override void OnTitleChanged (Java.Lang.ICharSequence title, global::Android.Graphics.Color color)
+		public override void OnBackPressed() 
 		{
-			this.ActionBar.Title = title.ToString ();
-		}
-
-		protected override void OnPostCreate(Bundle savedInstanceState)
-		{
-			base.OnPostCreate (savedInstanceState);
-			mDrawerToggle.SyncState ();
-		}
-
-		public override void OnConfigurationChanged (Configuration newConfig)
-		{
-			base.OnConfigurationChanged (newConfig);
-			mDrawerToggle.OnConfigurationChanged (newConfig);
+			var fragmentManager = this.FragmentManager;
+			Fragment currentFragment = fragmentManager.FindFragmentByTag ("0");
+			if (currentFragment != null && currentFragment.IsVisible) {
+				base.OnBackPressed ();
+			} else {
+				selectFragment (0);
+			}
 		}
 
 		public void OnClick(View view, int position) 
 		{
-			selectItem (position);
+			selectFragment (position);
 		}
 
-		private void selectItem(int position)
+		private void selectFragment(int position)
 		{
 			//programmatically add fragment to activity layout
 			var fragmentManager = this.FragmentManager;
-			Fragment currentFragment = fragmentManager.FindFragmentByTag (position.ToString ());
+			NavigationFragment currentFragment = fragmentManager.FindFragmentByTag<NavigationFragment> (position.ToString ());
 			if (currentFragment != null && currentFragment.IsVisible) { return; }
 			var fragment = NavigationFragment.NewInstance (position);
-			var transaction = fragmentManager.BeginTransaction ()
-				.SetCustomAnimations (Resource.Animator.slide_in_left, Resource.Animator.slide_out_right)
-				.Replace (Resource.Id.content_frame, fragment, position.ToString ())
-				.Commit ();
+			var transaction = fragmentManager.BeginTransaction ();
+			transaction.SetCustomAnimations (Resource.Animator.zoom_in, Resource.Animator.fade_out, Resource.Animator.slide_in_left, Resource.Animator.fade_out);
+			transaction.Replace (Resource.Id.content_frame, fragment, position.ToString ());
+			transaction.Commit ();
 
 			mDrawerList.SetItemChecked (position, true);
 			Title = mPageTitles [position];
