@@ -14,7 +14,7 @@ using Android.Widget;
 
 namespace Mojio.Gamification.Android
 {
-	public class ScoreBreakdownNavigationFragment : NavigationFragment
+	public class ScoreBreakdownNavigationFragment : AbstractNavigationFragment
 	{
 		/*
 		 * Draw user interface and layout of the fragment.

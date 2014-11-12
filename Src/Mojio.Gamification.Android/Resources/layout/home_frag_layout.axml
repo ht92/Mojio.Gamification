@@ -12,7 +12,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:gravity="center_vertical|center_horizontal"
-        android:text="76"
         android:textSize="30sp"
         android:textColor="#000" />
     <View
@@ -26,8 +25,8 @@
         android:background="#c0c0c0" />
     <Mojio.Gamification.Android.BadgeView
         android:id="@+id/badgeCustom"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@drawable/Icon"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

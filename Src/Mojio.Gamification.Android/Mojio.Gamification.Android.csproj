@@ -72,10 +72,11 @@
     <Compile Include="GamificationApp.cs" />
     <Compile Include="UserStatsRepository.cs" />
     <Compile Include="Activities\MainActivity.cs" />
-    <Compile Include="NavigationFragment.cs" />
     <Compile Include="HomeNavigationFragment.cs" />
     <Compile Include="ScoreBreakdownNavigationFragment.cs" />
     <Compile Include="BadgeView.cs" />
+    <Compile Include="AbstractNavigationFragment.cs" />
+    <Compile Include="DiagnosticNavigationFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -105,6 +106,7 @@
     <AndroidResource Include="Resources\Animator\zoom_in.xml" />
     <AndroidResource Include="Resources\layout\home_frag_layout.axml" />
     <AndroidResource Include="Resources\layout\scoring_frag_layout.axml" />
+    <AndroidResource Include="Resources\layout\diagnostic_frag_layout.axml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -38,7 +38,7 @@ namespace Mojio.Gamification.Android
 			}
 		}
 
-		public UserStats GetUserStat()
+		public UserStats GetUserStats()
 		{
 			using (var database = new SQLiteConnection (_helper.ReadableDatabase.Path)) 
 			{
@@ -46,7 +46,7 @@ namespace Mojio.Gamification.Android
 			}
 		}
 
-		public double GetUserStat(UserStatType type) 
+		public double GetUserStats(UserStatType type) 
 		{
 			using (var database = new SQLiteConnection (_helper.ReadableDatabase.Path)) 
 			{

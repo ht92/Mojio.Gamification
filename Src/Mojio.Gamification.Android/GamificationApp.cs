@@ -8,7 +8,7 @@ namespace Mojio.Gamification.Android
 	[Application]
 	public class GamificationApp : Application
 	{
-		public UserStatsRepository UserStatsRepository { get; set; }
+		public UserStatsRepository MyUserStatsRepository { get; set; }
 
 		public GamificationApp(IntPtr javaReference, JniHandleOwnership transfer)
 			: base (javaReference, transfer)
@@ -18,7 +18,7 @@ namespace Mojio.Gamification.Android
 		public override void OnCreate()
 		{
 			base.OnCreate ();
-			UserStatsRepository = new UserStatsRepository (this);
+			MyUserStatsRepository = new UserStatsRepository (this);
 		}
 	}
 }

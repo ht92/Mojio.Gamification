@@ -14,26 +14,39 @@ using Android.Widget;
 
 namespace Mojio.Gamification.Android
 {
-	abstract public class NavigationFragment : Fragment
+	abstract public class AbstractNavigationFragment : Fragment
 	{
 		public const string ARG_FRAG_NUMBER = "frag_num";
-		public NavigationFragment ()
+
+		public enum NavigationFragmentType 
+		{
+			NAV_HOME,
+			NAV_SCORE_BREAKDOWN,
+			NAV_BADGES,
+			NAV_HELP,
+			NAV_DIAGNOSTICS
+		};
+
+		public AbstractNavigationFragment ()
 		{
 		}
 
-		public static NavigationFragment NewInstance(int position)
+		public static AbstractNavigationFragment NewInstance(NavigationFragmentType type)
 		{
-			NavigationFragment fragment;
-			switch (position) {
-			case 1: 
+			AbstractNavigationFragment fragment;
+			switch (type) {
+			case NavigationFragmentType.NAV_SCORE_BREAKDOWN: 
 				fragment = new ScoreBreakdownNavigationFragment ();
+				break;
+			case NavigationFragmentType.NAV_DIAGNOSTICS:
+				fragment = new DiagnosticNavigationFragment ();
 				break;
 			default:
 				fragment = new HomeNavigationFragment ();
 				break;
 			}
 			Bundle args = new Bundle();
-			args.PutInt(NavigationFragment.ARG_FRAG_NUMBER, position);
+			args.PutInt(AbstractNavigationFragment.ARG_FRAG_NUMBER, (int) type);
 			fragment.Arguments = args;
 			return fragment;
 		}
