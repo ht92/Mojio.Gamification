@@ -12,6 +12,8 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
+using Mojio.Gamification.Core;
+
 namespace Mojio.Gamification.Android
 {
 	public class HomeNavigationFragment : AbstractNavigationFragment
@@ -37,8 +39,9 @@ namespace Mojio.Gamification.Android
 			this.Activity.Title = Resources.GetStringArray (Resource.Array.pages_array) [Arguments.GetInt (ARG_FRAG_NUMBER)];
 
 			mScoreButton = (Button) rootView.FindViewById<Button> (Resource.Id.ScoreButton);
-			global::Mojio.Gamification.Core.UserStats stats = mUserStatsRepository.GetUserStats ();
-			mScoreButton.Text = mUserStatsRepository.GetUserStats ().overallScore.ToString ();
+			UserStats stats = mUserStatsRepository.GetUserStats ();
+			ScoreWrapper score = ScoreWrapper.wrapScore (stats.overallScore);
+			mScoreButton.Text = score.Score.ToString ();
 			mScoreButton.Click += mScoreButton_onClick;
 
 			return rootView;
