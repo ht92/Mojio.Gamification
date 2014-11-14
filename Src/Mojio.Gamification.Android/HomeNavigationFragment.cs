@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,8 +39,10 @@ namespace Mojio.Gamification.Android
 
 			mScoreButton = (Button) rootView.FindViewById<Button> (Resource.Id.ScoreButton);
 			UserStats stats = mUserStatsRepository.GetUserStats ();
-			ScoreWrapper score = ScoreWrapper.wrapScore (stats.overallScore);
-			mScoreButton.Text = score.Score.ToString ();
+			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (stats.safetyScore);
+			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (stats.efficiencyScore);
+			ScoreWrapper overallScore = ScoreCalculator.CalculateOverallScore (new List<ScoreWrapper> {safetyScore, efficiencyScore});
+			mScoreButton.Text = overallScore.Score.ToString ();
 			mScoreButton.Click += mScoreButton_onClick;
 
 			return rootView;

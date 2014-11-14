@@ -52,22 +52,24 @@ namespace Mojio.Gamification.Android
 
 		private void initializeScoreBreakdownPanel(Context context) 
 		{
-			ScoreWrapper score = ScoreWrapper.wrapScore (mUserStats.overallScore);
+			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (mUserStats.safetyScore);
+			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (mUserStats.efficiencyScore);
+			ScoreWrapper overallScore = ScoreCalculator.CalculateOverallScore (new List<ScoreWrapper> {safetyScore, efficiencyScore});
 
 			ScoreRowView overallScoreRow = new ScoreRowView (context);
 			overallScoreRow.SetScoreLabel ("OVERALL");
-			overallScoreRow.SetScore (score.Score);
-			overallScoreRow.SetRankLabel ("RANK " + score.Rank.ToString ());
+			overallScoreRow.SetScore (overallScore.Score);
+			overallScoreRow.SetRankLabel ("RANK " + overallScore.Rank.ToString ());
 
 			ScoreRowView safetyScoreRow = new ScoreRowView (context);
 			safetyScoreRow.SetScoreLabel ("SAFETY");
-			safetyScoreRow.SetScore (score.Score);
-			safetyScoreRow.SetRankLabel ("RANK " + score.Rank.ToString ());
+			safetyScoreRow.SetScore (safetyScore.Score);
+			safetyScoreRow.SetRankLabel ("RANK " + safetyScore.Rank.ToString ());
 
 			ScoreRowView efficiencyScoreRow = new ScoreRowView (context);
 			efficiencyScoreRow.SetScoreLabel ("EFFICIENCY");
-			efficiencyScoreRow.SetScore (score.Score);
-			efficiencyScoreRow.SetRankLabel ("RANK " + score.Rank.ToString ());
+			efficiencyScoreRow.SetScore (efficiencyScore.Score);
+			efficiencyScoreRow.SetRankLabel ("RANK " + efficiencyScore.Rank.ToString ());
 
 			mScoreBreakdownLayout.AddView (overallScoreRow);
 			mScoreBreakdownLayout.AddView (safetyScoreRow);

@@ -13,5 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)SQLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserStats.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ScoreWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ScoreCalculator.cs" />
   </ItemGroup>
 </Project>

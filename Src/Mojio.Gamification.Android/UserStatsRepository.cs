@@ -53,7 +53,8 @@ namespace Mojio.Gamification.Android
 				switch (type) {
 				case UserStatType.TOTAL_DISTANCE: return database.Table<UserStats> ().ElementAt (0).totalDistance;
 				case UserStatType.TOTAL_DURATION: return database.Table<UserStats> ().ElementAt (0).totalDuration;
-				case UserStatType.OVERALL_SCORE: return database.Table<UserStats> ().ElementAt (0).overallScore;
+				case UserStatType.SAFETY_SCORE: return database.Table<UserStats> ().ElementAt (0).safetyScore;
+				case UserStatType.EFFICIENCY_SCORE: return database.Table<UserStats> ().ElementAt (0).efficiencyScore;
 				case UserStatType.NUM_SPEEDING: return database.Table<UserStats> ().ElementAt (0).numSpeeding;
 				case UserStatType.DISTANCE_SPEEDING: return database.Table<UserStats> ().ElementAt (0).distanceSpeeding;
 				case UserStatType.NUM_HARSH_EVENTS: return database.Table<UserStats> ().ElementAt (0).numHarshEvents;
@@ -67,7 +68,8 @@ namespace Mojio.Gamification.Android
 		public enum UserStatType {
 			TOTAL_DISTANCE,
 			TOTAL_DURATION,
-			OVERALL_SCORE,
+			SAFETY_SCORE,
+			EFFICIENCY_SCORE,
 			NUM_SPEEDING,
 			DISTANCE_SPEEDING,
 			NUM_HARSH_EVENTS,

@@ -9,7 +9,7 @@ namespace Mojio.Gamification.Core
 		public int Score { get; private set;}
 		public ScoreRank Rank { get; private set;}
 
-		public static ScoreWrapper wrapScore(int score)
+		public static ScoreWrapper WrapScore(int score)
 		{
 			return new ScoreWrapper (score);
 		}
