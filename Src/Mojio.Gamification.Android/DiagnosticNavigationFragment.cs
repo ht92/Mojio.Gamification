@@ -17,6 +17,9 @@ namespace Mojio.Gamification.Android
 {
 	public class DiagnosticNavigationFragment : AbstractNavigationFragment
 	{
+
+		private Button mConnectButton;
+		private Button mFetchButton;
 		private Button mRandomizeDataButton;
 		private Button mResetDataButton;
 
@@ -30,12 +33,27 @@ namespace Mojio.Gamification.Android
 			View rootView = inflater.Inflate(Resource.Layout.diagnostic_frag_layout, container, false);
 			this.Activity.Title = Resources.GetStringArray (Resource.Array.pages_array) [Arguments.GetInt (ARG_FRAG_NUMBER)];
 
+			mConnectButton = (Button) rootView.FindViewById<Button> (Resource.Id.diag_connectButton);
+			mFetchButton = (Button) rootView.FindViewById<Button> (Resource.Id.diag_fetchButton);
 			mRandomizeDataButton = (Button) rootView.FindViewById<Button> (Resource.Id.diag_randomDataButton);
 			mResetDataButton = (Button) rootView.FindViewById<Button> (Resource.Id.diag_resetDataButton);
+
+			mConnectButton.Click += mConnectButton_onClick;
+			mFetchButton.Click += mFetchButton_onClick;
 			mRandomizeDataButton.Click += mRandomizeDataButton_onClick;
 			mResetDataButton.Click += mResetDataButton_onClick;
 
 			return rootView;
+		}
+
+		private void mConnectButton_onClick (object sender, EventArgs e)
+		{
+			MojioConnectUtility.Connect ();
+		}
+
+		private void mFetchButton_onClick (object sender, EventArgs e)
+		{
+
 		}
 
 		private void mRandomizeDataButton_onClick (object sender, EventArgs e) 

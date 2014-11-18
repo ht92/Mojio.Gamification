@@ -4,6 +4,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <Button
+        android:text="Connect to Mojio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/diag_connectButton" />
+    <Button
+        android:text="Fetch Data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/diag_fetchButton" />
+    <Button
         android:text="Randomize Data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
