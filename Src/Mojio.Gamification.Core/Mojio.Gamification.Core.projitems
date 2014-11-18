@@ -14,5 +14,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserStats.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ScoreWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ScoreCalculator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Metric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HardEventMetric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FuelEfficiencyMetric.cs" />
   </ItemGroup>
 </Project>

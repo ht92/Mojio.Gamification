@@ -19,6 +19,7 @@ namespace Mojio.Gamification.Android
 		{
 			base.OnCreate ();
 			MyUserStatsRepository = new UserStatsRepository (this);
+			MojioConnectUtility.Connect ();
 		}
 	}
 }
