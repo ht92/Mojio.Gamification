@@ -78,13 +78,23 @@ namespace Mojio.Gamification.Android
 
 		private void initializeStatsPanel(Context context)
 		{
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Distance Travelled", mUserStats.totalDistance.ToString ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Time Driven", mUserStats.totalDuration.ToString ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Speeding Events", mUserStats.numSpeeding.ToString ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Speeding Distance", mUserStats.distanceSpeeding.ToString ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Harsh Events", mUserStats.numHarshEvents.ToString ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Idle Time", mUserStats.totalIdleTime.ToString ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Fuel Consumption", mUserStats.totalFuelConsumption.ToString ()));
+			UnitValueWrapper totalDistance = UnitValueWrapper.WrapValue (mUserStats.totalDistance, UnitValueWrapper.UnitType.DISTANCE_KM);
+			UnitValueWrapper totalDuration = UnitValueWrapper.WrapValue (mUserStats.totalDuration, UnitValueWrapper.UnitType.TIME_S);
+			UnitValueWrapper totalHardEvents = UnitValueWrapper.WrapValue (mUserStats.numHardEvents, UnitValueWrapper.UnitType.NULL_UNIT);
+			UnitValueWrapper freqHardEvents = UnitValueWrapper.WrapValue (mUserStats.numHardEvents / mUserStats.totalDistance, UnitValueWrapper.UnitType.NULL_UNIT);
+			UnitValueWrapper totalIdleTime = UnitValueWrapper.WrapValue (mUserStats.totalIdleTime, UnitValueWrapper.UnitType.TIME_S);
+			UnitValueWrapper percentageIdleTime = UnitValueWrapper.WrapValue (100 * mUserStats.totalIdleTime / mUserStats.totalDuration, UnitValueWrapper.UnitType.PERCENTAGE);
+			UnitValueWrapper totalFuelConsumption = UnitValueWrapper.WrapValue (mUserStats.totalFuelConsumption, UnitValueWrapper.UnitType.LITRE);
+			UnitValueWrapper fuelEfficiency = UnitValueWrapper.WrapValue (100 * mUserStats.totalFuelConsumption / mUserStats.totalDistance, UnitValueWrapper.UnitType.NULL_UNIT);
+
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Distance Travelled", totalDistance.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Time Driven", totalDuration.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Events", totalHardEvents.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Hard Event Frequency", freqHardEvents.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Idle Time", totalIdleTime.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Idle Time Percentage", percentageIdleTime.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Fuel Consumption", totalFuelConsumption.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Fuel Efficiency", fuelEfficiency.GetStringWithShortUnit ()));
 
 		}
 

@@ -24,12 +24,10 @@ namespace Mojio.Gamification.Android
 							totalDuration			INTEGER NOT NULL,
 							safetyScore				INTEGER NOT NULL,
 							efficiencyScore			INTEGER NOT NULL,	
-							numSpeeding				INTEGER NOT NULL,
-							distanceSpeeding		DOUBLE NOT NULL,
-							numHarshEvents			INTEGER NOT NULL,
+							numHardEvents			INTEGER NOT NULL,
 							totalIdleTime			INTEGER NOT NULL,
 							totalFuelConsumption	DOUBLE NOT NULL)");
-			db.ExecSQL (@"INSERT INTO UserStats VALUES (0, 0.00, 0, 0, 0, 0, 0.00, 0, 0, 0.00)");
+			db.ExecSQL (@"INSERT INTO UserStats VALUES (0, 0.00, 0, 0, 0, 0, 0, 0.00)");
 		}
 
 		public override void OnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)

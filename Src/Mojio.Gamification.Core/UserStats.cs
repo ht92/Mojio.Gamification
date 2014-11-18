@@ -12,9 +12,7 @@ namespace Mojio.Gamification.Core
 		public int totalDuration { get; set; }
 		public int safetyScore { get; set; }
 		public int efficiencyScore { get; set; }
-		public int numSpeeding { get; set; }
-		public double distanceSpeeding { get; set; }
-		public int numHarshEvents { get; set; }
+		public int numHardEvents { get; set; }
 		public int totalIdleTime { get; set; }
 		public double totalFuelConsumption { get; set; }
 	}

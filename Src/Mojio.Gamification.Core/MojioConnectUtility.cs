@@ -18,7 +18,6 @@ namespace Mojio.Gamification.Core
 			FetchingDataFromMojio.Wait ();
 		}
 
-
 		public async static Task DoWork() {
 			//------------------Initializing the SDK----------------------//
 			Guid appID = new Guid("32059d24-d66e-4071-b59e-0f97f1122c53");

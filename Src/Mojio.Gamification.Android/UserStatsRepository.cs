@@ -55,9 +55,7 @@ namespace Mojio.Gamification.Android
 				case UserStatType.TOTAL_DURATION: return database.Table<UserStats> ().ElementAt (0).totalDuration;
 				case UserStatType.SAFETY_SCORE: return database.Table<UserStats> ().ElementAt (0).safetyScore;
 				case UserStatType.EFFICIENCY_SCORE: return database.Table<UserStats> ().ElementAt (0).efficiencyScore;
-				case UserStatType.NUM_SPEEDING: return database.Table<UserStats> ().ElementAt (0).numSpeeding;
-				case UserStatType.DISTANCE_SPEEDING: return database.Table<UserStats> ().ElementAt (0).distanceSpeeding;
-				case UserStatType.NUM_HARSH_EVENTS: return database.Table<UserStats> ().ElementAt (0).numHarshEvents;
+				case UserStatType.NUM_HARD_EVENTS: return database.Table<UserStats> ().ElementAt (0).numHardEvents;
 				case UserStatType.TOTAL_IDLE_TIME: return database.Table<UserStats> ().ElementAt (0).totalIdleTime;
 				case UserStatType.TOTAL_FUEL_CONSUMPTION: return database.Table<UserStats> ().ElementAt (0).totalFuelConsumption;
 				default: return -1;
@@ -70,9 +68,7 @@ namespace Mojio.Gamification.Android
 			TOTAL_DURATION,
 			SAFETY_SCORE,
 			EFFICIENCY_SCORE,
-			NUM_SPEEDING,
-			DISTANCE_SPEEDING,
-			NUM_HARSH_EVENTS,
+			NUM_HARD_EVENTS,
 			TOTAL_IDLE_TIME,
 			TOTAL_FUEL_CONSUMPTION
 		};
