@@ -20,14 +20,18 @@ namespace Mojio.Gamification.Android
 			db.ExecSQL (@"
 						CREATE TABLE IF NOT EXISTS UserStats (
 							uid						INTEGER PRIMARY KEY AUTOINCREMENT,
+							totalTrips				INTEGER NOT NULL,
 							totalDistance			DOUBLE NOT NULL,
-							totalDuration			INTEGER NOT NULL,
-							safetyScore				INTEGER NOT NULL,
-							efficiencyScore			INTEGER NOT NULL,	
-							numHardEvents			INTEGER NOT NULL,
-							totalIdleTime			INTEGER NOT NULL,
-							totalFuelConsumption	DOUBLE NOT NULL)");
-			db.ExecSQL (@"INSERT INTO UserStats VALUES (0, 0.00, 0, 0, 0, 0, 0, 0.00)");
+							totalDuration			DOUBLE NOT NULL,
+							totalHardAccelerations  INTEGER NOT NULL,
+							totalHardBrakes			INTEGER NOT NULL,
+							totalHardLefts			INTEGER NOT NULL,
+							totalHardRights			INTEGER NOT NULL,
+							totalIdleTime			DOUBLE NOT NULL,
+							fuelEfficiency          DOUBLE NOT NULL,
+							safetyScore				DOUBLE NOT NULL,
+							efficiencyScore			DOUBLE NOT NULL)");
+			db.ExecSQL (@"INSERT INTO UserStats VALUES (0, 0, 0.00, 0.00, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00)");
 		}
 
 		public override void OnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -35,7 +39,6 @@ namespace Mojio.Gamification.Android
 			db.ExecSQL (@"DROP TABLE IF EXISTS UserStats");
 			OnCreate (db);
 		}
-
 	}
 }
 

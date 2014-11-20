@@ -7,12 +7,13 @@ namespace Mojio.Gamification.Core
 {
 	public abstract class HardEventMetric : Metric
 	{
-		private IList<HardEvent> mHardEvents;
+		public EventType HardEventType { get; private set; }
+		public IList<HardEvent> Events { get; private set; }
 		public int Count { get; private set; }
-
+	
 		public enum HardEventSeverity { Minor,	Major, Severe };
 
-		public static HardEventMetric CreateMetric(EventType type, IList<HardEvent> hardEvents, double distance)
+		public static HardEventMetric CreateMetric(EventType type, IList<Event> hardEvents, double distance)
 		{
 			switch (type) {
 			case EventType.HardAcceleration:
@@ -20,39 +21,30 @@ namespace Mojio.Gamification.Core
 			case EventType.HardBrake:
 				return new HardBrakeMetric (hardEvents, distance);
 			case EventType.HardLeft:
+				return new HardLeftMetric (hardEvents, distance);
 			case EventType.HardRight:
-				return new HardTurnMetric (hardEvents, distance);
+				return new HardRightMetric (hardEvents, distance); 
 			default:
 				throw new ArgumentException ("Illegal EventType: " + type.ToString ());
 			}
 		}
 
-		public HardEventMetric (IList<HardEvent> hardEvents, double distance) 
+		public HardEventMetric (EventType type, IList<Event> hardEvents, double distance) 
 			: base(distance)
 		{
-			mHardEvents = hardEvents;
+			HardEventType = type;
+			Events = hardEvents.Where (entry => entry.EventType.Equals (type))
+				.ToList ()
+				.Cast<HardEvent> ()
+				.ToList ();
+			Count = Events.Count;
+			Measure = Count / TripDistance;
 		}
 
-		protected double getHardEventFrequency (EventType type)
+		private int getCountBySeverity (HardEventSeverity severity)
 		{
-			var hardEventCount = getHardEventCount (type);
-			double hardEventFrequency = hardEventCount / TripDistance;
-			return hardEventFrequency;
-		}
-
-		protected int getHardEventCount (EventType type)
-		{
-			int count = 0; 
-			foreach (HardEventSeverity severity in Enum.GetValues (typeof(HardEventSeverity))) {
-				count += getHardEventCount (type, severity);
-			}
-			return count;
-		}
-
-		protected int getHardEventCount (EventType type, HardEventSeverity severity)
-		{
-			var hardEvents = mHardEvents.Where (hardEvent => hardEvent.Type.Equals (type) && getSeverity (hardEvent) == severity).ToList ();
-			return hardEvents.Count;
+			var eventsBySeverity = Events.Where (entry => getSeverity (entry).Equals (severity)).ToList ();
+			return eventsBySeverity.Count;
 		}
 
 		//−0.30 to −0.39 minor
@@ -72,31 +64,33 @@ namespace Mojio.Gamification.Core
 
 		public class HardAccelerationMetric : HardEventMetric
 		{
-			public HardAccelerationMetric (IList<HardEvent> hardEvents, double distance)
-				: base (hardEvents, distance)
+			public HardAccelerationMetric (IList<Event> hardEvents, double distance)
+				: base (EventType.HardAcceleration, hardEvents, distance)
 			{
-				Count = getHardEventCount (EventType.HardAcceleration);
-				Measure = getHardEventFrequency (EventType.HardAcceleration);
 			}
 		}
 
 		public class HardBrakeMetric : HardEventMetric
 		{
-			public HardBrakeMetric (IList<HardEvent> hardEvents, double distance)
-				: base (hardEvents, distance)
+			public HardBrakeMetric (IList<Event> hardEvents, double distance)
+				: base (EventType.HardBrake, hardEvents, distance)
 			{
-				Count = getHardEventCount (EventType.HardBrake);
-				Measure = getHardEventFrequency (EventType.HardBrake);
 			}
 		}
 
-		public class HardTurnMetric : HardEventMetric
+		public class HardLeftMetric : HardEventMetric
 		{
-			public HardTurnMetric (IList<HardEvent> hardEvents, double distance)
-				: base (hardEvents, distance)
+			public HardLeftMetric (IList<Event> hardEvents, double distance)
+				: base (EventType.HardLeft, hardEvents, distance)
 			{
-				Count = getHardEventCount (EventType.HardLeft) + getHardEventCount (EventType.HardRight);
-				Measure = getHardEventFrequency (EventType.HardLeft) + getHardEventFrequency (EventType.HardRight);
+			}
+		}
+
+		public class HardRightMetric : HardEventMetric
+		{
+			public HardRightMetric (IList<Event> hardEvents, double distance)
+				: base (EventType.HardRight, hardEvents, distance)
+			{
 			}
 		}
 	}

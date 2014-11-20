@@ -6,20 +6,20 @@ namespace Mojio.Gamification.Core
 	{
 		public enum ScoreRank { S, A, B, C, D, F };
 
-		public int Score { get; private set;}
+		public double Score { get; private set;}
 		public ScoreRank Rank { get; private set;}
 
-		public static ScoreWrapper WrapScore(int score)
+		public static ScoreWrapper WrapScore(double score)
 		{
 			return new ScoreWrapper (score);
 		}
 
-		private ScoreWrapper (int score)
+		private ScoreWrapper (double score)
 		{
 			SetScore (score);
 		}
 
-		public void SetScore(int score)
+		private void SetScore(double score)
 		{
 			if (score < 0) { score = 0; } 
 			else if (score > 100) {	score = 100; }

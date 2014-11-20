@@ -19,17 +19,12 @@ namespace Mojio.Gamification.Android
 {
 	public class ScoreBreakdownNavigationFragment : AbstractNavigationFragment
 	{
-
-		private UserStatsRepository mUserStatsRepository;
-		private UserStats mUserStats;
 		private LinearLayout mScoreBreakdownLayout;
 		private LinearLayout mUserStatsLayout;
 
 		public override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
-			mUserStatsRepository = ((GamificationApp)this.Activity.Application).MyUserStatsRepository;
-			mUserStats = mUserStatsRepository.GetUserStats ();
 		}
 
 		/*
@@ -52,21 +47,22 @@ namespace Mojio.Gamification.Android
 
 		private void initializeScoreBreakdownPanel(Context context) 
 		{
-			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (mUserStats.safetyScore);
-			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (mUserStats.efficiencyScore);
-			ScoreWrapper overallScore = ScoreCalculator.CalculateOverallScore (new List<ScoreWrapper> {safetyScore, efficiencyScore});
+			StatisticsManager statsManager = ((GamificationApp)(Activity.Application)).MyStatisticsManager;
 
 			ScoreRowView overallScoreRow = new ScoreRowView (context);
+			ScoreWrapper overallScore = ScoreWrapper.WrapScore (statsManager.OverallScore);
 			overallScoreRow.SetScoreLabel ("OVERALL");
 			overallScoreRow.SetScore (overallScore.Score);
 			overallScoreRow.SetRankLabel ("RANK " + overallScore.Rank.ToString ());
 
 			ScoreRowView safetyScoreRow = new ScoreRowView (context);
+			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (statsManager.MyStats.safetyScore);
 			safetyScoreRow.SetScoreLabel ("SAFETY");
 			safetyScoreRow.SetScore (safetyScore.Score);
 			safetyScoreRow.SetRankLabel ("RANK " + safetyScore.Rank.ToString ());
 
 			ScoreRowView efficiencyScoreRow = new ScoreRowView (context);
+			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (statsManager.MyStats.efficiencyScore);
 			efficiencyScoreRow.SetScoreLabel ("EFFICIENCY");
 			efficiencyScoreRow.SetScore (efficiencyScore.Score);
 			efficiencyScoreRow.SetRankLabel ("RANK " + efficiencyScore.Rank.ToString ());
@@ -78,24 +74,35 @@ namespace Mojio.Gamification.Android
 
 		private void initializeStatsPanel(Context context)
 		{
-			UnitValueWrapper totalDistance = UnitValueWrapper.WrapValue (mUserStats.totalDistance, UnitValueWrapper.UnitType.DISTANCE_KM);
-			UnitValueWrapper totalDuration = UnitValueWrapper.WrapValue (mUserStats.totalDuration, UnitValueWrapper.UnitType.TIME_S);
-			UnitValueWrapper totalHardEvents = UnitValueWrapper.WrapValue (mUserStats.numHardEvents, UnitValueWrapper.UnitType.NULL_UNIT);
-			UnitValueWrapper freqHardEvents = UnitValueWrapper.WrapValue (mUserStats.numHardEvents / mUserStats.totalDistance, UnitValueWrapper.UnitType.NULL_UNIT);
-			UnitValueWrapper totalIdleTime = UnitValueWrapper.WrapValue (mUserStats.totalIdleTime, UnitValueWrapper.UnitType.TIME_S);
-			UnitValueWrapper percentageIdleTime = UnitValueWrapper.WrapValue (100 * mUserStats.totalIdleTime / mUserStats.totalDuration, UnitValueWrapper.UnitType.PERCENTAGE);
-			UnitValueWrapper totalFuelConsumption = UnitValueWrapper.WrapValue (mUserStats.totalFuelConsumption, UnitValueWrapper.UnitType.LITRE);
-			UnitValueWrapper fuelEfficiency = UnitValueWrapper.WrapValue (100 * mUserStats.totalFuelConsumption / mUserStats.totalDistance, UnitValueWrapper.UnitType.NULL_UNIT);
+			UserStats stats = ((GamificationApp)(Activity.Application)).MyStatisticsManager.MyStats;
 
+			UnitValueWrapper totalTrips = UnitValueWrapper.WrapValue (stats.totalTrips, UnitValueWrapper.UnitType.NULL_UNIT);
+			UnitValueWrapper totalDistance = UnitValueWrapper.WrapValue (stats.totalDistance, UnitValueWrapper.UnitType.DISTANCE_KM);
+			UnitValueWrapper totalDuration = UnitValueWrapper.WrapValue (stats.totalDuration, UnitValueWrapper.UnitType.TIME_S);
+			UnitValueWrapper totalHardAccelerations = UnitValueWrapper.WrapValue (stats.totalHardAcclerations, UnitValueWrapper.UnitType.NULL_UNIT);
+			UnitValueWrapper totalHardBrakes = UnitValueWrapper.WrapValue (stats.totalHardBrakes, UnitValueWrapper.UnitType.NULL_UNIT);
+			UnitValueWrapper totalHardLefts = UnitValueWrapper.WrapValue (stats.totalHardLefts, UnitValueWrapper.UnitType.NULL_UNIT);
+			UnitValueWrapper totalHardRights = UnitValueWrapper.WrapValue (stats.totalHardRights, UnitValueWrapper.UnitType.NULL_UNIT);
+
+			var hardEventFrequency = (stats.totalHardAcclerations + stats.totalHardBrakes + stats.totalHardLefts + stats.totalHardRights) / stats.totalDistance;
+			UnitValueWrapper freqHardEvents = UnitValueWrapper.WrapValue (hardEventFrequency, UnitValueWrapper.UnitType.NULL_UNIT);
+			UnitValueWrapper totalIdleTime = UnitValueWrapper.WrapValue (stats.totalIdleTime, UnitValueWrapper.UnitType.TIME_S);
+			UnitValueWrapper percentageIdleTime = UnitValueWrapper.WrapValue (100 * stats.totalIdleTime / stats.totalDuration, UnitValueWrapper.UnitType.PERCENTAGE);
+			UnitValueWrapper fuelEfficiency = UnitValueWrapper.WrapValue (stats.fuelEfficiency, UnitValueWrapper.UnitType.NULL_UNIT);
+			UnitValueWrapper totalFuelConsumption = UnitValueWrapper.WrapValue (stats.fuelEfficiency * stats.totalDistance / 100, UnitValueWrapper.UnitType.LITRE);
+
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Trips", totalTrips.GetStringWithShortUnit ()));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Distance Travelled", totalDistance.GetStringWithShortUnit ()));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Time Driven", totalDuration.GetStringWithShortUnit ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Events", totalHardEvents.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Accelerations", totalHardAccelerations.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Brakes", totalHardBrakes.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Lefts", totalHardLefts.GetStringWithShortUnit ()));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Rights", totalHardRights.GetStringWithShortUnit ()));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Hard Event Frequency", freqHardEvents.GetStringWithShortUnit ()));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Idle Time", totalIdleTime.GetStringWithShortUnit ()));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Idle Time Percentage", percentageIdleTime.GetStringWithShortUnit ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Fuel Consumption", totalFuelConsumption.GetStringWithShortUnit ()));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Fuel Efficiency", fuelEfficiency.GetStringWithShortUnit ()));
-
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Fuel Consumption", totalFuelConsumption.GetStringWithShortUnit ()));
 		}
 
 		private LinearLayout createUserStatRow(Context context, string label, string value)

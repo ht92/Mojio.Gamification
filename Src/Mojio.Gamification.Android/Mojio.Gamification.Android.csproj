@@ -78,6 +78,7 @@
     <Compile Include="AbstractNavigationFragment.cs" />
     <Compile Include="DiagnosticNavigationFragment.cs" />
     <Compile Include="ScoreRowView.cs" />
+    <Compile Include="StatisticsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -48,7 +48,7 @@ namespace Mojio.Gamification.Android
 
 		private void mConnectButton_onClick (object sender, EventArgs e)
 		{
-			MojioConnectUtility.Connect ();
+			MojioConnectUtility.DoWork ();
 		}
 
 		private void mFetchButton_onClick (object sender, EventArgs e)

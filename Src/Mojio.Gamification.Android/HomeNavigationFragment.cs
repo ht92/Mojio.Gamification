@@ -17,14 +17,11 @@ namespace Mojio.Gamification.Android
 {
 	public class HomeNavigationFragment : AbstractNavigationFragment
 	{
-
 		private Button mScoreButton;
-		private UserStatsRepository mUserStatsRepository;
 
 		public override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
-			mUserStatsRepository = ((GamificationApp)this.Activity.Application).MyUserStatsRepository;
 		}
 
 		/*
@@ -38,11 +35,7 @@ namespace Mojio.Gamification.Android
 			this.Activity.Title = Resources.GetStringArray (Resource.Array.pages_array) [Arguments.GetInt (ARG_FRAG_NUMBER)];
 
 			mScoreButton = (Button) rootView.FindViewById<Button> (Resource.Id.ScoreButton);
-			UserStats stats = mUserStatsRepository.GetUserStats ();
-			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (stats.safetyScore);
-			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (stats.efficiencyScore);
-			ScoreWrapper overallScore = ScoreCalculator.CalculateOverallScore (new List<ScoreWrapper> {safetyScore, efficiencyScore});
-			mScoreButton.Text = overallScore.Score.ToString ();
+			mScoreButton.Text = ((GamificationApp) (Activity.Application)).MyStatisticsManager.OverallScore.ToString ();
 			mScoreButton.Click += mScoreButton_onClick;
 
 			return rootView;

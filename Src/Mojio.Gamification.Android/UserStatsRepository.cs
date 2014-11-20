@@ -8,8 +8,17 @@ namespace Mojio.Gamification.Android
 	public class UserStatsRepository
 	{
 		private DataManagerHelper _helper;
+		private static UserStatsRepository _instance;
 
-		public UserStatsRepository(Context context)
+		public static UserStatsRepository GetInstance(Context context)
+		{
+			if (_instance == null) {
+				_instance = new UserStatsRepository(context);
+			}
+			return _instance;
+		}
+
+		private UserStatsRepository(Context context)
 		{
 			_helper = new DataManagerHelper (context);
 		}
@@ -45,33 +54,6 @@ namespace Mojio.Gamification.Android
 				return database.Table<UserStats> ().ElementAt (0);
 			}
 		}
-
-		public double GetUserStats(UserStatType type) 
-		{
-			using (var database = new SQLiteConnection (_helper.ReadableDatabase.Path)) 
-			{
-				switch (type) {
-				case UserStatType.TOTAL_DISTANCE: return database.Table<UserStats> ().ElementAt (0).totalDistance;
-				case UserStatType.TOTAL_DURATION: return database.Table<UserStats> ().ElementAt (0).totalDuration;
-				case UserStatType.SAFETY_SCORE: return database.Table<UserStats> ().ElementAt (0).safetyScore;
-				case UserStatType.EFFICIENCY_SCORE: return database.Table<UserStats> ().ElementAt (0).efficiencyScore;
-				case UserStatType.NUM_HARD_EVENTS: return database.Table<UserStats> ().ElementAt (0).numHardEvents;
-				case UserStatType.TOTAL_IDLE_TIME: return database.Table<UserStats> ().ElementAt (0).totalIdleTime;
-				case UserStatType.TOTAL_FUEL_CONSUMPTION: return database.Table<UserStats> ().ElementAt (0).totalFuelConsumption;
-				default: return -1;
-				}
-			}
-		}
-
-		public enum UserStatType {
-			TOTAL_DISTANCE,
-			TOTAL_DURATION,
-			SAFETY_SCORE,
-			EFFICIENCY_SCORE,
-			NUM_HARD_EVENTS,
-			TOTAL_IDLE_TIME,
-			TOTAL_FUEL_CONSUMPTION
-		};
 	}
 }
 

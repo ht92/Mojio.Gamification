@@ -18,5 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)HardEventMetric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FuelEfficiencyMetric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UnitValueWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TripDataModel.cs" />
   </ItemGroup>
 </Project>

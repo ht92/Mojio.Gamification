@@ -67,7 +67,7 @@ namespace Mojio.Gamification.Android
 			mRankLabelTextView.Text = label;
 		}
 
-		public void SetScore(int score)
+		public void SetScore(double score)
 		{
 			if (mScoreButton == null) {
 				mScoreButton = (Button)FindViewById<Button> (Resource.Id.sr_scoreButton);
