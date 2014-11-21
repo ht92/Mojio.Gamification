@@ -68,7 +68,6 @@ namespace Mojio.Gamification.Android
 				}
 			}
 			((GamificationApp)this.Activity.Application).MyUserStatsRepository.UpdateUserStats (userStats);
-			userStats = ((GamificationApp)this.Activity.Application).MyUserStatsRepository.GetUserStats ();
 			rnd.Next ();
 		}
 

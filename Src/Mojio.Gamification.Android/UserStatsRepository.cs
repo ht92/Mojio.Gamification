@@ -7,6 +7,8 @@ namespace Mojio.Gamification.Android
 {
 	public class UserStatsRepository
 	{
+		public event EventHandler UserStatsUpdatedEvent;
+
 		private DataManagerHelper _helper;
 		private static UserStatsRepository _instance;
 
@@ -27,7 +29,11 @@ namespace Mojio.Gamification.Android
 		{
 			using (var db = new SQLiteConnection (_helper.WritableDatabase.Path)) 
 			{
-				return db.Insert (addUser);	
+				long count = db.Insert (addUser);
+				if (count > 0) {
+					OnUserStatsUpdatedEvent (EventArgs.Empty);
+				}
+				return count;
 			}
 		}
 
@@ -35,7 +41,11 @@ namespace Mojio.Gamification.Android
 		{
 			using (var db = new SQLiteConnection (_helper.WritableDatabase.Path)) 
 			{
-				return db.Delete (deleteUser);	
+				long count = db.Delete (deleteUser);	
+				if (count > 0) {
+					OnUserStatsUpdatedEvent (EventArgs.Empty);
+				}
+				return count;
 			}
 		}
 
@@ -43,7 +53,11 @@ namespace Mojio.Gamification.Android
 		{
 			using (var db = new SQLiteConnection (_helper.WritableDatabase.Path)) 
 			{
-				return db.Update (updateUser);	
+				long count = db.Update (updateUser);	
+				if (count > 0) {
+					OnUserStatsUpdatedEvent (EventArgs.Empty);
+				}
+				return count;
 			}
 		}
 
@@ -53,6 +67,11 @@ namespace Mojio.Gamification.Android
 			{
 				return database.Table<UserStats> ().ElementAt (0);
 			}
+		}
+			
+		protected void OnUserStatsUpdatedEvent (EventArgs e)
+		{
+			UserStatsUpdatedEvent (this, e);
 		}
 	}
 }

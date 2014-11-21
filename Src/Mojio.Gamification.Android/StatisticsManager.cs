@@ -28,6 +28,7 @@ namespace Mojio.Gamification.Android
 		{
 			//initialize with the current stats
 			_userStatsRepository = userStatsRepository;
+			attachListeners ();
 			MyStats = _userStatsRepository.GetUserStats ();
 			setOverallScore ();
 		}
@@ -46,6 +47,15 @@ namespace Mojio.Gamification.Android
 			UserStats tripStats = tripData.GetTripStats ();
 			UserStats newStats = UserStats.SumStats (MyStats, tripStats);
 			_userStatsRepository.UpdateUserStats (newStats);
+		}
+
+		private void attachListeners ()
+		{
+			_userStatsRepository.UserStatsUpdatedEvent += (object sender, EventArgs e) => syncWithDatabase ();
+		}
+			
+		private void syncWithDatabase ()
+		{
 			MyStats = _userStatsRepository.GetUserStats ();
 			setOverallScore ();
 		}
