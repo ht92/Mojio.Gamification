@@ -13,6 +13,7 @@ namespace Mojio.Gamification.Core
 		public HardEventMetric HardLeftMetric;
 		public HardEventMetric HardRightMetric;
 		public FuelEfficiencyMetric FuelEfficiencyMetric;
+		public IdleTimeMetric IdleTimeMetric;
 		public double TripSafetyScore;
 		public double TripEfficiencyScore;
 
@@ -44,6 +45,7 @@ namespace Mojio.Gamification.Core
 			HardLeftMetric = HardEventMetric.CreateMetric (EventType.HardLeft, mEvents, MyTrip.Distance.Value);
 			HardRightMetric = HardEventMetric.CreateMetric (EventType.HardRight, mEvents, MyTrip.Distance.Value);
 			FuelEfficiencyMetric = FuelEfficiencyMetric.CreateMetric (MyTrip.VehicleId, MyTrip.FuelEfficiency.Value, MyTrip.Distance.Value);
+			IdleTimeMetric = IdleTimeMetric.CreateMetric (MyTrip.IdleTime.Value, (MyTrip.EndTime.Value - MyTrip.StartTime).TotalSeconds);
 		}
 
 		private void calculateScores ()
@@ -58,11 +60,11 @@ namespace Mojio.Gamification.Core
 			double hardBrakeScore = HardEventScoreCalculator.CalculateScore (HardBrakeMetric);
 			double hardLeftScore = HardEventScoreCalculator.CalculateScore (HardLeftMetric);
 			double hardRightScore = HardEventScoreCalculator.CalculateScore (HardRightMetric);
-			double safetyScore = ScoreCalculator.CalculateOverallScore (new List<double> { 
-				hardAccelerationScore,
-				hardBrakeScore,
-				hardLeftScore,
-				hardRightScore
+			double safetyScore = ScoreCalculator.CalculateWeightedScore (new List<KeyValuePair<double, int>>() { 
+				new KeyValuePair<double, int> (hardAccelerationScore, 1),
+				new KeyValuePair<double, int> (hardBrakeScore, 1),
+				new KeyValuePair<double, int> (hardLeftScore, 1),
+				new KeyValuePair<double, int> (hardRightScore, 1)
 			});
 			TripSafetyScore = safetyScore;
 		}
@@ -70,7 +72,11 @@ namespace Mojio.Gamification.Core
 		private void calculateEfficiencyScore()
 		{
 			double fuelEfficiencyScore = FuelEfficiencyScoreCalculator.CalculateScore (FuelEfficiencyMetric);
-			double efficiencyScore = ScoreCalculator.CalculateOverallScore (new List<double> { fuelEfficiencyScore });
+			double idleTimeScore = IdleTimeScoreCalculator.CalculateScore (IdleTimeMetric);
+			double efficiencyScore = ScoreCalculator.CalculateWeightedScore (new List<KeyValuePair<double, int>> () { 
+				new KeyValuePair<double, int> (fuelEfficiencyScore, 3),
+				new KeyValuePair<double, int> (idleTimeScore, 1)
+			});
 			TripEfficiencyScore = efficiencyScore;
 		}
 	}

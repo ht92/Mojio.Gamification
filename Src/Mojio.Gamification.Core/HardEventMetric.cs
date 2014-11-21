@@ -5,7 +5,7 @@ using Mojio.Events;
 
 namespace Mojio.Gamification.Core
 {
-	public abstract class HardEventMetric : Metric
+	public abstract class HardEventMetric : DistanceBasedMetric
 	{
 		public EventType HardEventType { get; private set; }
 		public IList<HardEvent> Events { get; private set; }

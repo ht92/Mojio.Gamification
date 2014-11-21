@@ -76,46 +76,46 @@ namespace Mojio.Gamification.Android
 		{
 			UserStats stats = ((GamificationApp)(Activity.Application)).MyStatisticsManager.MyStats;
 
-			UnitValueWrapper totalTrips = UnitValueWrapper.WrapValue (stats.totalTrips, UnitValueWrapper.UnitType.NULL_UNIT);
-			UnitValueWrapper totalDistance = UnitValueWrapper.WrapValue (stats.totalDistance, UnitValueWrapper.UnitType.DISTANCE_KM);
-			UnitValueWrapper totalDuration = UnitValueWrapper.WrapValue (stats.totalDuration / 3600, UnitValueWrapper.UnitType.TIME_HOURS);
+			string totalTrips = NumberDisplayer.CreateNumberDisplayer (stats.totalTrips, NumberDisplayer.NumberType.INTEGER).GetString ();
+			string totalDistance = NumberDisplayer.CreateNumberDisplayer (stats.totalDistance, NumberDisplayer.NumberType.DISTANCE).GetString ();
+			string totalDuration = NumberDisplayer.CreateNumberDisplayer (stats.totalDuration, NumberDisplayer.NumberType.TIME).GetString ();
 
 			var avgTripDistance = stats.totalTrips != 0 ? stats.totalDistance / stats.totalTrips : 0;
 			var avgTripDuration = stats.totalTrips != 0 ? stats.totalDuration / stats.totalTrips : 0;
-			UnitValueWrapper averageTripDistance = UnitValueWrapper.WrapValue (avgTripDistance, UnitValueWrapper.UnitType.DISTANCE_KM);
-			UnitValueWrapper averageTripDuration = UnitValueWrapper.WrapValue (avgTripDuration / 3600, UnitValueWrapper.UnitType.TIME_HOURS);
+			string averageTripDistance = NumberDisplayer.CreateNumberDisplayer (avgTripDistance, NumberDisplayer.NumberType.DISTANCE).GetString ();
+			string averageTripDuration = NumberDisplayer.CreateNumberDisplayer (avgTripDuration, NumberDisplayer.NumberType.TIME).GetString ();
 
-			UnitValueWrapper totalHardAccelerations = UnitValueWrapper.WrapValue (stats.totalHardAccelerations, UnitValueWrapper.UnitType.NULL_UNIT);
-			UnitValueWrapper totalHardBrakes = UnitValueWrapper.WrapValue (stats.totalHardBrakes, UnitValueWrapper.UnitType.NULL_UNIT);
-			UnitValueWrapper totalHardLefts = UnitValueWrapper.WrapValue (stats.totalHardLefts, UnitValueWrapper.UnitType.NULL_UNIT);
-			UnitValueWrapper totalHardRights = UnitValueWrapper.WrapValue (stats.totalHardRights, UnitValueWrapper.UnitType.NULL_UNIT);
+			string totalHardAccelerations = NumberDisplayer.CreateNumberDisplayer (stats.totalHardAccelerations, NumberDisplayer.NumberType.INTEGER).GetString ();
+			string totalHardBrakes = NumberDisplayer.CreateNumberDisplayer (stats.totalHardBrakes, NumberDisplayer.NumberType.INTEGER).GetString ();
+			string totalHardLefts = NumberDisplayer.CreateNumberDisplayer (stats.totalHardLefts, NumberDisplayer.NumberType.INTEGER).GetString ();
+			string totalHardRights = NumberDisplayer.CreateNumberDisplayer (stats.totalHardRights, NumberDisplayer.NumberType.INTEGER).GetString ();
 
 			var totalHardEvents = stats.totalHardAccelerations + stats.totalHardBrakes + stats.totalHardLefts + stats.totalHardRights;
 			var hardEventFrequency = totalHardEvents != 0 ? totalHardEvents / stats.totalDistance : 0;
-			UnitValueWrapper freqHardEvents = UnitValueWrapper.WrapValue (hardEventFrequency, UnitValueWrapper.UnitType.Per (UnitValueWrapper.UnitType.NULL_UNIT, UnitValueWrapper.UnitType.DISTANCE_KM));
+			string freqHardEvents = new NumberDisplayer (hardEventFrequency, NumberDisplayer.DEFAULT_DECIMAL_PLACES, ValueUnit.Per (ValueUnit.NULL_UNIT, ValueUnit.DISTANCE_KM)).GetString ();
 
-			UnitValueWrapper totalIdleTime = UnitValueWrapper.WrapValue (stats.totalIdleTime / 3600, UnitValueWrapper.UnitType.TIME_HOURS);
-			var idleTimePercentage = stats.totalIdleTime != 0 ? (stats.totalIdleTime / stats.totalDuration) * 100 : 0;
-			UnitValueWrapper percentageIdleTime = UnitValueWrapper.WrapValue (idleTimePercentage, UnitValueWrapper.UnitType.PERCENTAGE);
-			UnitValueWrapper totalFuelConsumption = UnitValueWrapper.WrapValue (stats.totalFuelConsumption, UnitValueWrapper.UnitType.LITRE);
-			UnitValueWrapper fuelEfficiency = UnitValueWrapper.WrapValue (stats.totalFuelConsumption * 100/ stats.totalDistance, UnitValueWrapper.UnitType.Per (UnitValueWrapper.UnitType.LITRE, UnitValueWrapper.UnitType.DISTANCE_100KM));
+			string totalIdleTime = NumberDisplayer.CreateNumberDisplayer (stats.totalIdleTime, NumberDisplayer.NumberType.TIME).GetString ();
+			var idleTimePercentage = stats.totalIdleTime != 0 ? (stats.totalIdleTime / stats.totalDuration) : 0;
+			string percentageIdleTime = NumberDisplayer.CreateNumberDisplayer (idleTimePercentage, NumberDisplayer.NumberType.PERCENTAGE).GetString ();
+			string totalFuelConsumption = NumberDisplayer.CreateNumberDisplayer (stats.totalFuelConsumption, NumberDisplayer.NumberType.FUEL_CONSUMPTION).GetString ();
+			string fuelEfficiency = new NumberDisplayer(stats.totalFuelConsumption * 100 / stats.totalDistance, NumberDisplayer.DEFAULT_DECIMAL_PLACES, ValueUnit.Per (ValueUnit.LITRE, ValueUnit.DISTANCE_100KM)).GetString ();
 
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Trips", totalTrips.GetStringWithShortUnit ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Distance Travelled", totalDistance.GetStringWithShortUnit (2)));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Time Driven", totalDuration.GetStringWithShortUnit (2)));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Trips", totalTrips));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Distance Travelled", totalDistance));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Time Driven", totalDuration));
 
-			mUserStatsLayout.AddView (createUserStatRow (context, "Average Trip Distance", averageTripDistance.GetStringWithShortUnit (2)));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Average Trip Duration", averageTripDuration.GetStringWithShortUnit (2)));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Average Trip Distance", averageTripDistance));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Average Trip Duration", averageTripDuration));
 
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Accelerations", totalHardAccelerations.GetStringWithShortUnit ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Brakes", totalHardBrakes.GetStringWithShortUnit ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Lefts", totalHardLefts.GetStringWithShortUnit ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Rights", totalHardRights.GetStringWithShortUnit ()));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Hard Event Frequency", freqHardEvents.GetStringWithShortUnit (2)));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Idle Time", totalIdleTime.GetStringWithShortUnit (2)));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Idle Time Percentage", percentageIdleTime.GetStringWithShortUnit (2)));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Fuel Efficiency", fuelEfficiency.GetStringWithShortUnit (2)));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Fuel Consumption", totalFuelConsumption.GetStringWithShortUnit (2)));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Accelerations", totalHardAccelerations));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Brakes", totalHardBrakes));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Lefts", totalHardLefts));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Rights", totalHardRights));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Hard Event Frequency", freqHardEvents));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Idle Time", totalIdleTime));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Idle Time Percentage", percentageIdleTime));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Fuel Efficiency", fuelEfficiency));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Fuel Consumption", totalFuelConsumption));
 		}
 
 		private LinearLayout createUserStatRow(Context context, string label, string value)

@@ -5,7 +5,7 @@ using Mojio.Events;
 
 namespace Mojio.Gamification.Core
 {
-	public class FuelEfficiencyMetric : Metric
+	public class FuelEfficiencyMetric : DistanceBasedMetric
 	{
 		private const double MPG_TO_LITRE_PER_100KM = 235.214583;
 		public double TotalConsumption { get; private set; }

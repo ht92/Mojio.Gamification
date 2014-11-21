@@ -72,7 +72,7 @@ namespace Mojio.Gamification.Android
 			if (mScoreButton == null) {
 				mScoreButton = (Button)FindViewById<Button> (Resource.Id.sr_scoreButton);
 			}
-			mScoreButton.Text = score.ToString ();
+			mScoreButton.Text = Math.Round(score, MidpointRounding.AwayFromZero).ToString ();
 		}
 	}
 }

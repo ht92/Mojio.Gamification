@@ -16,6 +16,16 @@ namespace Mojio.Gamification.Core
 			double average = total / scores.Count;
 			return average;
 		}
+
+		public static double CalculateWeightedScore(IList<KeyValuePair<double, int>> entries)
+		{
+			int totalWeight = entries.Sum(x => x.Value);
+			double score = 0;
+			foreach (KeyValuePair<double, int> entry in entries) {
+				score += entry.Key * entry.Value / totalWeight;
+			}
+			return score;
+		}
 	}
 
 	public class HardEventScoreCalculator 
@@ -39,6 +49,15 @@ namespace Mojio.Gamification.Core
 				score = Math.Max (Metric.MAX_SCORE - pointDeduction, Metric.MIN_SCORE);
 			}
 			return score;
+		}
+	}
+
+	public class IdleTimeScoreCalculator
+	{
+		public static double CalculateScore(IdleTimeMetric metric)
+		{
+			double idlePercentage = metric.Percentage;
+			return Metric.MAX_SCORE * (1 - 2 * idlePercentage);
 		}
 	}
 }
