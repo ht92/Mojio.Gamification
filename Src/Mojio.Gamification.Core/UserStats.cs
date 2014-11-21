@@ -11,7 +11,7 @@ namespace Mojio.Gamification.Core
 		public int totalTrips { get; set; }
 		public double totalDistance { get; set; }
 		public double totalDuration { get; set; }
-		public int totalHardAcclerations { get; set; }
+		public int totalHardAccelerations { get; set; }
 		public int totalHardBrakes { get; set; }
 		public int totalHardLefts { get; set; }
 		public int totalHardRights { get; set; }
@@ -24,14 +24,14 @@ namespace Mojio.Gamification.Core
 		{
 			UserStats stats = new UserStats ();
 			stats.totalTrips = 1;
-			stats.totalDistance = tripData.MyTrip.Distance ?? 0;
-			stats.totalDuration = ((tripData.MyTrip.EndTime ?? tripData.MyTrip.StartTime) - tripData.MyTrip.StartTime).TotalSeconds;
-			stats.totalHardAcclerations = tripData.HardAccelerationMetric.Count;
+			stats.totalDistance = tripData.MyTrip.Distance.Value;
+			stats.totalDuration = (tripData.MyTrip.EndTime.Value - tripData.MyTrip.StartTime).TotalSeconds;
+			stats.totalHardAccelerations = tripData.HardAccelerationMetric.Count;
 			stats.totalHardBrakes = tripData.HardBrakeMetric.Count;
 			stats.totalHardLefts = tripData.HardLeftMetric.Count;
 			stats.totalHardRights = tripData.HardRightMetric.Count;
-			stats.totalIdleTime = tripData.MyTrip.IdleTime ?? 0;
-			stats.fuelEfficiency = tripData.MyTrip.FuelEfficiency ?? 0;
+			stats.totalIdleTime = tripData.MyTrip.IdleTime.Value;
+			stats.fuelEfficiency = tripData.MyTrip.FuelEfficiency.Value;
 			stats.safetyScore = tripData.TripSafetyScore;
 			stats.efficiencyScore = tripData.TripEfficiencyScore;
 			return stats;
@@ -43,7 +43,7 @@ namespace Mojio.Gamification.Core
 			sum.totalTrips = stats1.totalTrips + stats2.totalTrips;
 			sum.totalDistance = stats1.totalDistance + stats2.totalDistance;
 			sum.totalDuration = stats1.totalDuration + stats2.totalDuration;
-			sum.totalHardAcclerations = stats1.totalHardAcclerations + stats2.totalHardAcclerations;
+			sum.totalHardAccelerations = stats1.totalHardAccelerations + stats2.totalHardAccelerations;
 			sum.totalHardBrakes = stats1.totalHardBrakes + stats2.totalHardBrakes;
 			sum.totalHardLefts = stats1.totalHardLefts + stats2.totalHardLefts;
 			sum.totalHardRights = stats1.totalHardRights + stats2.totalHardRights;

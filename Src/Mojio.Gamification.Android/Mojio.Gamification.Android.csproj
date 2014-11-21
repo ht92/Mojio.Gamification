@@ -124,6 +124,10 @@
       <Project>{64B1AA53-3183-400B-82D7-DC34CA2EE35A}</Project>
       <Name>Mojio.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Libs\PushSharp\PushSharp.Client\PushSharp.Client.MonoForAndroid.Gcm\PushSharp.Client.MonoForAndroid.Gcm.csproj">
+      <Project>{1466D096-69FA-4B75-BBB6-533FFAF5D4EB}</Project>
+      <Name>PushSharp.Client.MonoForAndroid.Gcm</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\layout\" />

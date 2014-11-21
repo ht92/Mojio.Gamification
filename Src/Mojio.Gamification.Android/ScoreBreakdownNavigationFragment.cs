@@ -79,15 +79,18 @@ namespace Mojio.Gamification.Android
 			UnitValueWrapper totalTrips = UnitValueWrapper.WrapValue (stats.totalTrips, UnitValueWrapper.UnitType.NULL_UNIT);
 			UnitValueWrapper totalDistance = UnitValueWrapper.WrapValue (stats.totalDistance, UnitValueWrapper.UnitType.DISTANCE_KM);
 			UnitValueWrapper totalDuration = UnitValueWrapper.WrapValue (stats.totalDuration, UnitValueWrapper.UnitType.TIME_S);
-			UnitValueWrapper totalHardAccelerations = UnitValueWrapper.WrapValue (stats.totalHardAcclerations, UnitValueWrapper.UnitType.NULL_UNIT);
+			UnitValueWrapper totalHardAccelerations = UnitValueWrapper.WrapValue (stats.totalHardAccelerations, UnitValueWrapper.UnitType.NULL_UNIT);
 			UnitValueWrapper totalHardBrakes = UnitValueWrapper.WrapValue (stats.totalHardBrakes, UnitValueWrapper.UnitType.NULL_UNIT);
 			UnitValueWrapper totalHardLefts = UnitValueWrapper.WrapValue (stats.totalHardLefts, UnitValueWrapper.UnitType.NULL_UNIT);
 			UnitValueWrapper totalHardRights = UnitValueWrapper.WrapValue (stats.totalHardRights, UnitValueWrapper.UnitType.NULL_UNIT);
 
-			var hardEventFrequency = (stats.totalHardAcclerations + stats.totalHardBrakes + stats.totalHardLefts + stats.totalHardRights) / stats.totalDistance;
+			var totalHardEvents = stats.totalHardAccelerations + stats.totalHardBrakes + stats.totalHardLefts + stats.totalHardRights;
+			var hardEventFrequency = totalHardEvents != 0 ? totalHardEvents / stats.totalDistance : 0;
 			UnitValueWrapper freqHardEvents = UnitValueWrapper.WrapValue (hardEventFrequency, UnitValueWrapper.UnitType.NULL_UNIT);
+
 			UnitValueWrapper totalIdleTime = UnitValueWrapper.WrapValue (stats.totalIdleTime, UnitValueWrapper.UnitType.TIME_S);
-			UnitValueWrapper percentageIdleTime = UnitValueWrapper.WrapValue (100 * stats.totalIdleTime / stats.totalDuration, UnitValueWrapper.UnitType.PERCENTAGE);
+			var idleTimePercentage = stats.totalIdleTime != 0 ? (stats.totalIdleTime / stats.totalDuration) * 100 : 0;
+			UnitValueWrapper percentageIdleTime = UnitValueWrapper.WrapValue (idleTimePercentage, UnitValueWrapper.UnitType.PERCENTAGE);
 			UnitValueWrapper fuelEfficiency = UnitValueWrapper.WrapValue (stats.fuelEfficiency, UnitValueWrapper.UnitType.NULL_UNIT);
 			UnitValueWrapper totalFuelConsumption = UnitValueWrapper.WrapValue (stats.fuelEfficiency * stats.totalDistance / 100, UnitValueWrapper.UnitType.LITRE);
 
