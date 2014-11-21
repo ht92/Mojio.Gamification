@@ -66,7 +66,9 @@ namespace Mojio.Gamification.Core
 			public static readonly UnitType NULL_UNIT = new UnitType(String.Empty);
 			public static readonly UnitType DISTANCE_KM = new UnitType("kilometers", "km");
 			public static readonly UnitType DISTANCE_100KM = new UnitType("100 kilometers", "100km");
-			public static readonly UnitType TIME_S = new UnitType("seconds", "s");
+			public static readonly UnitType TIME_SECONDS = new UnitType("seconds", "s");
+			public static readonly UnitType TIME_MINUTES = new UnitType("minutes", "min");
+			public static readonly UnitType TIME_HOURS = new UnitType("hours", "hr");
 			public static readonly UnitType LITRE = new UnitType("litre", "L");
 			public static readonly UnitType PERCENTAGE = new UnitType("%");
 

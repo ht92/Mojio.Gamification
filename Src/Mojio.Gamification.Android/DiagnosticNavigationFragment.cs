@@ -11,6 +11,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
+using Mojio.Events;
 using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
@@ -20,8 +21,9 @@ namespace Mojio.Gamification.Android
 
 		private Button mConnectButton;
 		private Button mFetchButton;
-		private Button mRandomizeDataButton;
+		private Button mAddTripDataButton;
 		private Button mResetDataButton;
+		private Random rnd = new Random ();
 
 		/*
 		 * Draw user interface and layout of the fragment.
@@ -35,12 +37,12 @@ namespace Mojio.Gamification.Android
 
 			mConnectButton = (Button) rootView.FindViewById<Button> (Resource.Id.diag_connectButton);
 			mFetchButton = (Button) rootView.FindViewById<Button> (Resource.Id.diag_fetchButton);
-			mRandomizeDataButton = (Button) rootView.FindViewById<Button> (Resource.Id.diag_randomDataButton);
+			mAddTripDataButton = (Button)rootView.FindViewById<Button> (Resource.Id.diag_addTripButton);
 			mResetDataButton = (Button) rootView.FindViewById<Button> (Resource.Id.diag_resetDataButton);
 
 			mConnectButton.Click += mConnectButton_onClick;
 			mFetchButton.Click += mFetchButton_onClick;
-			mRandomizeDataButton.Click += mRandomizeDataButton_onClick;
+			mAddTripDataButton.Click += mAddTripDataButton_onClick;
 			mResetDataButton.Click += mResetDataButton_onClick;
 
 			return rootView;
@@ -56,25 +58,9 @@ namespace Mojio.Gamification.Android
 
 		}
 
-		private void mRandomizeDataButton_onClick (object sender, EventArgs e) 
-		{
-			UserStats userStats = ((GamificationApp)this.Activity.Application).MyUserStatsRepository.GetUserStats ();
-			Random rnd = new Random ();
-			Type type = userStats.GetType ();
-			System.Reflection.PropertyInfo[] properties = type.GetProperties ();
-			foreach (System.Reflection.PropertyInfo property in properties) {
-				if (property.Name != "uid") {
-					property.SetValue (userStats, rnd.Next (0, 100));
-				}
-			}
-			((GamificationApp)this.Activity.Application).MyUserStatsRepository.UpdateUserStats (userStats);
-			rnd.Next ();
-		}
-
 		private void mResetDataButton_onClick (object sender, EventArgs e)
 		{
 			UserStats userStats = ((GamificationApp)this.Activity.Application).MyUserStatsRepository.GetUserStats ();
-			Random rnd = new Random ();
 			Type type = userStats.GetType ();
 			System.Reflection.PropertyInfo[] properties = type.GetProperties ();
 			foreach (System.Reflection.PropertyInfo property in properties) {
@@ -83,6 +69,40 @@ namespace Mojio.Gamification.Android
 				}
 			}
 			((GamificationApp)this.Activity.Application).MyUserStatsRepository.UpdateUserStats (userStats);
+		}
+
+		private void mAddTripDataButton_onClick (object sender, EventArgs e)
+		{
+			Trip trip = new Trip ();
+			trip.Distance = rnd.Next (1, 100);
+			trip.StartTime = DateTime.Now;
+			trip.EndTime = trip.StartTime.AddMinutes (rnd.Next (0, 100));
+			trip.VehicleId = Guid.Empty;
+			trip.IdleTime = 0.01 * rnd.Next (0, 50) * (trip.EndTime.Value - trip.StartTime).TotalSeconds;
+			trip.FuelEfficiency = rnd.Next (7, 15);
+
+			List<Event> events = new List<Event>();
+			for (int j = 0; j < 4; j++) {
+				int num = rnd.Next (0, 2);
+				for (int i = 0; i < num; i++) {
+					switch (j) 
+					{
+					case 0:
+						events.Add (new HardEvent (EventType.HardAcceleration));
+						break;
+					case 1:
+						events.Add (new HardEvent (EventType.HardBrake));
+						break;
+					case 2:
+						events.Add (new HardEvent (EventType.HardLeft));
+						break;
+					case 3:
+						events.Add (new HardEvent (EventType.HardRight));
+						break;
+					}
+				}
+			}
+			((GamificationApp)Activity.Application).MyStatisticsManager.AddTrip (trip, events);
 		}
 			
 	}

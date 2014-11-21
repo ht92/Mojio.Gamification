@@ -23,13 +23,7 @@ namespace Mojio.Gamification.Core
 		public static double CalculateScore(HardEventMetric metric)
 		{
 			double frequency = metric.Measure;
-			double score;
-			try {
-				score = 1 / frequency;
-			} catch (DivideByZeroException e) {
-				score = Metric.MAX_SCORE;
-			}
-			return score;
+			return Math.Min (1 / frequency, 100);
 		}
 	}
 
@@ -39,7 +33,7 @@ namespace Mojio.Gamification.Core
 		{
 			double kmPerLitre = metric.Measure;
 			double score = Metric.MAX_SCORE;
-			double percentage = metric.Measure / metric.EstimateEfficiency;
+			double percentage = metric.EstimateEfficiency / metric.Measure;
 			if (percentage < 1.0) {
 				double pointDeduction = 2 * (Metric.MAX_SCORE - percentage * Metric.MAX_SCORE);
 				score = Math.Max (Metric.MAX_SCORE - pointDeduction, Metric.MIN_SCORE);

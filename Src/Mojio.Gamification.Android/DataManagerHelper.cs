@@ -28,7 +28,7 @@ namespace Mojio.Gamification.Android
 							totalHardLefts			INTEGER NOT NULL,
 							totalHardRights			INTEGER NOT NULL,
 							totalIdleTime			DOUBLE NOT NULL,
-							fuelEfficiency          DOUBLE NOT NULL,
+							totalFuelConsumption    DOUBLE NOT NULL,
 							safetyScore				DOUBLE NOT NULL,
 							efficiencyScore			DOUBLE NOT NULL)");
 			db.ExecSQL (@"INSERT INTO UserStats VALUES (0, 0, 0.00, 0.00, 0, 0, 0, 0, 0.00, 0.00, 0.00, 0.00)");

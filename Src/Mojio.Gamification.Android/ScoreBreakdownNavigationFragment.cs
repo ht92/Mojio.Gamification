@@ -78,12 +78,12 @@ namespace Mojio.Gamification.Android
 
 			UnitValueWrapper totalTrips = UnitValueWrapper.WrapValue (stats.totalTrips, UnitValueWrapper.UnitType.NULL_UNIT);
 			UnitValueWrapper totalDistance = UnitValueWrapper.WrapValue (stats.totalDistance, UnitValueWrapper.UnitType.DISTANCE_KM);
-			UnitValueWrapper totalDuration = UnitValueWrapper.WrapValue (stats.totalDuration, UnitValueWrapper.UnitType.TIME_S);
+			UnitValueWrapper totalDuration = UnitValueWrapper.WrapValue (stats.totalDuration / 3600, UnitValueWrapper.UnitType.TIME_HOURS);
 
-			var avgTripDistance = stats.totalDistance / stats.totalTrips;
-			var avgTripDuration = stats.totalDuration / stats.totalTrips;
+			var avgTripDistance = stats.totalTrips != 0 ? stats.totalDistance / stats.totalTrips : 0;
+			var avgTripDuration = stats.totalTrips != 0 ? stats.totalDuration / stats.totalTrips : 0;
 			UnitValueWrapper averageTripDistance = UnitValueWrapper.WrapValue (avgTripDistance, UnitValueWrapper.UnitType.DISTANCE_KM);
-			UnitValueWrapper averageTripDuration = UnitValueWrapper.WrapValue (avgTripDuration, UnitValueWrapper.UnitType.TIME_S);
+			UnitValueWrapper averageTripDuration = UnitValueWrapper.WrapValue (avgTripDuration / 3600, UnitValueWrapper.UnitType.TIME_HOURS);
 
 			UnitValueWrapper totalHardAccelerations = UnitValueWrapper.WrapValue (stats.totalHardAccelerations, UnitValueWrapper.UnitType.NULL_UNIT);
 			UnitValueWrapper totalHardBrakes = UnitValueWrapper.WrapValue (stats.totalHardBrakes, UnitValueWrapper.UnitType.NULL_UNIT);
@@ -94,11 +94,11 @@ namespace Mojio.Gamification.Android
 			var hardEventFrequency = totalHardEvents != 0 ? totalHardEvents / stats.totalDistance : 0;
 			UnitValueWrapper freqHardEvents = UnitValueWrapper.WrapValue (hardEventFrequency, UnitValueWrapper.UnitType.Per (UnitValueWrapper.UnitType.NULL_UNIT, UnitValueWrapper.UnitType.DISTANCE_KM));
 
-			UnitValueWrapper totalIdleTime = UnitValueWrapper.WrapValue (stats.totalIdleTime, UnitValueWrapper.UnitType.TIME_S);
+			UnitValueWrapper totalIdleTime = UnitValueWrapper.WrapValue (stats.totalIdleTime / 3600, UnitValueWrapper.UnitType.TIME_HOURS);
 			var idleTimePercentage = stats.totalIdleTime != 0 ? (stats.totalIdleTime / stats.totalDuration) * 100 : 0;
 			UnitValueWrapper percentageIdleTime = UnitValueWrapper.WrapValue (idleTimePercentage, UnitValueWrapper.UnitType.PERCENTAGE);
-			UnitValueWrapper fuelEfficiency = UnitValueWrapper.WrapValue (stats.fuelEfficiency, UnitValueWrapper.UnitType.Per (UnitValueWrapper.UnitType.LITRE, UnitValueWrapper.UnitType.DISTANCE_100KM));
-			UnitValueWrapper totalFuelConsumption = UnitValueWrapper.WrapValue (stats.fuelEfficiency * stats.totalDistance / 100, UnitValueWrapper.UnitType.LITRE);
+			UnitValueWrapper totalFuelConsumption = UnitValueWrapper.WrapValue (stats.totalFuelConsumption, UnitValueWrapper.UnitType.LITRE);
+			UnitValueWrapper fuelEfficiency = UnitValueWrapper.WrapValue (stats.totalFuelConsumption * 100/ stats.totalDistance, UnitValueWrapper.UnitType.Per (UnitValueWrapper.UnitType.LITRE, UnitValueWrapper.UnitType.DISTANCE_100KM));
 
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Trips", totalTrips.GetStringWithShortUnit ()));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Distance Travelled", totalDistance.GetStringWithShortUnit (2)));

@@ -24,6 +24,11 @@ namespace Mojio.Gamification.Android
 			return _instance;
 		}
 
+		public void AddTrip (Trip trip, IList<Event> events)
+		{
+			RecalculateScore (trip, events);
+		}
+
 		private StatisticsManager (UserStatsRepository userStatsRepository) 
 		{
 			//initialize with the current stats
