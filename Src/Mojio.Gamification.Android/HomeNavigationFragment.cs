@@ -17,7 +17,7 @@ namespace Mojio.Gamification.Android
 {
 	public class HomeNavigationFragment : AbstractNavigationFragment
 	{
-		private Button mScoreButton;
+		private CircularIndicatorView mDriverScoreIndicator;
 
 		public override void OnCreate (Bundle savedInstanceState)
 		{
@@ -34,9 +34,10 @@ namespace Mojio.Gamification.Android
 			View rootView = inflater.Inflate(Resource.Layout.home_frag_layout, container, false);
 			this.Activity.Title = Resources.GetStringArray (Resource.Array.pages_array) [Arguments.GetInt (ARG_FRAG_NUMBER)];
 
-			mScoreButton = (Button) rootView.FindViewById<Button> (Resource.Id.ScoreButton);
-			mScoreButton.Text = ((GamificationApp) (Activity.Application)).MyStatisticsManager.OverallScore.ToString ();
-			mScoreButton.Click += mScoreButton_onClick;
+			mDriverScoreIndicator = (CircularIndicatorView) rootView.FindViewById<CircularIndicatorView> (Resource.Id.home_circularIndicator);
+			mDriverScoreIndicator.SetIndicatorWidth (60);
+			mDriverScoreIndicator.SetIndicatorValue (((GamificationApp) (Activity.Application)).MyStatisticsManager.OverallScore);
+			mDriverScoreIndicator.Click += mScoreButton_onClick;
 
 			return rootView;
 		}

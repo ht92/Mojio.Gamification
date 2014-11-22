@@ -4,4 +4,14 @@
 		<attr name="scoreLabel" format="string" />
 		<attr name="rankLabel" format="string" />
 	</declare-styleable>
+
+	<declare-styleable name="CircularIndicator">
+		<attr name="indicatorColor" format="color" />
+		<attr name="textSize" format="dimension" />
+		<attr name="textColor" format="color" />
+        <attr name="metricText" format="string" />
+        <attr name="metricTextSize" format="dimension" />
+        <attr name="typeface" format="string" />
+		<attr name="range" format="integer" />
+	</declare-styleable>
 </resources>

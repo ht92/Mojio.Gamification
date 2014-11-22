@@ -79,6 +79,7 @@
     <Compile Include="DiagnosticNavigationFragment.cs" />
     <Compile Include="ScoreRowView.cs" />
     <Compile Include="StatisticsManager.cs" />
+    <Compile Include="CircularIndicatorView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -111,6 +112,7 @@
     <AndroidResource Include="Resources\layout\diagnostic_frag_layout.axml" />
     <AndroidResource Include="Resources\values\attrs.xml" />
     <AndroidResource Include="Resources\layout\score_row_layout.axml" />
+    <AndroidResource Include="Resources\values\dimens.xml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

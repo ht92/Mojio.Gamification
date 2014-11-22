@@ -23,4 +23,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/diag_resetDataButton" />
+    <View
+        android:id="@+id/diag_horizontal_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#c0c0c0" />
+    <Mojio.Gamification.Android.BadgeView
+        android:id="@+id/diag_badgeCustom"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/Icon"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
