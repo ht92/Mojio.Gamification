@@ -76,7 +76,7 @@ namespace Mojio.Gamification.Android
 			Trip trip = new Trip ();
 			trip.Distance = rnd.Next (1, 100);
 			trip.StartTime = DateTime.Now;
-			trip.EndTime = trip.StartTime.AddMinutes (rnd.Next (0, 100));
+			trip.EndTime = trip.StartTime.AddMinutes (rnd.Next (1, 100));
 			trip.VehicleId = Guid.Empty;
 			trip.IdleTime = 0.01 * rnd.Next (0, 50) * (trip.EndTime.Value - trip.StartTime).TotalSeconds;
 			trip.FuelEfficiency = rnd.Next (7, 15);

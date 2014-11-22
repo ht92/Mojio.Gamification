@@ -17,7 +17,7 @@ namespace Mojio.Gamification.Android
 	public class ScoreRowView : LinearLayout
 	{
 		private TextView mScoreLabelTextView;
-		private Button mScoreButton;
+		private CircularIndicatorView mScoreIndicatorView;
 		private TextView mRankLabelTextView;
 
 		public ScoreRowView (Context context) :
@@ -69,10 +69,10 @@ namespace Mojio.Gamification.Android
 
 		public void SetScore(double score)
 		{
-			if (mScoreButton == null) {
-				mScoreButton = (Button)FindViewById<Button> (Resource.Id.sr_scoreButton);
+			if (mScoreIndicatorView == null) {
+				mScoreIndicatorView = (CircularIndicatorView)FindViewById<CircularIndicatorView> (Resource.Id.sr_scoreIndicator);
 			}
-			mScoreButton.Text = Math.Round(score, MidpointRounding.AwayFromZero).ToString ();
+			mScoreIndicatorView.SetIndicatorValue (Math.Round(score, MidpointRounding.AwayFromZero));
 		}
 	}
 }

@@ -17,10 +17,10 @@ namespace Mojio.Gamification.Android
 {
 	public class CircularIndicatorView : View
 	{	
-		private static readonly int DEFAULT_INDICATOR_WIDTH = 40;
+		private static readonly int DEFAULT_INDICATOR_WIDTH = 20;
 		private static readonly int DEFAULT_START_VALUE = 0;		//min value is 0
 		private static readonly int DEFAULT_MAX_VALUE = 100;		//max value is 100
-		private static readonly float START_DEGREES = 90;			//View starts at 6 o'clock
+		private static readonly float START_DEGREES = 270;			//View starts at 12 o'clock
 		private static readonly int MAX_DEGREES = 360;
 	
 		//Default background
@@ -170,7 +170,9 @@ namespace Mojio.Gamification.Android
 			canvas.DrawArc (mIndicatorBounds, START_DEGREES, mIndicatorDegrees , false, mIndicatorPaint);
 			canvas.DrawArc (mIndicatorBounds, START_DEGREES, MAX_DEGREES , false, mIndicatorEmptyPaint);
 			canvas.DrawText (mIndicatorValue.ToString (), mIndicatorBounds.CenterX (), mTextPosY, mTextPaint);
-			canvas.DrawText (mMetricText, mIndicatorBounds.CenterX (), mMetricPosY, mMetricPaint);
+			if (!String.IsNullOrWhiteSpace (mMetricText)) { 
+				canvas.DrawText (mMetricText, mIndicatorBounds.CenterX (), mMetricPosY, mMetricPaint);
+			}
 		}
 
 		public void SetIndicatorValue(double value) {

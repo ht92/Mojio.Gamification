@@ -12,15 +12,15 @@
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:gravity="left|center_vertical" />
-    <Button
-        android:id="@+id/sr_scoreButton"
-        android:background="@drawable/round_button"
+    <Mojio.Gamification.Android.CircularIndicatorView xmlns:indicator="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sr_scoreIndicator"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:gravity="center"
-        android:textColor="@android:color/black" />
+        indicator:indicatorColor="#ffffff"
+        indicator:textSize="18sp"
+        indicator:textColor="#ffffff" />
     <TextView
         android:id="@+id/sr_rankLabelTextView"
         android:textAppearance="?android:attr/textAppearanceMedium"
