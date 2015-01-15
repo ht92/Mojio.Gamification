@@ -51,14 +51,5 @@ namespace Mojio.Gamification.Core
 			return score;
 		}
 	}
-
-	public class IdleTimeScoreCalculator
-	{
-		public static double CalculateScore(IdleTimeMetric metric)
-		{
-			double idlePercentage = metric.Percentage;
-			return Metric.MAX_SCORE * (1 - 2 * idlePercentage);
-		}
-	}
 }
 

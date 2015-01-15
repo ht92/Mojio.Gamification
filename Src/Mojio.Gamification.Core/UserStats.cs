@@ -15,7 +15,6 @@ namespace Mojio.Gamification.Core
 		public int totalHardBrakes { get; set; }
 		public int totalHardLefts { get; set; }
 		public int totalHardRights { get; set; }
-		public double totalIdleTime { get; set; }
 		public double totalFuelConsumption { get; set; }
 		public double safetyScore { get; set; }
 		public double efficiencyScore { get; set; }
@@ -30,8 +29,7 @@ namespace Mojio.Gamification.Core
 			stats.totalHardBrakes = tripData.HardBrakeMetric.Count;
 			stats.totalHardLefts = tripData.HardLeftMetric.Count;
 			stats.totalHardRights = tripData.HardRightMetric.Count;
-			stats.totalIdleTime = tripData.MyTrip.IdleTime.Value;
-			stats.totalFuelConsumption = tripData.MyTrip.FuelEfficiency.Value * tripData.MyTrip.Distance.Value / 100;
+			stats.totalFuelConsumption = tripData.FuelEfficiencyMetric.Measure * tripData.MyTrip.Distance.Value / 100;
 			stats.safetyScore = tripData.TripSafetyScore;
 			stats.efficiencyScore = tripData.TripEfficiencyScore;
 			return stats;
@@ -47,7 +45,6 @@ namespace Mojio.Gamification.Core
 			sum.totalHardBrakes = stats1.totalHardBrakes + stats2.totalHardBrakes;
 			sum.totalHardLefts = stats1.totalHardLefts + stats2.totalHardLefts;
 			sum.totalHardRights = stats1.totalHardRights + stats2.totalHardRights;
-			sum.totalIdleTime = stats1.totalIdleTime + stats2.totalIdleTime;
 			sum.totalFuelConsumption = stats1.totalFuelConsumption + stats2.totalFuelConsumption;
 
 			double weight = stats2.totalDistance / sum.totalDistance;

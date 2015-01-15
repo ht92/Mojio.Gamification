@@ -94,9 +94,6 @@ namespace Mojio.Gamification.Android
 			var hardEventFrequency = totalHardEvents != 0 ? totalHardEvents / stats.totalDistance : 0;
 			string freqHardEvents = new NumberDisplayer (hardEventFrequency, NumberDisplayer.DEFAULT_DECIMAL_PLACES, ValueUnit.Per (ValueUnit.NULL_UNIT, ValueUnit.DISTANCE_KM)).GetString ();
 
-			string totalIdleTime = NumberDisplayer.CreateNumberDisplayer (stats.totalIdleTime, NumberDisplayer.NumberType.TIME).GetString ();
-			var idleTimePercentage = stats.totalIdleTime != 0 ? (stats.totalIdleTime / stats.totalDuration) : 0;
-			string percentageIdleTime = NumberDisplayer.CreateNumberDisplayer (idleTimePercentage, NumberDisplayer.NumberType.PERCENTAGE).GetString ();
 			string totalFuelConsumption = NumberDisplayer.CreateNumberDisplayer (stats.totalFuelConsumption, NumberDisplayer.NumberType.FUEL_CONSUMPTION).GetString ();
 			string fuelEfficiency = new NumberDisplayer(stats.totalFuelConsumption * 100 / stats.totalDistance, NumberDisplayer.DEFAULT_DECIMAL_PLACES, ValueUnit.Per (ValueUnit.LITRE, ValueUnit.DISTANCE_100KM)).GetString ();
 
@@ -112,8 +109,6 @@ namespace Mojio.Gamification.Android
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Lefts", totalHardLefts));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Rights", totalHardRights));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Hard Event Frequency", freqHardEvents));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Total Idle Time", totalIdleTime));
-			mUserStatsLayout.AddView (createUserStatRow (context, "Idle Time Percentage", percentageIdleTime));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Fuel Efficiency", fuelEfficiency));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Fuel Consumption", totalFuelConsumption));
 		}

@@ -26,7 +26,11 @@ namespace Mojio.Gamification.Android
 
 		public void AddTrip (Trip trip, IList<Event> events)
 		{
-			RecalculateScore (trip, events);
+			if (TripDataModel.IsTripValid (trip)) {
+				RecalculateScore (trip, events);
+			} else {
+				Logger.GetInstance ().Warning (String.Format ("Invalid trip detected - {0}. Discarding...", trip.Id.ToString ()));
+			}
 		}
 
 		private StatisticsManager (UserStatsRepository userStatsRepository) 

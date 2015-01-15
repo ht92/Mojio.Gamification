@@ -19,7 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)FuelEfficiencyMetric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TripDataModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IdleTimeMetric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DistanceBasedMetric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeBasedMetric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumberDisplayer.cs" />

@@ -41,7 +41,6 @@ namespace Mojio.Gamification.Android
 			mFetchButton.Click += mFetchButton_onClick;
 			mAddTripDataButton.Click += mAddTripDataButton_onClick;
 			mResetDataButton.Click += mResetDataButton_onClick;
-
 			return rootView;
 		}
 
@@ -71,7 +70,6 @@ namespace Mojio.Gamification.Android
 			trip.StartTime = DateTime.Now;
 			trip.EndTime = trip.StartTime.AddMinutes (rnd.Next (1, 100));
 			trip.VehicleId = Guid.Empty;
-			trip.IdleTime = 0.01 * rnd.Next (0, 50) * (trip.EndTime.Value - trip.StartTime).TotalSeconds;
 			trip.FuelEfficiency = rnd.Next (7, 15);
 
 			List<Event> events = new List<Event>();
