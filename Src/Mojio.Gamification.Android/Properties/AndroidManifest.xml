@@ -5,4 +5,20 @@
 		<!-- component definitions -->
 	</application>
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<compatible-screens>
+	    <!-- all small size screens -->
+	    <screen android:screenSize="small" android:screenDensity="ldpi" />
+	    <screen android:screenSize="small" android:screenDensity="mdpi" />
+	    <screen android:screenSize="small" android:screenDensity="hdpi" />
+	    <screen android:screenSize="small" android:screenDensity="xhdpi" />
+	    <!-- all normal size screens -->
+	    <screen android:screenSize="normal" android:screenDensity="ldpi" />
+	    <screen android:screenSize="normal" android:screenDensity="mdpi" />
+	    <screen android:screenSize="normal" android:screenDensity="hdpi" />
+	    <screen android:screenSize="normal" android:screenDensity="xhdpi" />
+	    <!-- large screens -->
+   		<screen android:screenSize="large" android:screenDensity="hdpi" />
+    	<screen android:screenSize="large" android:screenDensity="xhdpi" />
+	</compatible-screens>
 </manifest>

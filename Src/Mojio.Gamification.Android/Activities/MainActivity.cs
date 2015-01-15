@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
+using Android.Content.PM;
+using Android.Locations;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -34,8 +36,11 @@ namespace Mojio.Gamification.Android
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
+			RequestedOrientation = ScreenOrientation.Portrait;
 			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
+			Window.DecorView.SetBackgroundResource (getActivityBackground ());
+				
 			mDrawerTitle = this.Resources.GetString (Resource.String.navigation_drawer_title);
 			mPageTitles = this.Resources.GetStringArray (Resource.Array.pages_array);
 			mDrawerLayout = FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
@@ -141,6 +146,25 @@ namespace Mojio.Gamification.Android
 			mDrawerList.SetItemChecked (position, true);
 			Title = mPageTitles [position];
 			mDrawerLayout.CloseDrawer (mDrawerList);
+		}
+
+		private int getActivityBackground ()
+		{
+			LocationManager lm = (LocationManager) GetSystemService (LocationService);
+			global::Android.Locations.Location location = lm.GetLastKnownLocation (LocationManager.GpsProvider);
+			WeatherManager.WeatherType weatherType = WeatherManager.GetWeather (location);
+			switch (weatherType) {
+			case WeatherManager.WeatherType.SUNNY:
+				return Resource.Drawable.back_sunny;
+			case WeatherManager.WeatherType.CLOUDY:
+				return Resource.Drawable.back_cloudy;
+			case WeatherManager.WeatherType.RAINING:
+				return Resource.Drawable.back_rainy;
+			case WeatherManager.WeatherType.SNOWING:
+				return Resource.Drawable.back_snow;
+			default: 
+				return Resource.Drawable.back_sunny;
+			}
 		}
 
 		internal class NavigationDrawerToggle : ActionBarDrawerToggle
