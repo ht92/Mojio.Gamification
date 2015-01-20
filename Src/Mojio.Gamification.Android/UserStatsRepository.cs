@@ -12,17 +12,17 @@ namespace Mojio.Gamification.Android
 		private DataManagerHelper _helper;
 		private static UserStatsRepository _instance;
 
-		public static UserStatsRepository GetInstance(Context context)
+		public static UserStatsRepository GetInstance()
 		{
 			if (_instance == null) {
-				_instance = new UserStatsRepository(context);
+				_instance = new UserStatsRepository();
 			}
 			return _instance;
 		}
 
-		private UserStatsRepository(Context context)
+		private UserStatsRepository ()
 		{
-			_helper = new DataManagerHelper (context);
+			_helper = new DataManagerHelper (GamificationApp.GetInstance ());
 		}
 
 		public long AddUserStats (UserStats addUser)

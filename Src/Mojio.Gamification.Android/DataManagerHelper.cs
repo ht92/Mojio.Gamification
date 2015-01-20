@@ -32,6 +32,25 @@ namespace Mojio.Gamification.Android
 							safetyScore				DOUBLE NOT NULL,
 							efficiencyScore			DOUBLE NOT NULL)");
 			db.ExecSQL (@"INSERT INTO UserStats VALUES (0, 0, 0.00, 0.00, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00)");
+
+			db.ExecSQL (@"
+						CREATE TABLE IF NOT EXISTS UserBadge (
+							badgeId					INTEGER PRIMARY KEY AUTOINCREMENT,
+							badgeName				VARCHAR NOT NULL,
+							badgeType 				INTEGER NOT NULL,
+							badgeLevel				INTEGER NOT NULL,
+							badgeMaxLevel			INTEGER)");
+			db.ExecSQL (@"INSERT INTO UserBadge (badgeId, badgeName, badgeType, badgeLevel, badgeMaxLevel) VALUES 
+							(0, 'First Trip', 0, 0, 1),
+							(1, 'Perfect Trip', 1, 0, null),
+							(2, 'Safety First', 0, 0, 1),
+							(3, 'Efficient', 0, 0, 1),
+							(4, 'High Achiever', 0, 0, 1),
+							(5, 'Self-Improvement', 2, 0, 3),
+							(6, 'Perfectionist', 2, 0, 3),
+							(7, 'TestBadge1', 0, 1, 1),
+							(8, 'TestBadge2', 0, 1, 1),
+							(9, 'TestBadge3', 0, 1, 1)");
 		}
 
 		public override void OnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)

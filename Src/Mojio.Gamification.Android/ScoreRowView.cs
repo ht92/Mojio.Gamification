@@ -40,9 +40,9 @@ namespace Mojio.Gamification.Android
 
 		private void initViews(Context context, IAttributeSet attrs)
 		{
-			TypedArray arr = context.Theme.ObtainStyledAttributes (attrs, Resource.Styleable.RowView, 0, 0);
-			string scoreLabelText = arr.GetString (Resource.Styleable.RowView_scoreLabel);
-			string rankLabelText = arr.GetString (Resource.Styleable.RowView_rankLabel);
+			TypedArray arr = context.Theme.ObtainStyledAttributes (attrs, Resource.Styleable.ScoreRowView, 0, 0);
+			string scoreLabelText = arr.GetString (Resource.Styleable.ScoreRowView_scoreLabel);
+			string rankLabelText = arr.GetString (Resource.Styleable.ScoreRowView_rankLabel);
 			arr.Recycle ();
 
 			LayoutInflater.From (context).Inflate (Resource.Layout.score_row_layout, this);

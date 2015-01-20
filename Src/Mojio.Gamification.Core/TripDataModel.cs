@@ -13,7 +13,6 @@ namespace Mojio.Gamification.Core
 		public HardEventMetric HardLeftMetric;
 		public HardEventMetric HardRightMetric;
 		public FuelEfficiencyMetric FuelEfficiencyMetric;
-		public IdleTimeMetric IdleTimeMetric;
 		public double TripSafetyScore;
 		public double TripEfficiencyScore;
 
@@ -24,6 +23,11 @@ namespace Mojio.Gamification.Core
 			MyTrip = trip;
 			mEvents = events;
 			initialize ();
+		}
+
+		public static bool IsTripValid(Trip trip)
+		{
+			return trip.Distance.HasValue && trip.EndTime.HasValue;
 		}
 
 		public UserStats GetTripStats ()
@@ -45,7 +49,6 @@ namespace Mojio.Gamification.Core
 			HardLeftMetric = HardEventMetric.CreateMetric (EventType.HardLeft, mEvents, MyTrip.Distance.Value);
 			HardRightMetric = HardEventMetric.CreateMetric (EventType.HardRight, mEvents, MyTrip.Distance.Value);
 			FuelEfficiencyMetric = FuelEfficiencyMetric.CreateMetric (MyTrip.VehicleId, MyTrip.FuelEfficiency.Value, MyTrip.Distance.Value);
-			IdleTimeMetric = IdleTimeMetric.CreateMetric (MyTrip.IdleTime.Value, (MyTrip.EndTime.Value - MyTrip.StartTime).TotalSeconds);
 		}
 
 		private void calculateScores ()
@@ -72,10 +75,8 @@ namespace Mojio.Gamification.Core
 		private void calculateEfficiencyScore()
 		{
 			double fuelEfficiencyScore = FuelEfficiencyScoreCalculator.CalculateScore (FuelEfficiencyMetric);
-			double idleTimeScore = IdleTimeScoreCalculator.CalculateScore (IdleTimeMetric);
 			double efficiencyScore = ScoreCalculator.CalculateWeightedScore (new List<KeyValuePair<double, int>> () { 
-				new KeyValuePair<double, int> (fuelEfficiencyScore, 3),
-				new KeyValuePair<double, int> (idleTimeScore, 1)
+				new KeyValuePair<double, int> (fuelEfficiencyScore, 3)
 			});
 			TripEfficiencyScore = efficiencyScore;
 		}

@@ -41,6 +41,9 @@ namespace Mojio.Gamification.Android
 			case NavigationFragmentType.NAV_DIAGNOSTICS:
 				fragment = new DiagnosticNavigationFragment ();
 				break;
+			case NavigationFragmentType.NAV_BADGES:
+				fragment = new BadgeNavigationFragment ();
+				break;
 			default:
 				fragment = new HomeNavigationFragment ();
 				break;

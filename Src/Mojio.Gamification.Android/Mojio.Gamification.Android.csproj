@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -85,6 +85,14 @@
     <Compile Include="ScoreRowView.cs" />
     <Compile Include="StatisticsManager.cs" />
     <Compile Include="CircularIndicatorView.cs" />
+    <Compile Include="UserBadgeRepository.cs" />
+    <Compile Include="WeatherManager.cs" />
+    <Compile Include="AchievementManager.cs" />
+    <Compile Include="BadgeNavigationFragment.cs" />
+    <Compile Include="BadgeRowView.cs" />
+    <Compile Include="Badge.cs" />
+    <Compile Include="CountBadge.cs" />
+    <Compile Include="BadgeFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -133,6 +141,8 @@
     <AndroidResource Include="Resources\drawable-xhdpi\back_rainy.jpg" />
     <AndroidResource Include="Resources\drawable-xhdpi\back_snow.jpg" />
     <AndroidResource Include="Resources\drawable-xhdpi\back_sunny.jpg" />
+    <AndroidResource Include="Resources\layout\badge_frag_layout.axml" />
+    <AndroidResource Include="Resources\layout\badge_row_layout.axml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

@@ -23,5 +23,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)TimeBasedMetric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumberDisplayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueUnit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserBadge.cs" />
   </ItemGroup>
 </Project>

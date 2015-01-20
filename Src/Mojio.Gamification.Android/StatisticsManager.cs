@@ -10,16 +10,18 @@ namespace Mojio.Gamification.Android
 {
 	public class StatisticsManager
 	{
+		public event EventHandler StatisticsUpdatedEvent;
+
 		public UserStats MyStats { get; private set; } 
 		public double OverallScore;
 
 		private UserStatsRepository _userStatsRepository;
 		private static StatisticsManager _instance;
 
-		public static StatisticsManager GetInstance(UserStatsRepository userStatsRepository)
+		public static StatisticsManager GetInstance()
 		{
 			if (_instance == null) {
-				_instance = new StatisticsManager (userStatsRepository);
+				_instance = new StatisticsManager ();
 			}
 			return _instance;
 		}
@@ -33,10 +35,10 @@ namespace Mojio.Gamification.Android
 			}
 		}
 
-		private StatisticsManager (UserStatsRepository userStatsRepository) 
+		private StatisticsManager () 
 		{
 			//initialize with the current stats
-			_userStatsRepository = userStatsRepository;
+			_userStatsRepository = GamificationApp.GetInstance ().MyUserStatsRepository;
 			attachListeners ();
 			MyStats = _userStatsRepository.GetUserStats ();
 			setOverallScore ();
@@ -67,6 +69,12 @@ namespace Mojio.Gamification.Android
 		{
 			MyStats = _userStatsRepository.GetUserStats ();
 			setOverallScore ();
+			OnStatisticsUpdatedEvent (EventArgs.Empty);
+		}
+
+		protected void OnStatisticsUpdatedEvent (EventArgs e)
+		{
+			StatisticsUpdatedEvent (this, e);
 		}
 	}
 }
