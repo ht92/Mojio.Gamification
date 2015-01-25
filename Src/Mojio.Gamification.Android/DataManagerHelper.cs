@@ -51,11 +51,17 @@ namespace Mojio.Gamification.Android
 							(7, 'TestBadge1', 0, 1, 1),
 							(8, 'TestBadge2', 0, 1, 1),
 							(9, 'TestBadge3', 0, 1, 1)");
+			db.ExecSQL (@"
+						CREATE TABLE IF NOT EXISTS TripRecord (
+							tripTimestamp				DOUBLE PRIMARY KEY,
+							tripData					VARCHAR NOT NULL)");
 		}
 
 		public override void OnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 		{
 			db.ExecSQL (@"DROP TABLE IF EXISTS UserStats");
+			db.ExecSQL (@"DROP TABLE IF EXISTS UserBadge");
+			db.ExecSQL (@"DROP TABLE IF EXISTS TripRecord");
 			OnCreate (db);
 		}
 	}

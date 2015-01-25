@@ -6,6 +6,11 @@ namespace Mojio.Gamification.Core
 	{
 		protected double TripDistance;
 
+		protected DistanceBasedMetric ()
+		{
+			TripDistance = 0;
+		}
+
 		protected DistanceBasedMetric (double distance)
 		{
 			TripDistance = distance;

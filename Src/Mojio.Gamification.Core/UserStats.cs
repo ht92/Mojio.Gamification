@@ -19,17 +19,18 @@ namespace Mojio.Gamification.Core
 		public double safetyScore { get; set; }
 		public double efficiencyScore { get; set; }
 
+
 		public static UserStats CreateStats (TripDataModel tripData)
 		{
 			UserStats stats = new UserStats ();
 			stats.totalTrips = 1;
 			stats.totalDistance = tripData.MyTrip.Distance.Value;
 			stats.totalDuration = (tripData.MyTrip.EndTime.Value - tripData.MyTrip.StartTime).TotalSeconds;
-			stats.totalHardAccelerations = tripData.HardAccelerationMetric.Count;
-			stats.totalHardBrakes = tripData.HardBrakeMetric.Count;
-			stats.totalHardLefts = tripData.HardLeftMetric.Count;
-			stats.totalHardRights = tripData.HardRightMetric.Count;
-			stats.totalFuelConsumption = tripData.FuelEfficiencyMetric.Measure * tripData.MyTrip.Distance.Value / 100;
+			stats.totalHardAccelerations = tripData.HardEventMetric.GetHardAccelerationCount ();
+			stats.totalHardBrakes = tripData.HardEventMetric.GetHardBrakeCount ();
+			stats.totalHardLefts = tripData.HardEventMetric.GetHardLeftCount ();
+			stats.totalHardRights = tripData.HardEventMetric.GetHardRightCount ();
+			stats.totalFuelConsumption = tripData.FuelEfficiencyMetric.TotalConsumption;
 			stats.safetyScore = tripData.TripSafetyScore;
 			stats.efficiencyScore = tripData.TripEfficiencyScore;
 			return stats;

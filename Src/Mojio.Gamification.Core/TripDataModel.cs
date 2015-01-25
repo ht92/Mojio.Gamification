@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mojio.Events;
+using Newtonsoft.Json;
 
 namespace Mojio.Gamification.Core
 {
 	public class TripDataModel
 	{
-		public Trip MyTrip { get; private set; }
-		public HardEventMetric HardAccelerationMetric;
-		public HardEventMetric HardBrakeMetric;
-		public HardEventMetric HardLeftMetric;
-		public HardEventMetric HardRightMetric;
+		public Trip MyTrip { get; set; }
+		public HardEventMetric HardEventMetric;
 		public FuelEfficiencyMetric FuelEfficiencyMetric;
 		public double TripSafetyScore;
 		public double TripEfficiencyScore;
 
 		private IList<Event> mEvents;
+
+		[JsonConstructor]
+		public TripDataModel ()
+		{
+		}
 	
 		public TripDataModel (Trip trip, IList<Event> events)
 		{
@@ -36,47 +39,50 @@ namespace Mojio.Gamification.Core
 			return tripStats;
 		}
 
+		public static string Serialize (TripDataModel tripDataModel)
+		{
+			JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
+			return JsonConvert.SerializeObject (tripDataModel, settings);
+		}
+
+		public static TripDataModel Deserialize (string json)
+		{
+			JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
+			return JsonConvert.DeserializeObject<TripDataModel> (json, settings);
+		}
+
 		private void initialize() 
 		{
 			initializeMetrics ();
-			calculateScores ();
+			calculateTripScores ();
 		}
 
 		private void initializeMetrics ()
 		{
-			HardAccelerationMetric = HardEventMetric.CreateMetric (EventType.HardAcceleration, mEvents, MyTrip.Distance.Value);
-			HardBrakeMetric = HardEventMetric.CreateMetric (EventType.HardBrake, mEvents, MyTrip.Distance.Value);
-			HardLeftMetric = HardEventMetric.CreateMetric (EventType.HardLeft, mEvents, MyTrip.Distance.Value);
-			HardRightMetric = HardEventMetric.CreateMetric (EventType.HardRight, mEvents, MyTrip.Distance.Value);
+			HardEventMetric = HardEventMetric.CreateMetric (mEvents, MyTrip.Distance.Value);
 			FuelEfficiencyMetric = FuelEfficiencyMetric.CreateMetric (MyTrip.VehicleId, MyTrip.FuelEfficiency.Value, MyTrip.Distance.Value);
 		}
 
-		private void calculateScores ()
+		private void calculateTripScores ()
 		{
-			calculateSafetyScore ();
-			calculateEfficiencyScore ();
+			calculateTripSafetyScore ();
+			calculateTripEfficiencyScore ();
 		}
 
-		private void calculateSafetyScore()
+		private void calculateTripSafetyScore()
 		{
-			double hardAccelerationScore = HardEventScoreCalculator.CalculateScore (HardAccelerationMetric);
-			double hardBrakeScore = HardEventScoreCalculator.CalculateScore (HardBrakeMetric);
-			double hardLeftScore = HardEventScoreCalculator.CalculateScore (HardLeftMetric);
-			double hardRightScore = HardEventScoreCalculator.CalculateScore (HardRightMetric);
+			double hardEventScore = HardEventScoreCalculator.CalculateScore (HardEventMetric);
 			double safetyScore = ScoreCalculator.CalculateWeightedScore (new List<KeyValuePair<double, int>>() { 
-				new KeyValuePair<double, int> (hardAccelerationScore, 1),
-				new KeyValuePair<double, int> (hardBrakeScore, 1),
-				new KeyValuePair<double, int> (hardLeftScore, 1),
-				new KeyValuePair<double, int> (hardRightScore, 1)
+				new KeyValuePair<double, int> (hardEventScore, 1),
 			});
 			TripSafetyScore = safetyScore;
 		}
 
-		private void calculateEfficiencyScore()
+		private void calculateTripEfficiencyScore()
 		{
 			double fuelEfficiencyScore = FuelEfficiencyScoreCalculator.CalculateScore (FuelEfficiencyMetric);
 			double efficiencyScore = ScoreCalculator.CalculateWeightedScore (new List<KeyValuePair<double, int>> () { 
-				new KeyValuePair<double, int> (fuelEfficiencyScore, 3)
+				new KeyValuePair<double, int> (fuelEfficiencyScore, 1)
 			});
 			TripEfficiencyScore = efficiencyScore;
 		}

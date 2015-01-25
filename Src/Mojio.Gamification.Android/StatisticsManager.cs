@@ -16,6 +16,7 @@ namespace Mojio.Gamification.Android
 		public double OverallScore;
 
 		private UserStatsRepository _userStatsRepository;
+		private TripRecordRepository _tripRecordRepository;
 		private static StatisticsManager _instance;
 
 		public static StatisticsManager GetInstance()
@@ -39,6 +40,7 @@ namespace Mojio.Gamification.Android
 		{
 			//initialize with the current stats
 			_userStatsRepository = GamificationApp.GetInstance ().MyUserStatsRepository;
+			_tripRecordRepository = GamificationApp.GetInstance ().MyTripRecordRepository;
 			attachListeners ();
 			MyStats = _userStatsRepository.GetUserStats ();
 			setOverallScore ();
@@ -46,15 +48,13 @@ namespace Mojio.Gamification.Android
 
 		private void setOverallScore()
 		{
-			OverallScore = ScoreCalculator.CalculateOverallScore (new List<double> {
-				MyStats.safetyScore,
-				MyStats.efficiencyScore
-			});
+			OverallScore = ScoreCalculator.CalculateOverallScore (MyStats.safetyScore, MyStats.efficiencyScore);
 		}
 
 		private void RecalculateScore (Trip trip, IList<Event> events)
 		{
 			TripDataModel tripData = new TripDataModel (trip, events);
+			_tripRecordRepository.AddRecord (TripRecord.Create (TripDataModel.Serialize (tripData)));
 			UserStats tripStats = tripData.GetTripStats ();
 			UserStats newStats = UserStats.SumStats (MyStats, tripStats);
 			_userStatsRepository.UpdateUserStats (newStats);

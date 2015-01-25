@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Mojio.Gamification.Core;
 using Mojio.Gamification.Android;
+using Newtonsoft.Json;
 
 namespace Mojio.Gamification.Android
 {
@@ -102,8 +103,13 @@ namespace Mojio.Gamification.Android
 
 		public static bool CheckPerfectTripAchievement ()
 		{
-			double lastTripScore = 0;
-			return lastTripScore == 100;
+			bool isPerfectTrip = false;
+			List<TripRecord> tripRecords = GamificationApp.GetInstance ().MyTripRecordRepository.GetRecords ();
+			if (tripRecords.Count > 0) {
+				TripDataModel tripRecord = TripDataModel.Deserialize (tripRecords[0].tripData);
+				isPerfectTrip = tripRecord.TripSafetyScore == 100 && tripRecord.TripEfficiencyScore == 100;
+			}
+			return isPerfectTrip;
 		}
 
 		public static bool CheckSafetyFirstAchievement ()
@@ -129,14 +135,35 @@ namespace Mojio.Gamification.Android
 
 		public static bool CheckSelfImprovementAchievement () 
 		{
-			int improvementStreak = 0;
-			return improvementStreak >= 5;
+			List<TripRecord> tripRecords = GamificationApp.GetInstance ().MyTripRecordRepository.GetRecords ();
+
+			if (tripRecords.Count < 5) return false;
+
+			double previousScore = 0;
+			for (int count = 0; count < 5; count++) {
+				TripDataModel tripRecord = TripDataModel.Deserialize (tripRecords[count].tripData);
+				double safetyScore = tripRecord.TripSafetyScore;
+				double efficiencyScore = tripRecord.TripEfficiencyScore;
+				double overallScore = ScoreCalculator.CalculateOverallScore (safetyScore, efficiencyScore);
+				if (overallScore <= previousScore) return false;
+				previousScore = overallScore;
+			}
+			return true;
 		}
 
 		public static bool CheckPerfectionistAchievement () 
 		{
-			int perfectStreak = 0;
-			return perfectStreak >= 5;
+			List<TripRecord> tripRecords = GamificationApp.GetInstance ().MyTripRecordRepository.GetRecords ();
+
+			if (tripRecords.Count < 5) return false;
+
+			for (int count = 0; count < 5; count++) {
+				TripDataModel tripRecord = TripDataModel.Deserialize (tripRecords[count].tripData);
+				double safetyScore = tripRecord.TripSafetyScore;
+				double efficiencyScore = tripRecord.TripEfficiencyScore;
+				if (safetyScore < 100 || efficiencyScore < 100) return false;
+			}
+			return true;
 		}
 	}
 }

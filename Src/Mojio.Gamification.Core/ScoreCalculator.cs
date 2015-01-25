@@ -7,14 +7,13 @@ namespace Mojio.Gamification.Core
 {
 	public class ScoreCalculator
 	{
-		public static double CalculateOverallScore(IList<double> scores)
+		public static double CalculateOverallScore(double safetyScore, double efficiencyScore)
 		{
-			double total = 0;
-			foreach (double score in scores) {
-				total += score;
-			}
-			double average = total / scores.Count;
-			return average;
+			List<double> scores = new List<double> {
+				safetyScore,
+				efficiencyScore
+			};
+			return scores.Average ();
 		}
 
 		public static double CalculateWeightedScore(IList<KeyValuePair<double, int>> entries)

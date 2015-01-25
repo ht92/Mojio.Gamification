@@ -23,6 +23,7 @@ namespace Mojio.Gamification.Android
 			NAV_HOME,
 			NAV_SCORE_BREAKDOWN,
 			NAV_BADGES,
+			NAV_TRIP_HISTORY,
 			NAV_HELP,
 			NAV_DIAGNOSTICS
 		};
@@ -43,6 +44,9 @@ namespace Mojio.Gamification.Android
 				break;
 			case NavigationFragmentType.NAV_BADGES:
 				fragment = new BadgeNavigationFragment ();
+				break;
+			case NavigationFragmentType.NAV_TRIP_HISTORY:
+				fragment = new TripHistoryNavigationFragment ();
 				break;
 			default:
 				fragment = new HomeNavigationFragment ();

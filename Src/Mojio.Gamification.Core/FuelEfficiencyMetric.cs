@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mojio.Events;
+using Newtonsoft.Json;
 
 namespace Mojio.Gamification.Core
 {
@@ -14,6 +15,12 @@ namespace Mojio.Gamification.Core
 		public static FuelEfficiencyMetric CreateMetric (Guid vehicleId, double fuelEfficiency, double distance)
 		{
 			return new FuelEfficiencyMetric (vehicleId, fuelEfficiency, distance);
+		}
+
+		[JsonConstructor]
+		public FuelEfficiencyMetric ()
+			: base ()
+		{
 		}
 
 		private FuelEfficiencyMetric (Guid vehicleId, double fuelEfficiency, double distance)

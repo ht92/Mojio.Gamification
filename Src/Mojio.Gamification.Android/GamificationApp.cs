@@ -10,6 +10,7 @@ namespace Mojio.Gamification.Android
 	{
 		public UserStatsRepository MyUserStatsRepository { get; set; }
 		public UserBadgeRepository MyUserBadgeRepository { get; set; }
+		public TripRecordRepository MyTripRecordRepository { get; set; }
 
 		public StatisticsManager MyStatisticsManager { get; set; }
 		public AchievementManager MyAchievementManager { get; set; }
@@ -37,6 +38,7 @@ namespace Mojio.Gamification.Android
 		{
 			MyUserStatsRepository = UserStatsRepository.GetInstance ();
 			MyUserBadgeRepository = UserBadgeRepository.GetInstance ();
+			MyTripRecordRepository = TripRecordRepository.GetInstance ();
 			MyStatisticsManager = StatisticsManager.GetInstance ();
 			MyAchievementManager = AchievementManager.GetInstance ();
 			//MojioConnectUtility.Connect ();

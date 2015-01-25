@@ -2,43 +2,71 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mojio.Events;
+using Newtonsoft.Json;
 
 namespace Mojio.Gamification.Core
 {
-	public abstract class HardEventMetric : DistanceBasedMetric
+	public class HardEventMetric : DistanceBasedMetric
 	{
-		public EventType HardEventType { get; private set; }
 		public IList<HardEvent> Events { get; private set; }
 		public int Count { get; private set; }
 	
 		public enum HardEventSeverity { Minor,	Major, Severe };
 
-		public static HardEventMetric CreateMetric(EventType type, IList<Event> hardEvents, double distance)
+		public static HardEventMetric CreateMetric(IList<Event> hardEvents, double distance)
 		{
-			switch (type) {
-			case EventType.HardAcceleration:
-				return new HardAccelerationMetric (hardEvents, distance);
-			case EventType.HardBrake:
-				return new HardBrakeMetric (hardEvents, distance);
-			case EventType.HardLeft:
-				return new HardLeftMetric (hardEvents, distance);
-			case EventType.HardRight:
-				return new HardRightMetric (hardEvents, distance); 
-			default:
-				throw new ArgumentException ("Illegal EventType: " + type.ToString ());
-			}
+			return new HardEventMetric (hardEvents, distance);
 		}
 
-		public HardEventMetric (EventType type, IList<Event> hardEvents, double distance) 
+		[JsonConstructor]
+		public HardEventMetric () 
+			: base () 
+		{
+		}
+
+		private HardEventMetric (IList<Event> hardEvents, double distance) 
 			: base(distance)
 		{
-			HardEventType = type;
-			Events = hardEvents.Where (entry => entry.EventType.Equals (type))
+			Events = hardEvents.Where (entry => entry.EventType.Equals (EventType.HardAcceleration)
+				|| entry.EventType.Equals (EventType.HardBrake)
+				|| entry.EventType.Equals (EventType.HardLeft)
+				|| entry.EventType.Equals (EventType.HardRight))
 				.ToList ()
 				.Cast<HardEvent> ()
 				.ToList ();
 			Count = Events.Count;
 			Measure = Count / TripDistance;
+		}
+
+		public int GetHardAccelerationCount ()
+		{
+			return getCountByType (EventType.HardAcceleration);
+		}
+
+		public int GetHardBrakeCount ()
+		{
+			return getCountByType (EventType.HardBrake);
+		}
+
+		public int GetHardLeftCount ()
+		{
+			return getCountByType (EventType.HardLeft);
+		}
+
+		public int GetHardRightCount ()
+		{
+			return getCountByType (EventType.HardRight);
+		}
+
+		private int getCountByType (EventType hardEventType) {
+			if (hardEventType == EventType.HardAcceleration
+			    || hardEventType == EventType.HardBrake
+			    || hardEventType == EventType.HardLeft
+			    || hardEventType == EventType.HardRight) {
+				return Events.Where (entry => entry.EventType.Equals (hardEventType)).Count (); 
+			} else {
+				throw new ArgumentException (String.Format ("Invalid event type - {0}.", hardEventType));
+			}
 		}
 
 		private int getCountBySeverity (HardEventSeverity severity)
@@ -60,38 +88,6 @@ namespace Mojio.Gamification.Core
 				return HardEventSeverity.Major;
 			else 
 				return HardEventSeverity.Minor;
-		}
-
-		public class HardAccelerationMetric : HardEventMetric
-		{
-			public HardAccelerationMetric (IList<Event> hardEvents, double distance)
-				: base (EventType.HardAcceleration, hardEvents, distance)
-			{
-			}
-		}
-
-		public class HardBrakeMetric : HardEventMetric
-		{
-			public HardBrakeMetric (IList<Event> hardEvents, double distance)
-				: base (EventType.HardBrake, hardEvents, distance)
-			{
-			}
-		}
-
-		public class HardLeftMetric : HardEventMetric
-		{
-			public HardLeftMetric (IList<Event> hardEvents, double distance)
-				: base (EventType.HardLeft, hardEvents, distance)
-			{
-			}
-		}
-
-		public class HardRightMetric : HardEventMetric
-		{
-			public HardRightMetric (IList<Event> hardEvents, double distance)
-				: base (EventType.HardRight, hardEvents, distance)
-			{
-			}
 		}
 	}
 }
