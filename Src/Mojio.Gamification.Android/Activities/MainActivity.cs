@@ -139,7 +139,7 @@ namespace Mojio.Gamification.Android
 			if (currentFragment != null && currentFragment.IsVisible) { return; }
 			var fragment = AbstractNavigationFragment.NewInstance ((AbstractNavigationFragment.NavigationFragmentType)position);
 			var transaction = fragmentManager.BeginTransaction ();
-			transaction.SetCustomAnimations (Resource.Animator.zoom_in, Resource.Animator.fade_out, Resource.Animator.slide_in_left, Resource.Animator.fade_out);
+			transaction.SetCustomAnimations (Resource.Animator.fade_in, Resource.Animator.fade_out, Resource.Animator.slide_in_left, Resource.Animator.fade_out);
 			transaction.Replace (Resource.Id.content_frame, fragment, position.ToString ());
 			transaction.Commit ();
 

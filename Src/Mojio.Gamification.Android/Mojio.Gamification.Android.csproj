@@ -96,6 +96,7 @@
     <Compile Include="TripRecordRepository.cs" />
     <Compile Include="TripHistoryNavigationFragment.cs" />
     <Compile Include="TripHistoryExpandableListAdapter.cs" />
+    <Compile Include="Activities\SplashScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -149,6 +150,8 @@
     <AndroidResource Include="Resources\layout\trip_history_frag_layout.axml" />
     <AndroidResource Include="Resources\layout\trip_history_list_group.axml" />
     <AndroidResource Include="Resources\layout\trip_history_list_item.axml" />
+    <AndroidResource Include="Resources\Animator\fade_in.xml" />
+    <AndroidResource Include="Resources\layout\splash_screen.axml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

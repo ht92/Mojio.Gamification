@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView
+        android:id="@+id/splash_label"
+        android:text="@string/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:textAllCaps="true"
+        style="@android:style/TextAppearance.Large"
+        android:gravity="center"
+        android:layout_centerInParent="true" />
+    <Mojio.Gamification.Android.BadgeView
+        android:id="@+id/splash_icon"
+        android:src="@drawable/Icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/splash_label" />
+</RelativeLayout>
