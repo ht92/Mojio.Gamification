@@ -36,6 +36,14 @@ namespace Mojio.Gamification.Core
 		}
 	}
 
+	public class AccidentEventScoreCalculator
+	{
+		public static double CalculateScore (AccidentEventMetric metric)
+		{
+			return metric.Count > 0 ? 0 : 100;
+		}
+	}
+
 	public class FuelEfficiencyScoreCalculator 
 	{
 		public static double CalculateScore(FuelEfficiencyMetric metric)

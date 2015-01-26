@@ -9,11 +9,19 @@ namespace Mojio.Gamification.Core
 	public class TripDataModel
 	{
 		public Trip MyTrip { get; set; }
+
+		//Safety Metrics
 		public HardEventMetric HardEventMetric;
+		public AccidentEventMetric AccidentEventMetric;
+
+		//Efficiency Metrics
 		public FuelEfficiencyMetric FuelEfficiencyMetric;
+
+		//Calculated Scores
 		public double TripSafetyScore;
 		public double TripEfficiencyScore;
 
+		//Events associated with trip
 		private IList<Event> mEvents;
 
 		[JsonConstructor]
@@ -60,6 +68,7 @@ namespace Mojio.Gamification.Core
 		private void initializeMetrics ()
 		{
 			HardEventMetric = HardEventMetric.CreateMetric (mEvents, MyTrip.Distance.Value);
+			AccidentEventMetric = AccidentEventMetric.CreateMetric (mEvents, MyTrip.Distance.Value);
 			FuelEfficiencyMetric = FuelEfficiencyMetric.CreateMetric (MyTrip.VehicleId, MyTrip.FuelEfficiency.Value, MyTrip.Distance.Value);
 		}
 
@@ -72,8 +81,10 @@ namespace Mojio.Gamification.Core
 		private void calculateTripSafetyScore()
 		{
 			double hardEventScore = HardEventScoreCalculator.CalculateScore (HardEventMetric);
+			double accidentEventScore = AccidentEventScoreCalculator.CalculateScore (AccidentEventMetric);
 			double safetyScore = ScoreCalculator.CalculateWeightedScore (new List<KeyValuePair<double, int>>() { 
 				new KeyValuePair<double, int> (hardEventScore, 1),
+				new KeyValuePair<double, int> (accidentEventScore, AccidentEventMetric.Weight)
 			});
 			TripSafetyScore = safetyScore;
 		}

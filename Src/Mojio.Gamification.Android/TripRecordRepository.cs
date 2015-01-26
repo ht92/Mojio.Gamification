@@ -68,16 +68,17 @@ namespace Mojio.Gamification.Android
 
 		private long clearOldEntries ()
 		{
-			double currentTimestamp = TripRecord.GetPastTimestamp (7);
 			using (var db = new SQLiteConnection (_helper.WritableDatabase.Path)) 
 			{
-				SQLiteCommand command = db.CreateCommand ("DELETE FROM TripRecord WHERE tripTimestamp <= ?", currentTimestamp);
-				long count = command.ExecuteNonQuery ();
-				return count;
+				long entriesModified = 0;
+				if (db.Table<TripRecord> ().Count () > 30) {
+					double currentTimestamp = TripRecord.GetPastTimestamp (7);
+					SQLiteCommand command = db.CreateCommand ("DELETE FROM TripRecord WHERE tripTimestamp <= ?", currentTimestamp);
+					entriesModified = command.ExecuteNonQuery ();
+				}
+				return entriesModified;
 			}
 		}
-
-
 	}
 }
 

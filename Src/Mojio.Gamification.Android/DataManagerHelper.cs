@@ -27,11 +27,12 @@ namespace Mojio.Gamification.Android
 							totalHardBrakes			INTEGER NOT NULL,
 							totalHardLefts			INTEGER NOT NULL,
 							totalHardRights			INTEGER NOT NULL,
+							totalAccidents			INTEGER NOT NULL,
 							totalIdleEvents			INTEGER NOT NULL,
 							totalFuelConsumption    DOUBLE NOT NULL,
 							safetyScore				DOUBLE NOT NULL,
 							efficiencyScore			DOUBLE NOT NULL)");
-			db.ExecSQL (@"INSERT INTO UserStats VALUES (0, 0, 0.00, 0.00, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00)");
+			db.ExecSQL (@"INSERT INTO UserStats VALUES (0, 0, 0.00, 0.00, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00)");
 
 			db.ExecSQL (@"
 						CREATE TABLE IF NOT EXISTS UserBadge (
@@ -46,11 +47,13 @@ namespace Mojio.Gamification.Android
 							(2, 'Safety First', 0, 0, 1),
 							(3, 'Efficient', 0, 0, 1),
 							(4, 'High Achiever', 0, 0, 1),
-							(5, 'Self-Improvement', 2, 0, 3),
-							(6, 'Perfectionist', 2, 0, 3),
-							(7, 'TestBadge1', 0, 1, 1),
-							(8, 'TestBadge2', 0, 1, 1),
-							(9, 'TestBadge3', 0, 1, 1)");
+							(5, 'Veteran', 0, 0, 1),
+							(6, 'Self-Improvement', 2, 0, 3),
+							(7, 'Perfectionist', 2, 0, 3),
+							(8, 'Untouchable', 2, 0, 3),
+							(9, 'TestBadge1', 0, 1, 1),
+							(10, 'TestBadge2', 0, 1, 1),
+							(11, 'TestBadge3', 0, 1, 1)");
 			db.ExecSQL (@"
 						CREATE TABLE IF NOT EXISTS TripRecord (
 							tripTimestamp				DOUBLE PRIMARY KEY,

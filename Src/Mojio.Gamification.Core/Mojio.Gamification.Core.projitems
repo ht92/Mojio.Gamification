@@ -25,5 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ValueUnit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserBadge.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TripRecord.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AccidentEventMetric.cs" />
   </ItemGroup>
 </Project>

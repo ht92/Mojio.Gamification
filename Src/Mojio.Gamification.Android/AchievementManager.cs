@@ -133,6 +133,13 @@ namespace Mojio.Gamification.Android
 			return totalDistance >= 1000 && overallScore >= 90;
 		}
 
+		public static bool CheckVeteranAchievement ()
+		{
+			double totalDistance = GamificationApp.GetInstance ().MyStatisticsManager.MyStats.totalDistance;
+			double overallScore = GamificationApp.GetInstance ().MyStatisticsManager.OverallScore;
+			return totalDistance >= 10000 && overallScore >= 50;
+		}
+
 		public static bool CheckSelfImprovementAchievement () 
 		{
 			List<TripRecord> tripRecords = GamificationApp.GetInstance ().MyTripRecordRepository.GetRecords ();
@@ -162,6 +169,19 @@ namespace Mojio.Gamification.Android
 				double safetyScore = tripRecord.TripSafetyScore;
 				double efficiencyScore = tripRecord.TripEfficiencyScore;
 				if (safetyScore < 100 || efficiencyScore < 100) return false;
+			}
+			return true;
+		}
+
+		public static bool CheckUntouchableAchievement ()
+		{
+			List<TripRecord> tripRecords = GamificationApp.GetInstance ().MyTripRecordRepository.GetRecords ();
+
+			if (tripRecords.Count < 5) return false;
+
+			for (int count = 0; count < 5; count++) {
+				TripDataModel tripRecord = TripDataModel.Deserialize (tripRecords[count].tripData);
+				if (tripRecord.AccidentEventMetric.Count > 0) return false;
 			}
 			return true;
 		}

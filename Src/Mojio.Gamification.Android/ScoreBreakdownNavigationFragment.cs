@@ -89,10 +89,14 @@ namespace Mojio.Gamification.Android
 			string totalHardBrakes = NumberDisplayer.CreateNumberDisplayer (stats.totalHardBrakes, NumberDisplayer.NumberType.INTEGER).GetString ();
 			string totalHardLefts = NumberDisplayer.CreateNumberDisplayer (stats.totalHardLefts, NumberDisplayer.NumberType.INTEGER).GetString ();
 			string totalHardRights = NumberDisplayer.CreateNumberDisplayer (stats.totalHardRights, NumberDisplayer.NumberType.INTEGER).GetString ();
+			string totalAccidents = NumberDisplayer.CreateNumberDisplayer (stats.totalAccidents, NumberDisplayer.NumberType.INTEGER).GetString ();
 
 			var totalHardEvents = stats.totalHardAccelerations + stats.totalHardBrakes + stats.totalHardLefts + stats.totalHardRights;
-			var hardEventFrequency = totalHardEvents != 0 ? totalHardEvents / stats.totalDistance : 0;
+			var hardEventFrequency = totalHardEvents / stats.totalDistance;
 			string freqHardEvents = new NumberDisplayer (hardEventFrequency, NumberDisplayer.DEFAULT_DECIMAL_PLACES, ValueUnit.Per (ValueUnit.NULL_UNIT, ValueUnit.DISTANCE_KM)).GetString ();
+
+			var accidentFrequency = stats.totalAccidents / stats.totalDistance;
+			string freqAccidents = new NumberDisplayer (accidentFrequency, NumberDisplayer.DEFAULT_DECIMAL_PLACES, ValueUnit.Per (ValueUnit.NULL_UNIT, ValueUnit.DISTANCE_KM)).GetString ();
 
 			string totalFuelConsumption = NumberDisplayer.CreateNumberDisplayer (stats.totalFuelConsumption, NumberDisplayer.NumberType.FUEL_CONSUMPTION).GetString ();
 			string fuelEfficiency = new NumberDisplayer(stats.totalFuelConsumption * 100 / stats.totalDistance, NumberDisplayer.DEFAULT_DECIMAL_PLACES, ValueUnit.Per (ValueUnit.LITRE, ValueUnit.DISTANCE_100KM)).GetString ();
@@ -109,6 +113,8 @@ namespace Mojio.Gamification.Android
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Lefts", totalHardLefts));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Hard Rights", totalHardRights));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Hard Event Frequency", freqHardEvents));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Total Accidents", totalAccidents));
+			mUserStatsLayout.AddView (createUserStatRow (context, "Accident Frequency", freqAccidents)); 
 			mUserStatsLayout.AddView (createUserStatRow (context, "Fuel Efficiency", fuelEfficiency));
 			mUserStatsLayout.AddView (createUserStatRow (context, "Total Fuel Consumption", totalFuelConsumption));
 		}
