@@ -72,7 +72,7 @@ namespace Mojio.Gamification.Android
 			{
 				long entriesModified = 0;
 				if (db.Table<TripRecord> ().Count () > 30) {
-					double currentTimestamp = TripRecord.GetPastTimestamp (7);
+					double currentTimestamp = DateTimeUtility.GetPastTimestamp (7);
 					SQLiteCommand command = db.CreateCommand ("DELETE FROM TripRecord WHERE tripTimestamp <= ?", currentTimestamp);
 					entriesModified = command.ExecuteNonQuery ();
 				}

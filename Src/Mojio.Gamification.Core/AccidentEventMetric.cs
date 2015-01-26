@@ -12,6 +12,9 @@ namespace Mojio.Gamification.Core
 		public int Count { get; private set; }
 		public int Weight { get; private set; }
 
+		private static int MAX_WEIGHT = 100;
+		private static int MIN_WEIGHT = 1;
+
 		public static AccidentEventMetric CreateMetric(IList<Event> accidentEvents, double distance)
 		{
 			return new AccidentEventMetric (accidentEvents, distance);
@@ -29,7 +32,7 @@ namespace Mojio.Gamification.Core
 			Events = accidentEvents.Where (entry => entry.EventType.Equals (EventType.Accident)).ToList ();
 			Count = Events.Count;
 			Measure = Count / TripDistance;
-			Weight = Count > 0 ? int.MaxValue : 1;
+			Weight = Count > 0 ? MAX_WEIGHT : MIN_WEIGHT;
 		}
 	}
 }

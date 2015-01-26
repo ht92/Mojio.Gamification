@@ -97,6 +97,7 @@
     <Compile Include="TripHistoryNavigationFragment.cs" />
     <Compile Include="TripHistoryExpandableListAdapter.cs" />
     <Compile Include="Activities\SplashScreen.cs" />
+    <Compile Include="BadgeCollectionExpandableListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -145,13 +146,15 @@
     <AndroidResource Include="Resources\drawable-xhdpi\back_rainy.jpg" />
     <AndroidResource Include="Resources\drawable-xhdpi\back_snow.jpg" />
     <AndroidResource Include="Resources\drawable-xhdpi\back_sunny.jpg" />
-    <AndroidResource Include="Resources\layout\badge_frag_layout.axml" />
     <AndroidResource Include="Resources\layout\badge_row_layout.axml" />
     <AndroidResource Include="Resources\layout\trip_history_frag_layout.axml" />
     <AndroidResource Include="Resources\layout\trip_history_list_group.axml" />
     <AndroidResource Include="Resources\layout\trip_history_list_item.axml" />
     <AndroidResource Include="Resources\Animator\fade_in.xml" />
     <AndroidResource Include="Resources\layout\splash_screen.axml" />
+    <AndroidResource Include="Resources\layout\badge_collection_group.axml" />
+    <AndroidResource Include="Resources\layout\badge_collection_item.axml" />
+    <AndroidResource Include="Resources\layout\badge_collection_frag_layout.axml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

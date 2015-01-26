@@ -18,6 +18,7 @@ namespace Mojio.Gamification.Android
 		protected UserBadge mBadgeModel;
 		private string mBadgeDescription;
 		private int mBadgeDrawableRes;
+		private DateTime mBadgeUnlockDate;
 		private CheckAchievementDelegate mCheckAchievementDelegate;
 
 		public Badge (UserBadge badgeModel, int badgeDrawable, string badgeDescription, CheckAchievementDelegate checkMethod)
@@ -48,6 +49,11 @@ namespace Mojio.Gamification.Android
 			return mBadgeDrawableRes;
 		}
 
+		public DateTime? GetUnlockDate ()
+		{
+			return mBadgeUnlockDate;
+		}
+
 		public bool IsUnlocked ()
 		{
 			return mBadgeModel.badgeLevel > 0;
@@ -60,6 +66,7 @@ namespace Mojio.Gamification.Android
 			}
 			if (mCheckAchievementDelegate ()) {
 				mBadgeModel.badgeLevel++;
+				mBadgeUnlockDate = DateTime.Now;
 			};
 		}
 	}
