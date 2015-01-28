@@ -47,7 +47,7 @@ namespace Mojio.Gamification.Android
 		public void SetBadge (Badge badge)
 		{
 			SetBadgeImage (badge.GetDrawableResource ());
-			SetBadgeLabel (badge.GetName ());
+			SetBadgeLabel (badge.GetDisplayName ());
 		}
 
 		private void SetBadgeImage (int resid)

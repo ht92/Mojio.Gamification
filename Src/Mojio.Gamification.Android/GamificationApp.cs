@@ -15,6 +15,8 @@ namespace Mojio.Gamification.Android
 		public StatisticsManager MyStatisticsManager { get; set; }
 		public AchievementManager MyAchievementManager { get; set; }
 
+		public MojioConnectUtility MyMojioConnectUtility { get; set; }
+
 		private static GamificationApp _instance;
 
 		public GamificationApp(IntPtr javaReference, JniHandleOwnership transfer)
@@ -31,17 +33,17 @@ namespace Mojio.Gamification.Android
 		{
 			base.OnCreate ();
 			_instance = this;
-			initialize ();
+			Initialize ();
 		}
 
-		private void initialize ()
+		public void Initialize ()
 		{
 			MyUserStatsRepository = UserStatsRepository.GetInstance ();
 			MyUserBadgeRepository = UserBadgeRepository.GetInstance ();
 			MyTripRecordRepository = TripRecordRepository.GetInstance ();
 			MyStatisticsManager = StatisticsManager.GetInstance ();
 			MyAchievementManager = AchievementManager.GetInstance ();
-			//MojioConnectUtility.Connect ();
+			MyMojioConnectUtility = MojioConnectUtility.GetInstance ();
 		}
 	}
 }

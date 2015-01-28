@@ -36,24 +36,8 @@ namespace Mojio.Gamification.Android
 
 			db.ExecSQL (@"
 						CREATE TABLE IF NOT EXISTS UserBadge (
-							badgeId					INTEGER PRIMARY KEY AUTOINCREMENT,
-							badgeName				VARCHAR NOT NULL,
-							badgeType 				INTEGER NOT NULL,
-							badgeLevel				INTEGER NOT NULL,
-							badgeMaxLevel			INTEGER)");
-			db.ExecSQL (@"INSERT INTO UserBadge (badgeId, badgeName, badgeType, badgeLevel, badgeMaxLevel) VALUES 
-							(0, 'First Trip', 0, 0, 1),
-							(1, 'Perfect Trip', 1, 0, null),
-							(2, 'Safety First', 0, 0, 1),
-							(3, 'Efficient', 0, 0, 1),
-							(4, 'High Achiever', 0, 0, 1),
-							(5, 'Veteran', 0, 0, 1),
-							(6, 'Self-Improvement', 2, 0, 3),
-							(7, 'Perfectionist', 2, 0, 3),
-							(8, 'Untouchable', 2, 0, 3),
-							(9, 'TestBadge1', 0, 1, 1),
-							(10, 'TestBadge2', 0, 1, 1),
-							(11, 'TestBadge3', 0, 1, 1)");
+							badgeName				VARCHAR PRIMARY KEY,
+							badgeData				VARCHAR NOT NULL)");
 			db.ExecSQL (@"
 						CREATE TABLE IF NOT EXISTS TripRecord (
 							tripTimestamp				DOUBLE PRIMARY KEY,

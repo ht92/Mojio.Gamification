@@ -92,12 +92,12 @@
     <Compile Include="BadgeRowView.cs" />
     <Compile Include="Badge.cs" />
     <Compile Include="CountBadge.cs" />
-    <Compile Include="BadgeFactory.cs" />
     <Compile Include="TripRecordRepository.cs" />
     <Compile Include="TripHistoryNavigationFragment.cs" />
     <Compile Include="TripHistoryExpandableListAdapter.cs" />
     <Compile Include="Activities\SplashScreen.cs" />
     <Compile Include="BadgeCollectionExpandableListAdapter.cs" />
+    <Compile Include="LevelBadge.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

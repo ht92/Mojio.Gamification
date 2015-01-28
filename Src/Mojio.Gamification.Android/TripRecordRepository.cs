@@ -66,6 +66,19 @@ namespace Mojio.Gamification.Android
 			}
 		}
 
+		public TripRecord GetLatestRecord ()
+		{
+			using (var db = new SQLiteConnection (_helper.ReadableDatabase.Path)) 
+			{
+				TripRecord latestRecord = null;
+				int count = db.Table<TripRecord> ().Count ();
+				if (count > 0) {
+					latestRecord = db.Table<TripRecord> ().ElementAt (count - 1);
+				}
+				return latestRecord;
+			}
+		}
+
 		private long clearOldEntries ()
 		{
 			using (var db = new SQLiteConnection (_helper.WritableDatabase.Path)) 

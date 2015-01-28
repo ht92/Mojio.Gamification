@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 using Mojio.Gamification.Core;
 
@@ -13,33 +14,42 @@ namespace Mojio.Gamification.Android
 			COUNT = 1,
 			LEVEL = 2
 		}
-				
-		public delegate bool CheckAchievementDelegate ();
-		protected UserBadge mBadgeModel;
-		private string mBadgeDescription;
-		private int mBadgeDrawableRes;
-		private DateTime mBadgeUnlockDate;
-		private CheckAchievementDelegate mCheckAchievementDelegate;
 
-		public Badge (UserBadge badgeModel, int badgeDrawable, string badgeDescription, CheckAchievementDelegate checkMethod)
+		[JsonProperty]
+		protected string mBadgeName;
+		[JsonProperty]
+		protected string mBadgeDescription;
+		[JsonProperty]
+		protected int mBadgeDrawableRes;
+		[JsonProperty]
+		protected DateTime? mBadgeUnlockDate;
+
+		protected Dictionary<string, double> mProperties;
+	
+		[JsonConstructor]
+		public Badge ()
 		{
-			mBadgeModel = badgeModel;
-			mBadgeDrawableRes = badgeDrawable;
+		}
+
+		public Badge (string badgeName, string badgeDescription, int badgeDrawable)
+		{
+			mBadgeName = badgeName;
 			mBadgeDescription = badgeDescription;
-			mCheckAchievementDelegate = checkMethod;
+			mBadgeDrawableRes = badgeDrawable;
+			mProperties = new Dictionary<string, double> ();
 		}
 
-		public UserBadge GetBadgeModel()
+		public virtual string GetName ()
 		{
-			return mBadgeModel;
+			return mBadgeName;
 		}
 
-		public String GetName ()
+		public virtual string GetDisplayName ()
 		{
-			return mBadgeModel.badgeName;
+			return mBadgeName;
 		}
 
-		public String GetDescription ()
+		public virtual string GetDescription ()
 		{
 			return mBadgeDescription;
 		}
@@ -54,20 +64,80 @@ namespace Mojio.Gamification.Android
 			return mBadgeUnlockDate;
 		}
 
-		public bool IsUnlocked ()
+		public virtual bool IsUnlocked ()
 		{
-			return mBadgeModel.badgeLevel > 0;
+			return mBadgeUnlockDate.HasValue;
 		}
 
-		public void CheckAchievement () 
+		public virtual bool IsFullyUnlocked ()
 		{
-			if (IsUnlocked ()) {
+			return IsUnlocked ();
+		}
+
+		public void SetProperty (string name, double value)
+		{
+			if (mProperties.ContainsKey (name)) {
+				mProperties [name] = value;
+			} else {
+				mProperties.Add (name, value);
+			}
+		}
+
+		public void IncrementProperty (string name, double value)
+		{
+			if (mProperties.ContainsKey (name)) {
+				mProperties [name] += value;
+			} else {
+				SetProperty (name, value);
+			}
+		}
+
+		public double? GetProperty (string name)
+		{
+			double? value = null;
+			if (mProperties.ContainsKey (name)) {
+				value = mProperties [name];
+			}
+			return value;
+		}
+
+		public virtual void UpdateAchievement ()
+		{
+			if (!IsFullyUnlocked ()) {
+				getUpdateAchievementDelegate ().Invoke ();
+			}
+		}
+
+		public virtual void CheckAchievement () 
+		{
+			if (IsFullyUnlocked ()) {
 				return;
 			}
-			if (mCheckAchievementDelegate ()) {
-				mBadgeModel.badgeLevel++;
+			if (getCheckAchievementDelegate ().Invoke ()) {
 				mBadgeUnlockDate = DateTime.Now;
 			};
+		}
+			
+		protected AchievementManager.CheckAchievementDelegate getCheckAchievementDelegate ()
+		{
+			return AchievementManager.badgeCheckDelegateMapping [this.GetName ()];
+		}
+
+		protected AchievementManager.UpdateAchievementDelegate getUpdateAchievementDelegate ()
+		{
+			return AchievementManager.badgeUpdateDelegateMapping [this.GetName ()];
+		}
+
+		public static string Serialize (Badge badge)
+		{
+			JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
+			return JsonConvert.SerializeObject (badge, settings);
+		}
+
+		public static Badge Deserialize (string json)
+		{
+			JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
+			return JsonConvert.DeserializeObject<Badge> (json, settings);
 		}
 	}
 }

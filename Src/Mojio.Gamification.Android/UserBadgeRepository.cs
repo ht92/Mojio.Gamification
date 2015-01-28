@@ -33,12 +33,15 @@ namespace Mojio.Gamification.Android
 			}
 		}
 
-		public long UpdateBadges (List<UserBadge> badges)
+		public void UpdateBadges (List<UserBadge> badges)
 		{
 			using (var db = new SQLiteConnection (_helper.WritableDatabase.Path))
 			{
-				long count = db.UpdateAll (badges);
-				return count;
+				foreach (UserBadge badge in badges) {
+					if (db.Update (badge) == 0) {
+						db.Insert (badge);
+					}
+				}
 			}
 		}
 

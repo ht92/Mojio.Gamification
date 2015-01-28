@@ -5,12 +5,9 @@ namespace Mojio.Gamification.Core
 {
 	public class UserBadge
 	{
-		[PrimaryKey, AutoIncrement]
-		public int badgeId { get; set; }
+		[PrimaryKey]
 		public string badgeName { get; set; }
-		public int badgeType { get; set; }
-		public int badgeLevel { get; set; }
-		public int badgeMaxLevel { get; set; }
+		public string badgeData { get; set; }
 	}
 }
 
