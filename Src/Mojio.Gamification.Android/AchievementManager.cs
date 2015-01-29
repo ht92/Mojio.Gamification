@@ -49,9 +49,9 @@ namespace Mojio.Gamification.Android
 		private static Badge BADGE_SELF_IMPROVEMENT = createBadge (BADGE_SELF_IMPROVEMENT_NAME, BADGE_SELF_IMPROVEMENT_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
 		private static Badge BADGE_PERFECTIONIST = createBadge (BADGE_PERFECTIONIST_NAME, BADGE_PERFECTIONIST_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
 		private static Badge BADGE_UNTOUCHABLE = createBadge (BADGE_UNTOUCHABLE_NAME, BADGE_UNTOUCHABLE_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
-		private static Badge BADGE_TEST_BADGE_1 = createBadge (BADGE_TEST_BADGE_1_NAME, BADGE_TEST_BADGE_1_DESCRIPTION, Resource.Drawable.badge_highAchiever, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_TEST_BADGE_2 = createBadge (BADGE_TEST_BADGE_2_NAME, BADGE_TEST_BADGE_2_DESCRIPTION, Resource.Drawable.badge_highAchiever, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_TEST_BADGE_3 = createBadge (BADGE_TEST_BADGE_3_NAME, BADGE_TEST_BADGE_3_DESCRIPTION, Resource.Drawable.badge_highAchiever, Badge.BadgeType.NORMAL);
+		private static Badge BADGE_TEST_BADGE_1 = createBadge (BADGE_TEST_BADGE_1_NAME, BADGE_TEST_BADGE_1_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
+		private static Badge BADGE_TEST_BADGE_2 = createBadge (BADGE_TEST_BADGE_2_NAME, BADGE_TEST_BADGE_2_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
+		private static Badge BADGE_TEST_BADGE_3 = createBadge (BADGE_TEST_BADGE_3_NAME, BADGE_TEST_BADGE_3_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
 
 		//Badge Unlock Check Delegates
 		private static CheckAchievementDelegate BADGE_FIRST_TRIP_CHECK_DELEGATE = CheckFirstTripAchievement;
