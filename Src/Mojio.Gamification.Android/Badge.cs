@@ -23,7 +23,7 @@ namespace Mojio.Gamification.Android
 		protected int mBadgeDrawableRes;
 		[JsonProperty]
 		protected DateTime? mBadgeUnlockDate;
-
+		[JsonProperty]
 		protected Dictionary<string, double> mProperties;
 	
 		[JsonConstructor]

@@ -50,6 +50,11 @@ namespace Mojio.Gamification.Android
 			mBadgeUnlockDate = DateTime.Now;
 		}
 
+		public override bool IsUnlocked ()
+		{
+			return base.IsUnlocked () && mLevel > 0;
+		}
+
 		public override bool IsFullyUnlocked ()
 		{
 			return mLevel == mMaxLevel;

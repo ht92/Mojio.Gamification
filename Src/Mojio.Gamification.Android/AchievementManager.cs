@@ -61,7 +61,7 @@ namespace Mojio.Gamification.Android
 		private static CheckAchievementDelegate BADGE_HIGH_ACHIEVER_CHECK_DELEGATE = CheckHighAchieverAchievement;
 		private static CheckAchievementDelegate BADGE_VETERAN_CHECK_DELEGATE = CheckVeteranAchievement;
 		private static CheckAchievementDelegate BADGE_SELF_IMPROVEMENT_CHECK_DELEGATE = CheckSelfImprovementAchievement;
-		private static CheckAchievementDelegate BADGE_PERFECTIONIST_CHECK_DELEGATE = CheckPerfectTripAchievement;
+		private static CheckAchievementDelegate BADGE_PERFECTIONIST_CHECK_DELEGATE = CheckPerfectionistAchievement;
 		private static CheckAchievementDelegate BADGE_UNTOUCHABLE_CHECK_DELEGATE = CheckUntouchableAchievement;
 		private static CheckAchievementDelegate BADGE_TEST_BADGE_1_CHECK_DELEGATE = CheckNullAchievement;
 		private static CheckAchievementDelegate BADGE_TEST_BADGE_2_CHECK_DELEGATE = CheckNullAchievement;
@@ -146,7 +146,6 @@ namespace Mojio.Gamification.Android
 			_statsManager = GamificationApp.GetInstance ().MyStatisticsManager;
 			attachListeners ();
 			SyncFromDb ();
-			CheckAchievements ();
 		}
 
 		private List<Badge> createBadgeCollection ()

@@ -76,7 +76,7 @@ namespace Mojio.Gamification.Android
 
 			List<Event> events = new List<Event>();
 			for (int j = 0; j < 4; j++) {
-				int num = rnd.Next (0, 2);
+				int num = rnd.Next (0, 1);
 				for (int i = 0; i < num; i++) {
 					switch (j) 
 					{

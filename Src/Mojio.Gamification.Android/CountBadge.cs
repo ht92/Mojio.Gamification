@@ -25,6 +25,11 @@ namespace Mojio.Gamification.Android
 			return mCount;
 		}
 
+		public override bool IsUnlocked ()
+		{
+			return base.IsUnlocked () && mCount > 0;
+		}
+
 		public override bool IsFullyUnlocked ()
 		{
 			return false;
