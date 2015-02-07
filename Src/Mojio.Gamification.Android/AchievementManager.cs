@@ -12,32 +12,32 @@ namespace Mojio.Gamification.Android
 		public delegate bool CheckAchievementDelegate ();
 
 		//Badge Names
-		private static string BADGE_FIRST_TRIP_NAME = "First Trip";
-		private static string BADGE_PERFECT_TRIP_NAME = "Perfect Trip";
-		private static string BADGE_SAFETY_FIRST_NAME = "Safety First";
-		private static string BADGE_EFFICIENT_NAME = "Efficient";
-		private static string BADGE_HIGH_ACHIEVER_NAME = "High Achiever";
-		private static string BADGE_VETERAN_NAME = "Veteran";
-		private static string BADGE_SELF_IMPROVEMENT_NAME = "Self-Improvement";
-		private static string BADGE_PERFECTIONIST_NAME = "Perfectionist";
-		private static string BADGE_UNTOUCHABLE_NAME = "Untouchable";
-		private static string BADGE_TEST_BADGE_1_NAME = "Test Badge 1";
-		private static string BADGE_TEST_BADGE_2_NAME = "Test Badge 2";
-		private static string BADGE_TEST_BADGE_3_NAME = "Test Badge 3";
+		private const string BADGE_FIRST_TRIP_NAME = "First Trip";
+		private const string BADGE_PERFECT_TRIP_NAME = "Perfect Trip";
+		private const string BADGE_SAFETY_FIRST_NAME = "Safety First";
+		private const string BADGE_EFFICIENT_NAME = "Efficient";
+		private const string BADGE_HIGH_ACHIEVER_NAME = "High Achiever";
+		private const string BADGE_VETERAN_NAME = "Veteran";
+		private const string BADGE_SELF_IMPROVEMENT_NAME = "Self-Improvement";
+		private const string BADGE_PERFECTIONIST_NAME = "Perfectionist";
+		private const string BADGE_UNTOUCHABLE_NAME = "Untouchable";
+		private const string BADGE_TEST_BADGE_1_NAME = "Test Badge 1";
+		private const string BADGE_TEST_BADGE_2_NAME = "Test Badge 2";
+		private const string BADGE_TEST_BADGE_3_NAME = "Test Badge 3";
 
 		//Badge Descriptions
-		private static string BADGE_FIRST_TRIP_DESCRIPTION = "Complete first trip.";
-		private static string BADGE_PERFECT_TRIP_DESCRIPTION = "Complete a trip with a perfect score.";
-		private static string BADGE_SAFETY_FIRST_DESCRIPTION = "Drive at least 1000km and maintain a safety score of at least 90.";
-		private static string BADGE_EFFICIENT_DESCRIPTION = "Drive at least 1000km and maintain an efficiency score of at least 90.";
-		private static string BADGE_HIGH_ACHIEVER_DESCRIPTION = "Drive at least 1000km and maintain an overall score of at least 90.";
-		private static string BADGE_VETERAN_DESCRIPTION = "Drive at least 10000km and maintain an overall score of at least 50.";
-		private static string BADGE_SELF_IMPROVEMENT_DESCRIPTION = "5 trips in a row with improving scores.";
-		private static string BADGE_PERFECTIONIST_DESCRIPTION = "5 trips in a row with perfect scores.";
-		private static string BADGE_UNTOUCHABLE_DESCRIPTION = "5 trips in a row without an accident.";
-		private static string BADGE_TEST_BADGE_1_DESCRIPTION = "Test badge 1 description.";
-		private static string BADGE_TEST_BADGE_2_DESCRIPTION = "Test badge 2 description.";
-		private static string BADGE_TEST_BADGE_3_DESCRIPTION = "Test badge 3 description.";
+		private const string BADGE_FIRST_TRIP_DESCRIPTION = "Complete first trip.";
+		private const string BADGE_PERFECT_TRIP_DESCRIPTION = "Complete a trip with a perfect score.";
+		private const string BADGE_SAFETY_FIRST_DESCRIPTION = "Drive at least 1000km and maintain a safety score of at least 90.";
+		private const string BADGE_EFFICIENT_DESCRIPTION = "Drive at least 1000km and maintain an efficiency score of at least 90.";
+		private const string BADGE_HIGH_ACHIEVER_DESCRIPTION = "Drive at least 1000km and maintain an overall score of at least 90.";
+		private const string BADGE_VETERAN_DESCRIPTION = "Drive at least 10000km and maintain an overall score of at least 50.";
+		private const string BADGE_SELF_IMPROVEMENT_DESCRIPTION = "5 trips in a row with improving scores.";
+		private const string BADGE_PERFECTIONIST_DESCRIPTION = "5 trips in a row with perfect scores.";
+		private const string BADGE_UNTOUCHABLE_DESCRIPTION = "5 trips in a row without an accident.";
+		private const string BADGE_TEST_BADGE_1_DESCRIPTION = "Test badge 1 description.";
+		private const string BADGE_TEST_BADGE_2_DESCRIPTION = "Test badge 2 description.";
+		private const string BADGE_TEST_BADGE_3_DESCRIPTION = "Test badge 3 description.";
 
 		//Badges
 		private static Badge BADGE_FIRST_TRIP = createBadge (BADGE_FIRST_TRIP_NAME, BADGE_FIRST_TRIP_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
@@ -81,18 +81,18 @@ namespace Mojio.Gamification.Android
 		private static UpdateAchievementDelegate BADGE_TEST_BADGE_2_UPDATE_DELEGATE = UpdateNullAchievement;
 		private static UpdateAchievementDelegate BADGE_TEST_BADGE_3_UPDATE_DELEGATE = UpdateNullAchievement;
 
-		private static int BADGE_SELF_IMPROVEMENT_LEVEL_1_STREAK = 5;
-		private static int BADGE_SELF_IMPROVEMENT_LEVEL_2_STREAK = 10;
-		private static int BADGE_SELF_IMPROVEMENT_LEVEL_3_STREAK = 20;
+		private const int BADGE_SELF_IMPROVEMENT_LEVEL_1_STREAK = 5;
+		private const int BADGE_SELF_IMPROVEMENT_LEVEL_2_STREAK = 10;
+		private const int BADGE_SELF_IMPROVEMENT_LEVEL_3_STREAK = 20;
 
-		private static int BADGE_PERFECTIONIST_LEVEL_1_STREAK = 5;
-		private static int BADGE_PERFECTIONIST_LEVEL_2_STREAK = 10;
-		private static int BADGE_PERFECTIONIST_LEVEL_3_STREAK = 20;
+		private const int BADGE_PERFECTIONIST_LEVEL_1_STREAK = 5;
+		private const int BADGE_PERFECTIONIST_LEVEL_2_STREAK = 10;
+		private const int BADGE_PERFECTIONIST_LEVEL_3_STREAK = 20;
 
-		private static string BADGE_UNTOUCHABLE_KM_PROP = "distanceTravelled";
-		private static int BADGE_UNTOUCHABLE_LEVEL_1_STREAK = 10000;
-		private static int BADGE_UNTOUCHABLE_LEVEL_2_STREAK = 20000;
-		private static int BADGE_UNTOUCHABLE_LEVEL_3_STREAK = 30000;
+		private const string BADGE_UNTOUCHABLE_KM_PROP = "distanceTravelled";
+		private const int BADGE_UNTOUCHABLE_LEVEL_1_STREAK = 10000;
+		private const int BADGE_UNTOUCHABLE_LEVEL_2_STREAK = 20000;
+		private const int BADGE_UNTOUCHABLE_LEVEL_3_STREAK = 30000;
 
 		public static Dictionary<string, CheckAchievementDelegate> badgeCheckDelegateMapping = new Dictionary<string, CheckAchievementDelegate> ()
 		{

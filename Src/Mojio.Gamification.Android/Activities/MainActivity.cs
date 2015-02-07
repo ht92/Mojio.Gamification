@@ -49,10 +49,7 @@ namespace Mojio.Gamification.Android
 			mDrawerLayout.SetDrawerShadow (Resource.Drawable.drawer_shadow, GravityCompat.Start);
 			ArrayAdapter listAdapter = new ArrayAdapter (this, Android.Resource.Layout.drawer_list_item, mPageTitles);
 			mDrawerList.Adapter = listAdapter;
-			mDrawerList.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => 
-			{
-				OnClick ((View) sender, e.Position);
-			};
+			mDrawerList.ItemClick += navDrawer_onClick;
 				
 			this.ActionBar.SetDisplayHomeAsUpEnabled (true);
 			this.ActionBar.SetHomeButtonEnabled (true);
@@ -61,7 +58,7 @@ namespace Mojio.Gamification.Android
 			mDrawerLayout.SetDrawerListener (mDrawerToggle);
 
 			if (savedInstanceState == null) {
-				selectFragment (0);
+				SelectFragment ((int)AbstractNavigationFragment.NavigationFragmentType.NAV_HOME);
 			}
 		}
 
@@ -82,39 +79,12 @@ namespace Mojio.Gamification.Android
 			mDrawerToggle.OnConfigurationChanged (newConfig);
 		}
 
-		public override bool OnCreateOptionsMenu (IMenu menu) 
-		{
-			this.MenuInflater.Inflate (Resource.Menu.navigation_drawer, menu);
-			return true;
-		}
-
-		public override bool OnPrepareOptionsMenu (IMenu menu)
-		{
-			bool drawerOpen = mDrawerLayout.IsDrawerOpen (mDrawerList);
-			menu.FindItem (Resource.Id.action_websearch).SetVisible (!drawerOpen);
-			return base.OnPrepareOptionsMenu (menu);
-		}
-
 		public override bool OnOptionsItemSelected (IMenuItem item)
 		{
-			if (mDrawerToggle.OnOptionsItemSelected (item))	{
-				return true;
-			}
-			switch (item.ItemId) {
-			case Resource.Id.action_websearch:
-					Intent intent = new Intent(Intent.ActionWebSearch);
-					intent.PutExtra (SearchManager.Query, this.ActionBar.Title);
-					if (intent.ResolveActivity (this.PackageManager) != null) {
-						StartActivity (intent);
-					} else {
-						Toast.MakeText (this, Resource.String.app_not_available, ToastLength.Long).Show ();
-					}
-					return true;
-			default:
-					return base.OnOptionsItemSelected (item);
-			}
+			if (mDrawerToggle.OnOptionsItemSelected (item))	return true;
+			return base.OnOptionsItemSelected (item);
 		}
-
+			
 		public override void OnBackPressed() 
 		{
 			var fragmentManager = this.FragmentManager;
@@ -122,16 +92,20 @@ namespace Mojio.Gamification.Android
 			if (currentFragment != null && currentFragment.IsVisible) {
 				base.OnBackPressed ();
 			} else {
-				selectFragment (0);
+				SelectFragment ((int)AbstractNavigationFragment.NavigationFragmentType.NAV_HOME);
 			}
 		}
 
-		public void OnClick(View view, int position) 
+		private void navDrawer_onClick (object sender, AdapterView.ItemClickEventArgs e) 
 		{
-			selectFragment (position);
+			int position = e.Position;
+			mDrawerList.SetItemChecked (position, true);
+			Title = mPageTitles [position];
+			mDrawerLayout.CloseDrawer (mDrawerList);
+			SelectFragment (position);
 		}
 
-		private void selectFragment(int position)
+		public void SelectFragment (int position)
 		{
 			//programmatically add fragment to activity layout
 			var fragmentManager = this.FragmentManager;
@@ -142,10 +116,6 @@ namespace Mojio.Gamification.Android
 			transaction.SetCustomAnimations (Resource.Animator.fade_in, Resource.Animator.fade_out, Resource.Animator.slide_in_left, Resource.Animator.fade_out);
 			transaction.Replace (Resource.Id.content_frame, fragment, position.ToString ());
 			transaction.Commit ();
-
-			mDrawerList.SetItemChecked (position, true);
-			Title = mPageTitles [position];
-			mDrawerLayout.CloseDrawer (mDrawerList);
 		}
 
 		private int getActivityBackground ()
@@ -166,10 +136,10 @@ namespace Mojio.Gamification.Android
 				return Resource.Drawable.back_sunny;
 			}
 		}
-
+			
 		internal class NavigationDrawerToggle : ActionBarDrawerToggle
 		{
-			MainActivity owner;
+			private readonly MainActivity owner;
 			public NavigationDrawerToggle (MainActivity activity, DrawerLayout layout, int imgRes, int openRes, int closeRes)
 				: base (activity, layout, imgRes, openRes, closeRes)
 			{
