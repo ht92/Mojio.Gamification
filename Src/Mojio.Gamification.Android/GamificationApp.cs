@@ -15,6 +15,8 @@ namespace Mojio.Gamification.Android
 		public StatisticsManager MyStatisticsManager { get; set; }
 		public AchievementManager MyAchievementManager { get; set; }
 
+		public AppNotificationService MyNotificationService { get; set; }
+
 		public MojioConnectUtility MyMojioConnectUtility { get; set; }
 
 		private static GamificationApp _instance;
@@ -44,6 +46,7 @@ namespace Mojio.Gamification.Android
 			MyStatisticsManager = StatisticsManager.GetInstance ();
 			MyAchievementManager = AchievementManager.GetInstance ();
 			MyMojioConnectUtility = MojioConnectUtility.GetInstance ();
+			MyNotificationService = AppNotificationService.GetInstance ();
 		}
 	}
 }

@@ -16,11 +16,11 @@ namespace Mojio.Gamification.Android
 	[Activity (Label = "LoadingActivity")]			
 	public class SplashScreen : Activity
 	{
-		private static int SPLASH_TIME_OUT = 1000;
+		private const int SPLASH_TIME_OUT = 2000;
 
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate (savedInstanceState);
 			SetContentView (Resource.Layout.splash_screen);
 		
 			System.Threading.Timer timer = new System.Threading.Timer (obj => {

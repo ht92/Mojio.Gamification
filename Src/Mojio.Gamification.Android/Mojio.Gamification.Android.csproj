@@ -98,6 +98,7 @@
     <Compile Include="Activities\SplashScreen.cs" />
     <Compile Include="BadgeCollectionExpandableListAdapter.cs" />
     <Compile Include="LevelBadge.cs" />
+    <Compile Include="AppNotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
