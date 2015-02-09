@@ -15,14 +15,14 @@ namespace Mojio.Gamification.Android
 			AlertDialog.Builder builder = new AlertDialog.Builder (Activity);
 			LayoutInflater layoutInflater = Activity.LayoutInflater;
 			View rootView = layoutInflater.Inflate (Resource.Layout.notification_view_layout, null);
-			populateDialog (rootView);
+			initializedDialog (rootView);
 			builder.SetView (rootView);
-			builder.SetPositiveButton (Resource.String.close_label, dialog_onClose);
-			return builder.Create ();;
+			return builder.Create ();
 		}
 
-		private void populateDialog (View view)
+		private void initializedDialog (View view)
 		{
+			initializeCloseButton (view);
 			if (AppNotificationService.GetInstance ().HasTripNotifications ()) {
 				populateTripsLayout (view);
 			}
@@ -33,6 +33,7 @@ namespace Mojio.Gamification.Android
 			
 		private void populateTripsLayout (View view)
 		{
+			TextView notifiedTripsTitle = view.FindViewById<TextView> (Resource.Id.notificationView_trips_title);
 			LinearLayout notifiedTripsLayout = view.FindViewById<LinearLayout> (Resource.Id.notificationView_trips_layout);
 			foreach (TripDataModel tripDataModel in AppNotificationService.GetInstance ().NotifiedTrips) {
 				ScoreRowView overallScoreRow = new ScoreRowView (Activity);
@@ -42,18 +43,27 @@ namespace Mojio.Gamification.Android
 				overallScoreRow.SetRankLabel (String.Format ("RANK {0}", overallScore.Rank));
 				notifiedTripsLayout.AddView (overallScoreRow);
 			}
+			notifiedTripsTitle.Visibility = ViewStates.Visible;
 			notifiedTripsLayout.Visibility = ViewStates.Visible;
 		}
 
 		private void populateBadgesLayout (View view)
 		{
+			TextView notifiedBadgesTitle = view.FindViewById<TextView> (Resource.Id.notificationView_badges_title);
 			LinearLayout notifiedBadgesLayout = view.FindViewById<LinearLayout> (Resource.Id.notificationView_badges_layout);
 			foreach (Badge badge in AppNotificationService.GetInstance ().NotifiedBadges) {
 				TextView badgeText = new TextView (Activity);
 				badgeText.Text = badge.GetDisplayName ();
 				notifiedBadgesLayout.AddView (badgeText);
 			}
+			notifiedBadgesTitle.Visibility = ViewStates.Visible;
 			notifiedBadgesLayout.Visibility = ViewStates.Visible;
+		}
+
+		private void initializeCloseButton (View view)
+		{
+			ImageView closeButton = view.FindViewById<ImageView> (Resource.Id.notificationView_close_button);
+			closeButton.Click += dialog_onClose;
 		}
 
 		public override void OnDismiss (IDialogInterface dialog)
@@ -62,7 +72,9 @@ namespace Mojio.Gamification.Android
 			base.OnDismiss (dialog);
 		}
 
-		private void dialog_onClose (object sender, EventArgs e) {}
+		private void dialog_onClose (object sender, EventArgs e) {
+			this.Dialog.Dismiss ();
+		}
 	}
 }
 

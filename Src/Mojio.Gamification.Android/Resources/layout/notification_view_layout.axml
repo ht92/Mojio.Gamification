@@ -1,31 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/frameLayout1"
+    android:background="@drawable/notification_view_background">
     <LinearLayout
         android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/notificationView_trips_layout">
-        <View
-            android:id="@+id/notificationView_trips_horizontalDivider"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="#c0c0c0" />
+        android:minHeight="25px">
         <TextView
             android:id="@+id/notificationView_trips_title"
+            android:visibility="gone"
             android:text="New Trips"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,28 +24,25 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp" />
         <View
-            android:id="@+id/notificationView_trips_horizontalDivider"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="#c0c0c0" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/notificationView_badges_layout">
-        <View
-            android:id="@+id/notificationView_trips_horizontalDivider"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="#c0c0c0" />
+            android:background="@drawable/transparent_white_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+        <LinearLayout
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            android:id="@+id/notificationView_trips_layout" />
         <TextView
             android:id="@+id/notificationView_badges_title"
+            android:visibility="gone"
             android:text="New Badges Unlocked"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,9 +50,25 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp" />
         <View
-            android:id="@+id/notificationView_badges_horizontalDivider"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="#c0c0c0" />
+            android:background="@drawable/transparent_white_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+        <LinearLayout
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            android:id="@+id/notificationView_badges_layout" />
     </LinearLayout>
-</LinearLayout>
+    <ImageView
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:id="@+id/notificationView_close_button" />
+</FrameLayout>
