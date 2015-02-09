@@ -62,6 +62,18 @@ namespace Mojio.Gamification.Android
 			}
 		}
 
+		protected override void OnPause ()
+		{
+			AppNotificationService.GetInstance ().Activate ();
+			base.OnPause ();
+		}
+
+		protected override void OnResume ()
+		{
+			AppNotificationService.GetInstance ().Deactivate ();
+			base.OnResume ();
+		}
+
 		protected override void OnPostCreate(Bundle savedInstanceState)
 		{
 			base.OnPostCreate (savedInstanceState);

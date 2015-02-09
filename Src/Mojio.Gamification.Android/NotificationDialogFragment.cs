@@ -36,7 +36,7 @@ namespace Mojio.Gamification.Android
 			LinearLayout notifiedTripsLayout = view.FindViewById<LinearLayout> (Resource.Id.notificationView_trips_layout);
 			foreach (TripDataModel tripDataModel in AppNotificationService.GetInstance ().NotifiedTrips) {
 				ScoreRowView overallScoreRow = new ScoreRowView (Activity);
-				ScoreWrapper overallScore = ScoreWrapper.WrapScore (StatisticsManager.GetInstance ().OverallScore);
+				ScoreWrapper overallScore = ScoreWrapper.WrapScore (ScoreCalculator.CalculateOverallScore (tripDataModel.TripSafetyScore, tripDataModel.TripEfficiencyScore));
 				overallScoreRow.SetScoreLabel (tripDataModel.MyTrip.StartTime.ToString ("MMMM dd, yyyy h:mm tt"));
 				overallScoreRow.SetScore (overallScore.Score);
 				overallScoreRow.SetRankLabel (String.Format ("RANK {0}", overallScore.Rank));
