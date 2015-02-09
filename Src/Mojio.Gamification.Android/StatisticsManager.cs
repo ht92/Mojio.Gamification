@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android.App;
 using Mojio.Events;
 
 
@@ -58,6 +57,7 @@ namespace Mojio.Gamification.Android
 			UserStats tripStats = tripData.GetTripStats ();
 			UserStats newStats = UserStats.SumStats (MyStats, tripStats);
 			_userStatsRepository.UpdateUserStats (newStats);
+			GamificationApp.GetInstance ().MyNotificationService.IssueTripNotification (tripData);
 		}
 
 		private void attachListeners ()

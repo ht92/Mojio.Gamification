@@ -48,6 +48,7 @@ namespace Mojio.Gamification.Android
 		{
 			mLevel++;
 			mBadgeUnlockDate = DateTime.Now;
+			GamificationApp.GetInstance ().MyNotificationService.IssueBadgeNotification (this);
 		}
 
 		public override bool IsUnlocked ()

@@ -40,6 +40,7 @@ namespace Mojio.Gamification.Android
 			if (!getCheckAchievementDelegate ().Invoke ()) return;
 			if (mCount == 0) mBadgeUnlockDate = DateTime.Now;
 			mCount++;
+			GamificationApp.GetInstance ().MyNotificationService.IssueBadgeNotification (this);
 		}
 	}
 }

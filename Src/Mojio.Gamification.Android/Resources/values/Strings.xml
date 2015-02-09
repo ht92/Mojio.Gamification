@@ -15,4 +15,8 @@
         <item>Help</item>
         <item>Diagnostics</item>
     </string-array>
+	<string name="notification_dialog_title">Updates</string>
+	<string name="notification_new_trips">You have new trips!</string>
+	<string name="notification_new_badges">You have unlocked new badges!</string>
+	<string name="close_label">Close</string>
 </resources>

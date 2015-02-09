@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-using Mojio.Gamification.Core;
-
 namespace Mojio.Gamification.Android
 {
 	public class Badge
@@ -115,6 +113,7 @@ namespace Mojio.Gamification.Android
 			}
 			if (getCheckAchievementDelegate ().Invoke ()) {
 				mBadgeUnlockDate = DateTime.Now;
+				GamificationApp.GetInstance ().MyNotificationService.IssueBadgeNotification (this);
 			};
 		}
 			
@@ -141,4 +140,3 @@ namespace Mojio.Gamification.Android
 		}
 	}
 }
-

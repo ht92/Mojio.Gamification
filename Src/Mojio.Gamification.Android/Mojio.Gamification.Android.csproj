@@ -99,6 +99,7 @@
     <Compile Include="BadgeCollectionExpandableListAdapter.cs" />
     <Compile Include="LevelBadge.cs" />
     <Compile Include="AppNotificationService.cs" />
+    <Compile Include="NotificationDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -156,6 +157,7 @@
     <AndroidResource Include="Resources\layout\badge_collection_group.axml" />
     <AndroidResource Include="Resources\layout\badge_collection_item.axml" />
     <AndroidResource Include="Resources\layout\badge_collection_frag_layout.axml" />
+    <AndroidResource Include="Resources\layout\notification_view_layout.axml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

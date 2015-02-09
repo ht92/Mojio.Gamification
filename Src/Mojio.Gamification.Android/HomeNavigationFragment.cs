@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
-
-using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
 {
@@ -21,11 +11,6 @@ namespace Mojio.Gamification.Android
 		private const int SWIPE_THRESHOLD_VELOCITY = 200;
 		private GestureDetector mGestureDetector;
 		private CircularIndicatorView mDriverScoreIndicator;
-
-		public override void OnCreate (Bundle savedInstanceState)
-		{
-			base.OnCreate (savedInstanceState);
-		}
 
 		/*
 		 * Draw user interface and layout of the fragment.
@@ -39,10 +24,11 @@ namespace Mojio.Gamification.Android
 			this.Activity.Title = Resources.GetStringArray (Resource.Array.pages_array) [Arguments.GetInt (ARG_FRAG_NUMBER)];
 		
 			mGestureDetector = new GestureDetector (this);
-			mDriverScoreIndicator = (CircularIndicatorView) rootView.FindViewById<CircularIndicatorView> (Resource.Id.home_circularIndicator);
+			mDriverScoreIndicator = rootView.FindViewById<CircularIndicatorView> (Resource.Id.home_circularIndicator);
 			mDriverScoreIndicator.SetIndicatorWidth (60);
-			mDriverScoreIndicator.SetIndicatorValue (((GamificationApp) (Activity.Application)).MyStatisticsManager.OverallScore);
-			mDriverScoreIndicator.SetOnTouchListener (this);
+			mDriverScoreIndicator.SetIndicatorValue (GamificationApp.GetInstance ().MyStatisticsManager.OverallScore);
+			//mDriverScoreIndicator.SetOnTouchListener (this);
+			mDriverScoreIndicator.Click += mScoreButton_onClick;
 
 			return rootView;
 		}
@@ -78,6 +64,14 @@ namespace Mojio.Gamification.Android
 		public bool OnDown (MotionEvent e) { return true; }
 		public void OnLongPress(MotionEvent e) {}
 		public void OnShowPress(MotionEvent e) {}
+
+		private void mScoreButton_onClick (object sender, EventArgs e)
+		{
+			if (GamificationApp.GetInstance ().MyNotificationService.HasNotifications ()) {
+				DialogFragment notificationDialog = new NotificationDialogFragment ();
+				notificationDialog.Show (FragmentManager, "notification");
+			}
+		}
 	}
 }
 

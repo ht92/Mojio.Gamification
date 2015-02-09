@@ -1,8 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Support.V4.App;
+using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
 {
@@ -11,6 +12,14 @@ namespace Mojio.Gamification.Android
 		private const int NOTIFICATION_LIGHT_ON = 1000;
 		private const int NOTIFICATION_LIGHT_OFF = 3000;
 		private const int NOTIFICATION_DEFAULT_FLAGS = (int) (NotificationDefaults.Sound | NotificationDefaults.Vibrate);
+
+		private static string NOTIFICATION_TITLE_TEXT = GamificationApp.GetInstance ().Resources.GetString (Resource.String.app_name);
+		private static string NOTIFICATION_NEW_TRIP_TEXT = GamificationApp.GetInstance ().Resources.GetString (Resource.String.notification_new_trips);
+		private static string NOTIFICATION_NEW_BADGE_TEXT = GamificationApp.GetInstance ().Resources.GetString (Resource.String.notification_new_badges);
+		private static int NOTIFICATION_ICON_RES = Resource.Drawable.Icon;
+
+		public List<TripDataModel> NotifiedTrips { get; private set; }
+		public List<Badge> NotifiedBadges { get; private set; }
 
 		public enum NotificationType
 		{
@@ -32,21 +41,56 @@ namespace Mojio.Gamification.Android
 		private AppNotificationService ()
 		{
 			mNotificationManager = (NotificationManager) GamificationApp.GetInstance ().GetSystemService (Context.NotificationService);
+			NotifiedTrips = new List<TripDataModel> ();
+			NotifiedBadges = new List<Badge> ();
 		}
 
-		public void IssueNotification (Context context, NotificationType type, int drawableRes, string title, string text)
+		public void IssueTripNotification (TripDataModel tripDataModel)
 		{
-			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder (context)
-				.SetSmallIcon (drawableRes)
+			NotifiedTrips.Add (tripDataModel);
+			issueNotification (NotificationType.NOTIFICATION_TRIP, NOTIFICATION_TITLE_TEXT, NOTIFICATION_NEW_TRIP_TEXT);
+		}
+
+		public void IssueBadgeNotification (Badge badge)
+		{
+			NotifiedBadges.Add (badge);
+			issueNotification (NotificationType.NOTIFICATION_BADGE, NOTIFICATION_TITLE_TEXT, NOTIFICATION_NEW_BADGE_TEXT);
+		}
+
+		public bool HasTripNotifications ()
+		{
+			return NotifiedTrips.Count > 0;
+		}
+
+		public bool HasBadgeNotifications ()
+		{
+			return NotifiedBadges.Count > 0;
+		}
+
+		public bool HasNotifications ()
+		{
+			return HasTripNotifications () || HasBadgeNotifications ();
+		}
+
+		public void ClearNotifications ()
+		{
+			NotifiedTrips.Clear ();
+			NotifiedBadges.Clear ();
+		}
+
+		private void issueNotification (NotificationType type, string title, string text)
+		{
+			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder (GamificationApp.GetInstance ())
+				.SetSmallIcon (NOTIFICATION_ICON_RES)
 				.SetContentTitle (title)
 				.SetContentText (text)
 				.SetAutoCancel (true)
 				.SetLights (Color.White, NOTIFICATION_LIGHT_ON, NOTIFICATION_LIGHT_OFF)
 				.SetDefaults (NOTIFICATION_DEFAULT_FLAGS);
 
-			Intent resultIntent = new Intent (context, typeof(SplashScreen));
+			Intent resultIntent = new Intent (GamificationApp.GetInstance (), typeof(SplashScreen));
 			resultIntent.AddFlags (ActivityFlags.ClearTop | ActivityFlags.SingleTop | ActivityFlags.NewTask);
-			PendingIntent resultPendingIntent = PendingIntent.GetActivity (context, 0, resultIntent, PendingIntentFlags.UpdateCurrent);
+			PendingIntent resultPendingIntent = PendingIntent.GetActivity (GamificationApp.GetInstance (), 0, resultIntent, PendingIntentFlags.UpdateCurrent);
 			notificationBuilder.SetContentIntent (resultPendingIntent);
 			mNotificationManager.Notify ((int)type, notificationBuilder.Build ());
 		}
