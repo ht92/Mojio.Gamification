@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Mojio.Gamification.Core;
 using Mojio.Gamification.Android;
-using Newtonsoft.Json;
 
 namespace Mojio.Gamification.Android
 {

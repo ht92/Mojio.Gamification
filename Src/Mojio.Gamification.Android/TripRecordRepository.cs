@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Android.Content;
+﻿using System.Collections.Generic;
 using SQLite;
 using Mojio.Gamification.Core;
 
@@ -8,7 +6,7 @@ namespace Mojio.Gamification.Android
 {
 	public class TripRecordRepository
 	{
-		private DataManagerHelper _helper;
+		private readonly DataManagerHelper _helper;
 		private static TripRecordRepository _instance;
 
 		public static TripRecordRepository GetInstance ()

@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.Content.Res;
-using Android.OS;
-using Android.Runtime;
+﻿using Android.Content;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-
-using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
 {
@@ -53,7 +42,7 @@ namespace Mojio.Gamification.Android
 		private void SetBadgeImage (int resid)
 		{
 			if (mBadgeView == null) {
-				mBadgeView = (BadgeView)FindViewById<BadgeView> (Resource.Id.br_badgeView);
+				mBadgeView = FindViewById<BadgeView> (Resource.Id.br_badgeView);
 			}
 			mBadgeView.SetImageResource (resid);
 		}
@@ -61,7 +50,7 @@ namespace Mojio.Gamification.Android
 		private void SetBadgeLabel (string label)
 		{
 			if (mBadgeLabel == null) {
-				mBadgeLabel = (TextView)FindViewById<TextView> (Resource.Id.br_badgeLabel);
+				mBadgeLabel = FindViewById<TextView> (Resource.Id.br_badgeLabel);
 			}
 			mBadgeLabel.Text = label; 
 		}

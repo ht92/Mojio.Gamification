@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android;
 using Android.Content;
-using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 
@@ -37,8 +35,8 @@ namespace Mojio.Gamification.Android
 				LayoutInflater li = (LayoutInflater) mContext.GetSystemService (Context.LayoutInflaterService);
 				convertView = li.Inflate (Resource.Layout.trip_history_list_item, null);
 			}
-			ScoreRowView tripRecordSafetyScore = (ScoreRowView) convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordListItem_safetyScore);
-			ScoreRowView tripRecordEfficiencyScore = (ScoreRowView) convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordListItem_efficiencyScore);
+			ScoreRowView tripRecordSafetyScore = convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordListItem_safetyScore);
+			ScoreRowView tripRecordEfficiencyScore = convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordListItem_efficiencyScore);
 			TripDataModel dataModel = mListData [groupPosition];
 			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (dataModel.TripSafetyScore);
 			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (dataModel.TripEfficiencyScore);
@@ -78,7 +76,7 @@ namespace Mojio.Gamification.Android
 				LayoutInflater li = (LayoutInflater)mContext.GetSystemService (Context.LayoutInflaterService);
 				convertView = li.Inflate (Resource.Layout.trip_history_list_group, null);
 			}
-			ScoreRowView tripRecordHeader = (ScoreRowView) convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordHeader);
+			ScoreRowView tripRecordHeader = convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordHeader);
 			TripDataModel dataModel = mListData [groupPosition];
 			ScoreWrapper overallScore = ScoreWrapper.WrapScore (ScoreCalculator.CalculateOverallScore (dataModel.TripSafetyScore, dataModel.TripEfficiencyScore));
 			tripRecordHeader.SetScoreLabel (dataModel.MyTrip.StartTime.ToString ("MMMM dd, yyyy h:mm tt"));
