@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Mojio.Events;
 using Newtonsoft.Json;
 
@@ -45,18 +43,6 @@ namespace Mojio.Gamification.Core
 		{
 			UserStats tripStats = UserStats.CreateStats (this);
 			return tripStats;
-		}
-
-		public static string Serialize (TripDataModel tripDataModel)
-		{
-			JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
-			return JsonConvert.SerializeObject (tripDataModel, settings);
-		}
-
-		public static TripDataModel Deserialize (string json)
-		{
-			JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
-			return JsonConvert.DeserializeObject<TripDataModel> (json, settings);
 		}
 
 		private void initialize() 

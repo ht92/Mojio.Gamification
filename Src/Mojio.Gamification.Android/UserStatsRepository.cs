@@ -1,5 +1,5 @@
 ﻿using System;
-using Android.Content;
+using System.Collections.Generic;
 using SQLite;
 using Mojio.Gamification.Core;
 
@@ -9,7 +9,8 @@ namespace Mojio.Gamification.Android
 	{
 		public event EventHandler UserStatsUpdatedEvent;
 
-		private DataManagerHelper _helper;
+		private readonly DataManagerHelper _helper;
+		private readonly ConnectionService _loginManager;
 		private static UserStatsRepository _instance;
 
 		public static UserStatsRepository GetInstance()
@@ -22,18 +23,15 @@ namespace Mojio.Gamification.Android
 
 		private UserStatsRepository ()
 		{
-			_helper = new DataManagerHelper (GamificationApp.GetInstance ());
+			_helper = GamificationApp.GetInstance ().MyDataManagerHelper;
+			_loginManager = GamificationApp.GetInstance ().MyConnectionService;
 		}
 
 		public long AddUserStats (UserStats addUser)
 		{
 			using (var db = new SQLiteConnection (_helper.WritableDatabase.Path)) 
 			{
-				long count = db.Insert (addUser);
-				if (count > 0) {
-					OnUserStatsUpdatedEvent (EventArgs.Empty);
-				}
-				return count;
+				return  db.Insert (addUser);
 			}
 		}
 
@@ -41,11 +39,7 @@ namespace Mojio.Gamification.Android
 		{
 			using (var db = new SQLiteConnection (_helper.WritableDatabase.Path)) 
 			{
-				long count = db.Delete (deleteUser);	
-				if (count > 0) {
-					OnUserStatsUpdatedEvent (EventArgs.Empty);
-				}
-				return count;
+				return db.Delete (deleteUser);
 			}
 		}
 
@@ -65,7 +59,19 @@ namespace Mojio.Gamification.Android
 		{
 			using (var database = new SQLiteConnection (_helper.ReadableDatabase.Path)) 
 			{
-				return database.Table<UserStats> ().ElementAt (0);
+				SQLiteCommand command = database.CreateCommand ("SELECT * FROM UserStats WHERE uid = ?", _loginManager.UserName);
+				List<UserStats> userStatsList = command.ExecuteQuery<UserStats> ();
+				return userStatsList[0];
+			}
+		}
+
+		public bool DoesUserExist (string userId)
+		{
+			using (var database = new SQLiteConnection (_helper.ReadableDatabase.Path)) 
+			{
+				SQLiteCommand command = database.CreateCommand ("SELECT * FROM UserStats WHERE uid = ?", userId);
+				List<UserStats> userStatsList = command.ExecuteQuery<UserStats> ();
+				return userStatsList.Count > 0;
 			}
 		}
 			

@@ -126,17 +126,5 @@ namespace Mojio.Gamification.Android
 		{
 			return AchievementManager.badgeUpdateDelegateMapping [this.GetName ()];
 		}
-
-		public static string Serialize (Badge badge)
-		{
-			JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
-			return JsonConvert.SerializeObject (badge, settings);
-		}
-
-		public static Badge Deserialize (string json)
-		{
-			JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, NullValueHandling = NullValueHandling.Ignore };
-			return JsonConvert.DeserializeObject<Badge> (json, settings);
-		}
 	}
 }

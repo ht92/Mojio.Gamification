@@ -7,10 +7,21 @@ namespace Mojio.Gamification.Android
 {
 	public class DataManagerHelper : SQLiteOpenHelper
 	{
+
 		private const string dbName = "myDatabase";
 		private const int dbVersion = 3;
 
-		public DataManagerHelper (Context context)
+		private static DataManagerHelper _instance;
+
+		public static DataManagerHelper GetInstance ()
+		{
+			if (_instance == null) {
+				_instance = new DataManagerHelper (GamificationApp.GetInstance ());
+			}
+			return _instance;
+		}
+
+		private DataManagerHelper (Context context)
 			: base (context, dbName, null, dbVersion)
 		{
 		}
@@ -19,7 +30,7 @@ namespace Mojio.Gamification.Android
 		{
 			db.ExecSQL (@"
 						CREATE TABLE IF NOT EXISTS UserStats (
-							uid						INTEGER PRIMARY KEY AUTOINCREMENT,
+							uid						VARCHAR PRIMARY KEY,
 							totalTrips				INTEGER NOT NULL,
 							totalDistance			DOUBLE NOT NULL,
 							totalDuration			DOUBLE NOT NULL,
@@ -28,20 +39,17 @@ namespace Mojio.Gamification.Android
 							totalHardLefts			INTEGER NOT NULL,
 							totalHardRights			INTEGER NOT NULL,
 							totalAccidents			INTEGER NOT NULL,
-							totalIdleEvents			INTEGER NOT NULL,
 							totalFuelConsumption    DOUBLE NOT NULL,
 							safetyScore				DOUBLE NOT NULL,
 							efficiencyScore			DOUBLE NOT NULL)");
-			db.ExecSQL (@"INSERT INTO UserStats VALUES (0, 0, 0.00, 0.00, 0, 0, 0, 0, 0, 0, 0.00, 0.00, 0.00)");
-
 			db.ExecSQL (@"
-						CREATE TABLE IF NOT EXISTS UserBadge (
-							badgeName				VARCHAR PRIMARY KEY,
-							badgeData				VARCHAR NOT NULL)");
+						CREATE TABLE IF NOT EXISTS UserBadges (
+							uid						VARCHAR PRIMARY KEY,
+							badgeCollectionData		VARCHAR NOT NULL)");
 			db.ExecSQL (@"
-						CREATE TABLE IF NOT EXISTS TripRecord (
-							tripTimestamp				DOUBLE PRIMARY KEY,
-							tripData					VARCHAR NOT NULL)");
+						CREATE TABLE IF NOT EXISTS UserTripRecords (
+							uid							VARCHAR PRIMARY KEY,
+							tripHistoryData 			VARCHAR NOT NULL)");
 		}
 
 		public override void OnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)

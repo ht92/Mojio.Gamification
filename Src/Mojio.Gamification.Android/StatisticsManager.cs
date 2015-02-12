@@ -9,13 +9,14 @@ namespace Mojio.Gamification.Android
 {
 	public class StatisticsManager
 	{
+		public event EventHandler<TripsAddedEventArgs> TripsAddedEvent;
 		public event EventHandler StatisticsUpdatedEvent;
 
 		public UserStats MyStats { get; private set; } 
 		public double OverallScore;
 
+		private ConnectionService _loginManager;
 		private UserStatsRepository _userStatsRepository;
-		private TripRecordRepository _tripRecordRepository;
 		private static StatisticsManager _instance;
 
 		public static StatisticsManager GetInstance()
@@ -29,7 +30,9 @@ namespace Mojio.Gamification.Android
 		public void AddTrip (Trip trip, IList<Event> events)
 		{
 			if (TripDataModel.IsTripValid (trip)) {
-				RecalculateScore (trip, events);
+				TripDataModel tripData = new TripDataModel (trip, events);
+				OnTripsAddedEvent (new TripsAddedEventArgs (tripData));
+				RecalculateScore (tripData, events);
 			} else {
 				Logger.GetInstance ().Warning (String.Format ("Invalid trip detected - {0}. Discarding...", trip.Id.ToString ()));
 			}
@@ -39,7 +42,7 @@ namespace Mojio.Gamification.Android
 		{
 			//initialize with the current stats
 			_userStatsRepository = GamificationApp.GetInstance ().MyUserStatsRepository;
-			_tripRecordRepository = GamificationApp.GetInstance ().MyTripRecordRepository;
+			_loginManager = GamificationApp.GetInstance ().MyConnectionService;
 			attachListeners ();
 			MyStats = _userStatsRepository.GetUserStats ();
 			setOverallScore ();
@@ -50,10 +53,8 @@ namespace Mojio.Gamification.Android
 			OverallScore = ScoreCalculator.CalculateOverallScore (MyStats.safetyScore, MyStats.efficiencyScore);
 		}
 
-		private void RecalculateScore (Trip trip, IList<Event> events)
+		private void RecalculateScore (TripDataModel tripData, IList<Event> events)
 		{
-			TripDataModel tripData = new TripDataModel (trip, events);
-			_tripRecordRepository.AddRecord (TripRecord.Create (TripDataModel.Serialize (tripData)));
 			UserStats tripStats = tripData.GetTripStats ();
 			UserStats newStats = UserStats.SumStats (MyStats, tripStats);
 			_userStatsRepository.UpdateUserStats (newStats);
@@ -72,9 +73,23 @@ namespace Mojio.Gamification.Android
 			OnStatisticsUpdatedEvent (EventArgs.Empty);
 		}
 
+		protected void OnTripsAddedEvent (TripsAddedEventArgs e)
+		{
+			TripsAddedEvent (this, e);
+		}
+
 		protected void OnStatisticsUpdatedEvent (EventArgs e)
 		{
 			StatisticsUpdatedEvent (this, e);
+		}
+
+		public class TripsAddedEventArgs : EventArgs
+		{
+			public TripDataModel TripData { get; set; }
+			public TripsAddedEventArgs (TripDataModel tripData) 
+			{
+				TripData = tripData;
+			}
 		}
 	}
 }

@@ -9,7 +9,7 @@ using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
 {
-	public class WeatherManager
+	public static class WeatherManager
 	{
 
 		public enum WeatherType 

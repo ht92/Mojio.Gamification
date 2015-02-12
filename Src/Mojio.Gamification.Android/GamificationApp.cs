@@ -8,16 +8,17 @@ namespace Mojio.Gamification.Android
 	[Application]
 	public class GamificationApp : Application
 	{
+		public ConnectionService MyConnectionService { get; set; }
+		public AppNotificationService MyNotificationService { get; set; }
+
+		public DataManagerHelper MyDataManagerHelper { get; set; }
 		public UserStatsRepository MyUserStatsRepository { get; set; }
-		public UserBadgeRepository MyUserBadgeRepository { get; set; }
-		public TripRecordRepository MyTripRecordRepository { get; set; }
+		public UserBadgesRepository MyUserBadgesRepository { get; set; }
+		public UserTripRecordsRepository MyUserTripRecordsRepository { get; set; }
 
 		public StatisticsManager MyStatisticsManager { get; set; }
 		public AchievementManager MyAchievementManager { get; set; }
-
-		public AppNotificationService MyNotificationService { get; set; }
-
-		public MojioConnectUtility MyMojioConnectUtility { get; set; }
+		public TripHistoryManager MyTripHistoryManager { get; set; }
 
 		private static GamificationApp _instance;
 
@@ -35,18 +36,35 @@ namespace Mojio.Gamification.Android
 		{
 			base.OnCreate ();
 			_instance = this;
-			Initialize ();
+			initializeServices ();
+			initializeDatabase ();
+			attachListeners ();
 		}
 
-		public void Initialize ()
+		private void attachListeners ()
 		{
+			MyConnectionService.LoginSuccessfulEvent += (object sender, EventArgs e) => initializeManagers ();
+		}
+
+		private void initializeServices ()
+		{
+			MyConnectionService = ConnectionService.GetInstance ();
+			MyNotificationService = AppNotificationService.GetInstance ();
+		}
+
+		private void initializeDatabase ()
+		{
+			MyDataManagerHelper = DataManagerHelper.GetInstance ();
 			MyUserStatsRepository = UserStatsRepository.GetInstance ();
-			MyUserBadgeRepository = UserBadgeRepository.GetInstance ();
-			MyTripRecordRepository = TripRecordRepository.GetInstance ();
+			MyUserBadgesRepository = UserBadgesRepository.GetInstance ();
+			MyUserTripRecordsRepository = UserTripRecordsRepository.GetInstance ();
+		}
+
+		private void initializeManagers () 
+		{
 			MyStatisticsManager = StatisticsManager.GetInstance ();
 			MyAchievementManager = AchievementManager.GetInstance ();
-			MyMojioConnectUtility = MojioConnectUtility.GetInstance ();
-			MyNotificationService = AppNotificationService.GetInstance ();
+			MyTripHistoryManager = TripHistoryManager.GetInstance ();
 		}
 	}
 }

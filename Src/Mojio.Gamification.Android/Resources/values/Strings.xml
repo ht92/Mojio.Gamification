@@ -19,4 +19,7 @@
 	<string name="notification_new_trips">You have new trips!</string>
 	<string name="notification_new_badges">You have unlocked new badges!</string>
 	<string name="close_label">Close</string>
+	<string name="login_username_label">Username</string>
+	<string name="login_password_label">Password</string>
+	<string name="login_button_label">Login</string>
 </resources>

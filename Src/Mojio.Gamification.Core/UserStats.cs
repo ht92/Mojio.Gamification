@@ -5,8 +5,8 @@ namespace Mojio.Gamification.Core
 {
 	public class UserStats
 	{
-		[PrimaryKey, AutoIncrement]
-		public long uid { get; set; }
+		[PrimaryKey]
+		public string uid { get; set; }
 
 		public int totalTrips { get; set; }
 		public double totalDistance { get; set; }
@@ -20,6 +20,12 @@ namespace Mojio.Gamification.Core
 		public double safetyScore { get; set; }
 		public double efficiencyScore { get; set; }
 
+		public static UserStats CreateStats (string userName)
+		{
+			UserStats stats = new UserStats ();
+			stats.uid = userName;
+			return stats;
+		}
 
 		public static UserStats CreateStats (TripDataModel tripData)
 		{
@@ -41,6 +47,7 @@ namespace Mojio.Gamification.Core
 		public static UserStats SumStats (UserStats stats1, UserStats stats2)
 		{
 			UserStats sum = new UserStats ();
+			sum.uid = stats1.uid ?? stats2.uid;
 			sum.totalTrips = stats1.totalTrips + stats2.totalTrips;
 			sum.totalDistance = stats1.totalDistance + stats2.totalDistance;
 			sum.totalDuration = stats1.totalDuration + stats2.totalDuration;

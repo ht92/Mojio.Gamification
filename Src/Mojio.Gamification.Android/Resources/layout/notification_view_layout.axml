@@ -27,17 +27,23 @@
             android:background="@drawable/transparent_white_gradient"
             android:layout_width="match_parent"
             android:layout_height="1dp" />
-        <LinearLayout
-            android:visibility="gone"
-            android:orientation="vertical"
+        <ScrollView
             android:minWidth="25px"
             android:minHeight="25px"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
-            android:id="@+id/notificationView_trips_layout" />
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:id="@+id/notificationView_trips_layout" />
+        </ScrollView>
         <TextView
             android:id="@+id/notificationView_badges_title"
             android:visibility="gone"
@@ -53,17 +59,23 @@
             android:background="@drawable/transparent_white_gradient"
             android:layout_width="match_parent"
             android:layout_height="1dp" />
-        <LinearLayout
-            android:visibility="gone"
-            android:orientation="vertical"
+        <ScrollView
             android:minWidth="25px"
             android:minHeight="25px"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
-            android:id="@+id/notificationView_badges_layout" />
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:id="@+id/notificationView_badges_layout" />
+        </ScrollView>
     </LinearLayout>
     <ImageView
         android:src="@android:drawable/ic_menu_close_clear_cancel"

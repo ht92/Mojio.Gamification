@@ -26,21 +26,20 @@ namespace Mojio.Gamification.Core
 
 		private MojioConnectUtility ()
 		{
-			mClient = new MojioClient(MojioClient.Live); 				//this is actually connected to the sandbox environment
-			Task connectToMojio = initializeConnection ();
+			mClient = new MojioClient();
 		}
 
-		private async Task initializeConnection ()
+		public async Task InitializeConnection (string username, string password)
 		{			
 			//------------------Initializing the SDK----------------------//
 			Guid appID = new Guid("32059d24-d66e-4071-b59e-0f97f1122c53");
-			Guid secretKey = new Guid("929f3903-ede2-46c6-b532-eb39bcd06aa7");
+			Guid secretKey = new Guid("929f3903-ede2-46c6-b532-eb39bcd06aa7");  //determines LIVE or SANDBOX
 			var mojioId = new Guid ("194e0cb4-9a93-4aed-a3a4-1e51b9cb33d5");
 
 			var result = await mClient.BeginAsync (appID, secretKey); 	//return true if connected to the server  //takes a while to connect
 			//--------------Authenticating a Mojio User------------------//
 			if (!mClient.IsLoggedIn ()) {
-				var response = await mClient.SetUserAsync ("capstoneling", "GamificationofDriving2014");
+				var response = await mClient.SetUserAsync (username, password);
 				var token = response.Data;
 				if (response.StatusCode != HttpStatusCode.OK) {
 					throw new Exception (String.Format ("Failed to login: {0}.", response.ErrorMessage));

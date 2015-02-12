@@ -85,14 +85,12 @@
     <Compile Include="ScoreRowView.cs" />
     <Compile Include="StatisticsManager.cs" />
     <Compile Include="CircularIndicatorView.cs" />
-    <Compile Include="UserBadgeRepository.cs" />
     <Compile Include="WeatherManager.cs" />
     <Compile Include="AchievementManager.cs" />
     <Compile Include="BadgeNavigationFragment.cs" />
     <Compile Include="BadgeRowView.cs" />
     <Compile Include="Badge.cs" />
     <Compile Include="CountBadge.cs" />
-    <Compile Include="TripRecordRepository.cs" />
     <Compile Include="TripHistoryNavigationFragment.cs" />
     <Compile Include="TripHistoryExpandableListAdapter.cs" />
     <Compile Include="Activities\SplashScreen.cs" />
@@ -100,6 +98,12 @@
     <Compile Include="LevelBadge.cs" />
     <Compile Include="AppNotificationService.cs" />
     <Compile Include="NotificationDialogFragment.cs" />
+    <Compile Include="TripHistoryManager.cs" />
+    <Compile Include="UserBadgesRepository.cs" />
+    <Compile Include="UserTripRecordsRepository.cs" />
+    <Compile Include="Activities\LoginActivity.cs" />
+    <Compile Include="JsonSerializationUtility.cs" />
+    <Compile Include="ConnectionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -160,6 +164,7 @@
     <AndroidResource Include="Resources\layout\notification_view_layout.axml" />
     <AndroidResource Include="Resources\drawable\notification_view_background.axml" />
     <AndroidResource Include="Resources\drawable\transparent_white_gradient.axml" />
+    <AndroidResource Include="Resources\layout\login_layout.axml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

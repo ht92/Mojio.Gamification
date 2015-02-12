@@ -125,10 +125,25 @@ namespace Mojio.Gamification.Android
 			{BADGE_TEST_BADGE_3.GetName (), BADGE_TEST_BADGE_3_UPDATE_DELEGATE}
 		};
 
+		public static List<Badge> DEFAULT_BADGE_COLLECTION = new List<Badge> () {
+			BADGE_FIRST_TRIP,
+			BADGE_PERFECT_TRIP,
+			BADGE_SAFETY_FIRST,
+			BADGE_EFFICIENT,
+			BADGE_HIGH_ACHIEVER,
+			BADGE_VETERAN,
+			BADGE_SELF_IMPROVEMENT,
+			BADGE_PERFECTIONIST,
+			BADGE_UNTOUCHABLE,
+			BADGE_TEST_BADGE_1,
+			BADGE_TEST_BADGE_2,
+			BADGE_TEST_BADGE_3
+		};
+
 		private static AchievementManager _instance;
 
 		private List<Badge> mBadgeCollection = new List<Badge> ();
-		private UserBadgeRepository _userBadgeRepository;
+		private UserBadgesRepository _userBadgeRepository;
 		private StatisticsManager _statsManager;
 
 		public static AchievementManager GetInstance ()
@@ -141,28 +156,10 @@ namespace Mojio.Gamification.Android
 
 		private AchievementManager ()
 		{
-			_userBadgeRepository = GamificationApp.GetInstance ().MyUserBadgeRepository;
+			_userBadgeRepository = GamificationApp.GetInstance ().MyUserBadgesRepository;
 			_statsManager = GamificationApp.GetInstance ().MyStatisticsManager;
 			attachListeners ();
 			SyncFromDb ();
-		}
-
-		private List<Badge> createBadgeCollection ()
-		{
-			List<Badge> badgeCollection = new List<Badge> ();
-			badgeCollection.Add (BADGE_FIRST_TRIP);
-			badgeCollection.Add (BADGE_PERFECT_TRIP);
-			badgeCollection.Add (BADGE_SAFETY_FIRST);
-			badgeCollection.Add (BADGE_EFFICIENT);
-			badgeCollection.Add (BADGE_HIGH_ACHIEVER);
-			badgeCollection.Add (BADGE_VETERAN);
-			badgeCollection.Add (BADGE_SELF_IMPROVEMENT);
-			badgeCollection.Add (BADGE_PERFECTIONIST);
-			badgeCollection.Add (BADGE_UNTOUCHABLE);
-			badgeCollection.Add (BADGE_TEST_BADGE_1);
-			badgeCollection.Add (BADGE_TEST_BADGE_2);
-			badgeCollection.Add (BADGE_TEST_BADGE_3);
-			return badgeCollection;
 		}
 
 		private static Badge createBadge (string badgeName, string badgeDescription, int badgeDrawable, Badge.BadgeType badgeType)
@@ -172,34 +169,24 @@ namespace Mojio.Gamification.Android
 			case Badge.BadgeType.NORMAL: 	return new Badge (badgeName, badgeDescription, badgeDrawable);
 			case Badge.BadgeType.COUNT: 	return new CountBadge (badgeName, badgeDescription, badgeDrawable);
 			case Badge.BadgeType.LEVEL:		return new LevelBadge (badgeName, badgeDescription, badgeDrawable);
-			default: 						throw new ArgumentException (String.Format ("Invalid badge type - {0}.", type.ToString ()));
+			default: 						throw new ArgumentException (String.Format ("Invalid badge type - {0}.", type));
 			}
 		}
 
 		private void SyncFromDb ()
 		{
 			mBadgeCollection.Clear ();
-			List<UserBadge> data = _userBadgeRepository.GetUserBadges ();
-			if (data.Count == 0) {
-				mBadgeCollection = createBadgeCollection ();
-				SyncToDb ();
-			} else {
-				foreach (UserBadge badge in data) {
-					mBadgeCollection.Add (Badge.Deserialize (badge.badgeData));
-				}
+			UserBadges data = _userBadgeRepository.GetUserBadges ();
+			List<Badge> badges = (List<Badge>) JsonSerializationUtility.Deserialize (data.badgeCollectionData);
+			foreach (Badge badge in badges) {
+				mBadgeCollection.Add (badge);
 			}
 		}
 
 		private void SyncToDb ()
 		{
-			List<UserBadge> collection = new List<UserBadge> ();
-			foreach (Badge badge in mBadgeCollection) {
-				UserBadge userBadge = new UserBadge ();
-				userBadge.badgeName = badge.GetName ();
-				userBadge.badgeData = Badge.Serialize (badge);
-				collection.Add (userBadge);
-			}
-			_userBadgeRepository.UpdateBadges (collection);
+			string badgeCollectionJson = JsonSerializationUtility.Serialize (mBadgeCollection);
+			_userBadgeRepository.UpdateBadges (badgeCollectionJson);
 		}
 
 		public Badge GetBadge (string name)
@@ -271,10 +258,9 @@ namespace Mojio.Gamification.Android
 		private static bool CheckPerfectTripAchievement ()
 		{
 			bool isPerfectTrip = false;
-			List<TripRecord> tripRecords = GamificationApp.GetInstance ().MyTripRecordRepository.GetRecords ();
-			if (tripRecords.Count > 0) {
-				TripDataModel tripRecord = TripDataModel.Deserialize (tripRecords[0].tripData);
-				isPerfectTrip = tripRecord.TripSafetyScore == 100 && tripRecord.TripEfficiencyScore == 100;
+			TripDataModel latestTripRecord = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecord ();
+			if (latestTripRecord != null) {
+				isPerfectTrip = latestTripRecord.TripSafetyScore == 100 && latestTripRecord.TripEfficiencyScore == 100;
 			}
 			return isPerfectTrip;
 		}
@@ -317,11 +303,11 @@ namespace Mojio.Gamification.Android
 			case 2:	records = BADGE_SELF_IMPROVEMENT_LEVEL_3_STREAK;	break;
 			}
 
-			List<TripRecord> tripRecords = GamificationApp.GetInstance ().MyTripRecordRepository.GetRecords ();
+			List<TripDataModel> tripRecords = GamificationApp.GetInstance ().MyTripHistoryManager.GetRecords ();
 			if (tripRecords.Count < records) return false;
 			double previousScore = 0;
 			for (int count = 0; count < records; count++) {
-				TripDataModel tripRecord = TripDataModel.Deserialize (tripRecords[count].tripData);
+				TripDataModel tripRecord = tripRecords [count];
 				double safetyScore = tripRecord.TripSafetyScore;
 				double efficiencyScore = tripRecord.TripEfficiencyScore;
 				double overallScore = ScoreCalculator.CalculateOverallScore (safetyScore, efficiencyScore);
@@ -341,10 +327,9 @@ namespace Mojio.Gamification.Android
 			case 2:	records = BADGE_PERFECTIONIST_LEVEL_3_STREAK;	break;
 			}
 
-			List<TripRecord> tripRecords = GamificationApp.GetInstance ().MyTripRecordRepository.GetRecords ();
+			List<TripDataModel> tripRecords = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecords (records);
 			if (tripRecords.Count < records) return false;
-			for (int count = 0; count < records; count++) {
-				TripDataModel tripRecord = TripDataModel.Deserialize (tripRecords[count].tripData);
+			foreach (TripDataModel tripRecord in tripRecords) {
 				double safetyScore = tripRecord.TripSafetyScore;
 				double efficiencyScore = tripRecord.TripEfficiencyScore;
 				if (safetyScore < 100 || efficiencyScore < 100) return false;
@@ -369,14 +354,12 @@ namespace Mojio.Gamification.Android
 		private static void UpdateUntouchableAchievement ()
 		{
 			LevelBadge badge = (LevelBadge) GetInstance ().GetBadge (BADGE_UNTOUCHABLE_NAME);
-			TripRecord tripRecord = GamificationApp.GetInstance ().MyTripRecordRepository.GetLatestRecord ();
-			if (tripRecord == null)
-				return;
-			TripDataModel tripData = TripDataModel.Deserialize (tripRecord.tripData);
-			if (tripData.AccidentEventMetric.Count > 0) {
+			TripDataModel tripRecord = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecord ();
+			if (tripRecord == null)	return;
+			if (tripRecord.AccidentEventMetric.Count > 0) {
 				badge.SetProperty (BADGE_UNTOUCHABLE_KM_PROP, 0);
 			} else {
-				badge.IncrementProperty (BADGE_UNTOUCHABLE_KM_PROP, tripData.GetTripStats ().totalDistance);
+				badge.IncrementProperty (BADGE_UNTOUCHABLE_KM_PROP, tripRecord.GetTripStats ().totalDistance);
 			}
 		}
 	}

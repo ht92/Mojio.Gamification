@@ -23,9 +23,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)TimeBasedMetric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NumberDisplayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ValueUnit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserBadge.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TripRecord.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AccidentEventMetric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserBadges.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserTripRecords.cs" />
   </ItemGroup>
 </Project>

@@ -21,7 +21,7 @@ namespace Mojio.Gamification.Android
 	
 		private void load ()
 		{
-			Intent i = new Intent (this, typeof(MainActivity));
+			Intent i = new Intent (this, typeof(LoginActivity));
 			StartActivity (i);
 			OverridePendingTransition (Resource.Animation.abc_fade_in, Resource.Animation.abc_fade_out);
 			Finish ();

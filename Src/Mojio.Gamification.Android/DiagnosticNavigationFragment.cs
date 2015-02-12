@@ -40,29 +40,13 @@ namespace Mojio.Gamification.Android
 
 			mFetchButton.Click += mFetchButton_onClick;
 			mAddTripDataButton.Click += mAddTripDataButton_onClick;
-			mResetDataButton.Click += mResetDataButton_onClick;
 			return rootView;
 		}
 
 		private async void mFetchButton_onClick (object sender, EventArgs e)
 		{
-			var tripData = await GamificationApp.GetInstance ().MyMojioConnectUtility.FetchLatestTripAsync ();
+			var tripData = await GamificationApp.GetInstance ().MyConnectionService.MyMojioConnectUtility.FetchLatestTripAsync ();
 			((GamificationApp)Activity.Application).MyStatisticsManager.AddTrip (tripData.Item1, tripData.Item2);
-		}
-
-		private void mResetDataButton_onClick (object sender, EventArgs e)
-		{
-			UserStats userStats = ((GamificationApp)this.Activity.Application).MyUserStatsRepository.GetUserStats ();
-			Type type = userStats.GetType ();
-			System.Reflection.PropertyInfo[] properties = type.GetProperties ();
-			foreach (System.Reflection.PropertyInfo property in properties) {
-				if (property.Name != "uid") {
-					property.SetValue (userStats, 0);
-				}
-			}
-			GamificationApp.GetInstance ().MyUserStatsRepository.UpdateUserStats (userStats);
-			//GamificationApp.GetInstance ().MyUserBadgeRepository;
-			GamificationApp.GetInstance ().MyTripRecordRepository.Clear ();
 		}
 
 		private void mAddTripDataButton_onClick (object sender, EventArgs e)
