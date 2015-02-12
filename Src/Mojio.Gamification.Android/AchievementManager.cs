@@ -20,9 +20,6 @@ namespace Mojio.Gamification.Android
 		private const string BADGE_SELF_IMPROVEMENT_NAME = "Self-Improvement";
 		private const string BADGE_PERFECTIONIST_NAME = "Perfectionist";
 		private const string BADGE_UNTOUCHABLE_NAME = "Untouchable";
-		private const string BADGE_TEST_BADGE_1_NAME = "Test Badge 1";
-		private const string BADGE_TEST_BADGE_2_NAME = "Test Badge 2";
-		private const string BADGE_TEST_BADGE_3_NAME = "Test Badge 3";
 
 		//Badge Descriptions
 		private const string BADGE_FIRST_TRIP_DESCRIPTION = "Complete first trip.";
@@ -34,9 +31,6 @@ namespace Mojio.Gamification.Android
 		private const string BADGE_SELF_IMPROVEMENT_DESCRIPTION = "5 trips in a row with improving scores.";
 		private const string BADGE_PERFECTIONIST_DESCRIPTION = "5 trips in a row with perfect scores.";
 		private const string BADGE_UNTOUCHABLE_DESCRIPTION = "5 trips in a row without an accident.";
-		private const string BADGE_TEST_BADGE_1_DESCRIPTION = "Test badge 1 description.";
-		private const string BADGE_TEST_BADGE_2_DESCRIPTION = "Test badge 2 description.";
-		private const string BADGE_TEST_BADGE_3_DESCRIPTION = "Test badge 3 description.";
 
 		//Badges
 		private static Badge BADGE_FIRST_TRIP = createBadge (BADGE_FIRST_TRIP_NAME, BADGE_FIRST_TRIP_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
@@ -48,9 +42,6 @@ namespace Mojio.Gamification.Android
 		private static Badge BADGE_SELF_IMPROVEMENT = createBadge (BADGE_SELF_IMPROVEMENT_NAME, BADGE_SELF_IMPROVEMENT_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
 		private static Badge BADGE_PERFECTIONIST = createBadge (BADGE_PERFECTIONIST_NAME, BADGE_PERFECTIONIST_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
 		private static Badge BADGE_UNTOUCHABLE = createBadge (BADGE_UNTOUCHABLE_NAME, BADGE_UNTOUCHABLE_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
-		private static Badge BADGE_TEST_BADGE_1 = createBadge (BADGE_TEST_BADGE_1_NAME, BADGE_TEST_BADGE_1_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_TEST_BADGE_2 = createBadge (BADGE_TEST_BADGE_2_NAME, BADGE_TEST_BADGE_2_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_TEST_BADGE_3 = createBadge (BADGE_TEST_BADGE_3_NAME, BADGE_TEST_BADGE_3_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
 
 		//Badge Unlock Check Delegates
 		private static CheckAchievementDelegate BADGE_FIRST_TRIP_CHECK_DELEGATE = CheckFirstTripAchievement;
@@ -62,9 +53,6 @@ namespace Mojio.Gamification.Android
 		private static CheckAchievementDelegate BADGE_SELF_IMPROVEMENT_CHECK_DELEGATE = CheckSelfImprovementAchievement;
 		private static CheckAchievementDelegate BADGE_PERFECTIONIST_CHECK_DELEGATE = CheckPerfectionistAchievement;
 		private static CheckAchievementDelegate BADGE_UNTOUCHABLE_CHECK_DELEGATE = CheckUntouchableAchievement;
-		private static CheckAchievementDelegate BADGE_TEST_BADGE_1_CHECK_DELEGATE = CheckNullAchievement;
-		private static CheckAchievementDelegate BADGE_TEST_BADGE_2_CHECK_DELEGATE = CheckNullAchievement;
-		private static CheckAchievementDelegate BADGE_TEST_BADGE_3_CHECK_DELEGATE = CheckNullAchievement;
 
 		//Badge Unlock Update Delegates
 		private static UpdateAchievementDelegate BADGE_FIRST_TRIP_UPDATE_DELEGATE = UpdateNullAchievement;
@@ -76,9 +64,6 @@ namespace Mojio.Gamification.Android
 		private static UpdateAchievementDelegate BADGE_SELF_IMPROVEMENT_UPDATE_DELEGATE = UpdateNullAchievement;
 		private static UpdateAchievementDelegate BADGE_PERFECTIONIST_UPDATE_DELEGATE = UpdateNullAchievement;
 		private static UpdateAchievementDelegate BADGE_UNTOUCHABLE_UPDATE_DELEGATE = UpdateUntouchableAchievement;
-		private static UpdateAchievementDelegate BADGE_TEST_BADGE_1_UPDATE_DELEGATE = UpdateNullAchievement;
-		private static UpdateAchievementDelegate BADGE_TEST_BADGE_2_UPDATE_DELEGATE = UpdateNullAchievement;
-		private static UpdateAchievementDelegate BADGE_TEST_BADGE_3_UPDATE_DELEGATE = UpdateNullAchievement;
 
 		private const int BADGE_SELF_IMPROVEMENT_LEVEL_1_STREAK = 5;
 		private const int BADGE_SELF_IMPROVEMENT_LEVEL_2_STREAK = 10;
@@ -103,10 +88,7 @@ namespace Mojio.Gamification.Android
 			{BADGE_VETERAN.GetName (), BADGE_VETERAN_CHECK_DELEGATE},
 			{BADGE_SELF_IMPROVEMENT.GetName (), BADGE_SELF_IMPROVEMENT_CHECK_DELEGATE},
 			{BADGE_PERFECTIONIST.GetName (), BADGE_PERFECTIONIST_CHECK_DELEGATE},
-			{BADGE_UNTOUCHABLE.GetName (), BADGE_UNTOUCHABLE_CHECK_DELEGATE},
-			{BADGE_TEST_BADGE_1.GetName (), BADGE_TEST_BADGE_1_CHECK_DELEGATE},
-			{BADGE_TEST_BADGE_2.GetName (), BADGE_TEST_BADGE_2_CHECK_DELEGATE},
-			{BADGE_TEST_BADGE_3.GetName (), BADGE_TEST_BADGE_3_CHECK_DELEGATE}
+			{BADGE_UNTOUCHABLE.GetName (), BADGE_UNTOUCHABLE_CHECK_DELEGATE}
 		};
 
 		public static Dictionary<string, UpdateAchievementDelegate> badgeUpdateDelegateMapping = new Dictionary<string, UpdateAchievementDelegate> ()
@@ -119,10 +101,7 @@ namespace Mojio.Gamification.Android
 			{BADGE_VETERAN.GetName (), BADGE_VETERAN_UPDATE_DELEGATE},
 			{BADGE_SELF_IMPROVEMENT.GetName (), BADGE_SELF_IMPROVEMENT_UPDATE_DELEGATE},
 			{BADGE_PERFECTIONIST.GetName (), BADGE_PERFECTIONIST_UPDATE_DELEGATE},
-			{BADGE_UNTOUCHABLE.GetName (), BADGE_UNTOUCHABLE_UPDATE_DELEGATE},
-			{BADGE_TEST_BADGE_1.GetName (), BADGE_TEST_BADGE_1_UPDATE_DELEGATE},
-			{BADGE_TEST_BADGE_2.GetName (), BADGE_TEST_BADGE_2_UPDATE_DELEGATE},
-			{BADGE_TEST_BADGE_3.GetName (), BADGE_TEST_BADGE_3_UPDATE_DELEGATE}
+			{BADGE_UNTOUCHABLE.GetName (), BADGE_UNTOUCHABLE_UPDATE_DELEGATE}
 		};
 
 		public static List<Badge> DEFAULT_BADGE_COLLECTION = new List<Badge> () {
@@ -134,10 +113,7 @@ namespace Mojio.Gamification.Android
 			BADGE_VETERAN,
 			BADGE_SELF_IMPROVEMENT,
 			BADGE_PERFECTIONIST,
-			BADGE_UNTOUCHABLE,
-			BADGE_TEST_BADGE_1,
-			BADGE_TEST_BADGE_2,
-			BADGE_TEST_BADGE_3
+			BADGE_UNTOUCHABLE
 		};
 
 		private static AchievementManager _instance;
@@ -180,6 +156,9 @@ namespace Mojio.Gamification.Android
 			List<Badge> badges = (List<Badge>) JsonSerializationUtility.Deserialize (data.badgeCollectionData);
 			foreach (Badge badge in badges) {
 				mBadgeCollection.Add (badge);
+			}
+			if (mBadgeCollection.Count < DEFAULT_BADGE_COLLECTION.Count) {
+				mBadgeCollection.AddRange (DEFAULT_BADGE_COLLECTION.GetRange (mBadgeCollection.Count, DEFAULT_BADGE_COLLECTION.Count - mBadgeCollection.Count));
 			}
 		}
 
