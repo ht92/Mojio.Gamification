@@ -33,14 +33,14 @@ namespace Mojio.Gamification.Android
 		private const string BADGE_UNTOUCHABLE_DESCRIPTION = "5 trips in a row without an accident.";
 
 		//Badges
-		private static Badge BADGE_FIRST_TRIP = createBadge (BADGE_FIRST_TRIP_NAME, BADGE_FIRST_TRIP_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_PERFECT_TRIP = createBadge (BADGE_PERFECT_TRIP_NAME, BADGE_PERFECT_TRIP_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.COUNT);
-		private static Badge BADGE_SAFETY_FIRST = createBadge (BADGE_SAFETY_FIRST_NAME, BADGE_SAFETY_FIRST_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_EFFICIENT = createBadge (BADGE_EFFICIENT_NAME, BADGE_EFFICIENT_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_HIGH_ACHIEVER = createBadge (BADGE_HIGH_ACHIEVER_NAME, BADGE_HIGH_ACHIEVER_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_VETERAN = createBadge (BADGE_VETERAN_NAME, BADGE_VETERAN_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_SELF_IMPROVEMENT = createBadge (BADGE_SELF_IMPROVEMENT_NAME, BADGE_SELF_IMPROVEMENT_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
-		private static Badge BADGE_PERFECTIONIST = createBadge (BADGE_PERFECTIONIST_NAME, BADGE_PERFECTIONIST_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
+		private static Badge BADGE_FIRST_TRIP = createBadge (BADGE_FIRST_TRIP_NAME, BADGE_FIRST_TRIP_DESCRIPTION, Resource.Drawable.badge_firstTrip, Badge.BadgeType.NORMAL);
+		private static Badge BADGE_PERFECT_TRIP = createBadge (BADGE_PERFECT_TRIP_NAME, BADGE_PERFECT_TRIP_DESCRIPTION, Resource.Drawable.badge_perfectTrip, Badge.BadgeType.COUNT);
+		private static Badge BADGE_SAFETY_FIRST = createBadge (BADGE_SAFETY_FIRST_NAME, BADGE_SAFETY_FIRST_DESCRIPTION, Resource.Drawable.badge_safetyFirst, Badge.BadgeType.NORMAL);
+		private static Badge BADGE_EFFICIENT = createBadge (BADGE_EFFICIENT_NAME, BADGE_EFFICIENT_DESCRIPTION, Resource.Drawable.badge_efficiency, Badge.BadgeType.NORMAL);
+		private static Badge BADGE_HIGH_ACHIEVER = createBadge (BADGE_HIGH_ACHIEVER_NAME, BADGE_HIGH_ACHIEVER_DESCRIPTION, Resource.Drawable.badge_highAchiever, Badge.BadgeType.NORMAL);
+		private static Badge BADGE_VETERAN = createBadge (BADGE_VETERAN_NAME, BADGE_VETERAN_DESCRIPTION, Resource.Drawable.badge_veteran1, Badge.BadgeType.NORMAL);
+		private static Badge BADGE_SELF_IMPROVEMENT = createBadge (BADGE_SELF_IMPROVEMENT_NAME, BADGE_SELF_IMPROVEMENT_DESCRIPTION, Resource.Drawable.badge_selfImprovement1, Badge.BadgeType.LEVEL);
+		private static Badge BADGE_PERFECTIONIST = createBadge (BADGE_PERFECTIONIST_NAME, BADGE_PERFECTIONIST_DESCRIPTION, Resource.Drawable.badge_perfectionist1, Badge.BadgeType.LEVEL);
 		private static Badge BADGE_UNTOUCHABLE = createBadge (BADGE_UNTOUCHABLE_NAME, BADGE_UNTOUCHABLE_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
 
 		//Badge Unlock Check Delegates
