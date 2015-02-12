@@ -8,6 +8,7 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		<activity android:name="mojio.gamification.android.LoginActivity" android:label="@string/app_name" android:screenOrientation="portrait" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
 		<activity android:name="mojio.gamification.android.MainActivity" android:label="@string/app_name"></activity>
 		<!-- component definitions -->
 	</application>

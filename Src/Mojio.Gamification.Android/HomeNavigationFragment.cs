@@ -2,6 +2,8 @@
 using Android.App;
 using Android.OS;
 using Android.Views;
+using Android.Views.Animations;
+using Android.Widget;
 
 namespace Mojio.Gamification.Android
 {
@@ -11,6 +13,7 @@ namespace Mojio.Gamification.Android
 		private const int SWIPE_THRESHOLD_VELOCITY = 200;
 		private GestureDetector mGestureDetector;
 		private CircularIndicatorView mDriverScoreIndicator;
+		private ImageView mNotificationIndicator;
 
 		/*
 		 * Draw user interface and layout of the fragment.
@@ -30,6 +33,17 @@ namespace Mojio.Gamification.Android
 			//mDriverScoreIndicator.SetOnTouchListener (this);
 			mDriverScoreIndicator.Click += mScoreButton_onClick;
 
+			mNotificationIndicator = rootView.FindViewById<ImageView> (Resource.Id.home_notificationIndicator);
+			mNotificationIndicator.Click += mScoreButton_onClick;
+			if (GamificationApp.GetInstance ().MyNotificationService.HasNotifications ()) {
+				mNotificationIndicator.Visibility = ViewStates.Visible;
+				AlphaAnimation animation = new AlphaAnimation (0, 1);
+				animation.Duration = 1000;
+				animation.Interpolator = new LinearInterpolator ();
+				animation.RepeatCount = Animation.Infinite;
+				animation.RepeatMode = RepeatMode.Reverse;
+				mNotificationIndicator.StartAnimation (animation);
+			}
 			return rootView;
 		}
 
@@ -68,6 +82,8 @@ namespace Mojio.Gamification.Android
 		private void mScoreButton_onClick (object sender, EventArgs e)
 		{
 			if (GamificationApp.GetInstance ().MyNotificationService.HasNotifications ()) {
+				mNotificationIndicator.ClearAnimation ();
+				mNotificationIndicator.Visibility = ViewStates.Gone;
 				DialogFragment notificationDialog = new NotificationDialogFragment ();
 				notificationDialog.Show (FragmentManager, "notification");
 			}
