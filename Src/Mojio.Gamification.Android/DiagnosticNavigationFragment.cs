@@ -45,7 +45,7 @@ namespace Mojio.Gamification.Android
 
 		private async void mFetchButton_onClick (object sender, EventArgs e)
 		{
-			var tripData = await GamificationApp.GetInstance ().MyConnectionService.MyMojioConnectUtility.FetchLatestTripAsync ();
+			var tripData = await GamificationApp.GetInstance ().MyConnectionService.FetchLatestTripAsync ();
 			((GamificationApp)Activity.Application).MyStatisticsManager.AddTrip (tripData.Item1, tripData.Item2);
 		}
 

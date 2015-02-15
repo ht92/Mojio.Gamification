@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Runtime;
 using Mojio.Gamification.Core;
@@ -8,6 +9,8 @@ namespace Mojio.Gamification.Android
 	[Application]
 	public class GamificationApp : Application
 	{
+		public event EventHandler InitializationCompleteEvent;
+
 		public ConnectionService MyConnectionService { get; set; }
 		public AppNotificationService MyNotificationService { get; set; }
 
@@ -37,13 +40,21 @@ namespace Mojio.Gamification.Android
 			base.OnCreate ();
 			_instance = this;
 			initializeServices ();
-			initializeDatabase ();
 			attachListeners ();
 		}
 
 		private void attachListeners ()
 		{
-			MyConnectionService.LoginSuccessfulEvent += (object sender, EventArgs e) => initializeManagers ();
+			MyConnectionService.LoginEvent += (sender, e) => {
+				if (e.IsSuccess) {
+					initializeDatabase ();
+					if (!MyUserStatsRepository.DoesUserExist (MyConnectionService.UserName)) {
+						initializeNewUser ();
+					}
+					initializeManagers ();
+					OnInitializationCompleteEvent ();
+				}
+			};
 		}
 
 		private void initializeServices ()
@@ -60,11 +71,23 @@ namespace Mojio.Gamification.Android
 			MyUserTripRecordsRepository = UserTripRecordsRepository.GetInstance ();
 		}
 
+		private void initializeNewUser ()
+		{
+			MyUserStatsRepository.AddUserStats (UserStats.CreateStats (MyConnectionService.UserName));
+			MyUserBadgesRepository.UpdateBadges (JsonSerializationUtility.Serialize (AchievementManager.DEFAULT_BADGE_COLLECTION));
+			MyUserTripRecordsRepository.UpdateTripRecords (JsonSerializationUtility.Serialize (new List<TripDataModel> ()));
+		}
+
 		private void initializeManagers () 
 		{
 			MyStatisticsManager = StatisticsManager.GetInstance ();
 			MyAchievementManager = AchievementManager.GetInstance ();
 			MyTripHistoryManager = TripHistoryManager.GetInstance ();
+		}
+
+		private void OnInitializationCompleteEvent ()
+		{
+			InitializationCompleteEvent (this, EventArgs.Empty);
 		}
 	}
 }

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@drawable/back_login">
     <Mojio.Gamification.Android.BadgeView
         android:id="@+id/login_icon"
         android:src="@drawable/Icon"
@@ -18,6 +19,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="@drawable/login_input_background"
         android:id="@+id/login_input_layout">
         <LinearLayout
             android:orientation="horizontal"
@@ -29,6 +35,7 @@
             <TextView
                 android:text="@string/login_username_label"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/primary_text_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/login_username_label"
@@ -51,6 +58,7 @@
             <TextView
                 android:text="@string/login_password_label"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/primary_text_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/login_password_label"
@@ -64,13 +72,24 @@
                 android:minWidth="180dp" />
         </LinearLayout>
         <Button
-            android:text="@string/login_button_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/login_input_layout"
             android:id="@+id/login_button"
+            android:text="@string/login_button_label"
+            android:textAllCaps="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:minWidth="180dp"
             android:layout_marginTop="16dp" />
     </LinearLayout>
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:id="@+id/login_progressBar"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

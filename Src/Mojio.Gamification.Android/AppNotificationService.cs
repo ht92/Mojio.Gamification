@@ -98,7 +98,6 @@ namespace Mojio.Gamification.Android
 					.SetContentTitle (title)
 					.SetContentText (text)
 					.SetAutoCancel (true)
-					.SetOnlyAlertOnce (true)
 					.SetLights (Color.White, NOTIFICATION_LIGHT_ON, NOTIFICATION_LIGHT_OFF)
 					.SetDefaults (NOTIFICATION_DEFAULT_FLAGS);
 
