@@ -7,13 +7,6 @@
     android:layout_marginBottom="8dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp">
-    <Mojio.Gamification.Android.BadgeView
-        android:id="@+id/br_badgeView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
     <TextView
         android:id="@+id/br_badgeLabel"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -22,6 +15,14 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="left|center"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="1" />
+    <Mojio.Gamification.Android.BadgeView
+        android:id="@+id/br_badgeView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="left|center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
 </LinearLayout>

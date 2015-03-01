@@ -11,15 +11,15 @@ namespace Mojio.Gamification.Android
 		public delegate bool CheckAchievementDelegate ();
 
 		//Badge Names
-		private const string BADGE_FIRST_TRIP_NAME = "First Trip";
-		private const string BADGE_PERFECT_TRIP_NAME = "Perfect Trip";
-		private const string BADGE_SAFETY_FIRST_NAME = "Safety First";
-		private const string BADGE_EFFICIENT_NAME = "Efficient";
-		private const string BADGE_HIGH_ACHIEVER_NAME = "High Achiever";
-		private const string BADGE_VETERAN_NAME = "Veteran";
-		private const string BADGE_SELF_IMPROVEMENT_NAME = "Self-Improvement";
-		private const string BADGE_PERFECTIONIST_NAME = "Perfectionist";
-		private const string BADGE_UNTOUCHABLE_NAME = "Untouchable";
+		public const string BADGE_FIRST_TRIP_NAME = "First Trip";
+		public const string BADGE_PERFECT_TRIP_NAME = "Perfect Trip";
+		public const string BADGE_SAFETY_FIRST_NAME = "Safety First";
+		public const string BADGE_EFFICIENT_NAME = "Efficient";
+		public const string BADGE_HIGH_ACHIEVER_NAME = "High Achiever";
+		public const string BADGE_VETERAN_NAME = "Veteran";
+		public const string BADGE_SELF_IMPROVEMENT_NAME = "Self-Improvement";
+		public const string BADGE_PERFECTIONIST_NAME = "Perfectionist";
+		public const string BADGE_UNTOUCHABLE_NAME = "Untouchable";
 
 		//Badge Descriptions
 		private const string BADGE_FIRST_TRIP_DESCRIPTION = "Complete first trip.";
@@ -33,15 +33,15 @@ namespace Mojio.Gamification.Android
 		private const string BADGE_UNTOUCHABLE_DESCRIPTION = "5 trips in a row without an accident.";
 
 		//Badges
-		private static Badge BADGE_FIRST_TRIP = createBadge (BADGE_FIRST_TRIP_NAME, BADGE_FIRST_TRIP_DESCRIPTION, Resource.Drawable.badge_firstTrip, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_PERFECT_TRIP = createBadge (BADGE_PERFECT_TRIP_NAME, BADGE_PERFECT_TRIP_DESCRIPTION, Resource.Drawable.badge_perfectTrip, Badge.BadgeType.COUNT);
-		private static Badge BADGE_SAFETY_FIRST = createBadge (BADGE_SAFETY_FIRST_NAME, BADGE_SAFETY_FIRST_DESCRIPTION, Resource.Drawable.badge_safetyFirst, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_EFFICIENT = createBadge (BADGE_EFFICIENT_NAME, BADGE_EFFICIENT_DESCRIPTION, Resource.Drawable.badge_efficiency, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_HIGH_ACHIEVER = createBadge (BADGE_HIGH_ACHIEVER_NAME, BADGE_HIGH_ACHIEVER_DESCRIPTION, Resource.Drawable.badge_highAchiever, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_VETERAN = createBadge (BADGE_VETERAN_NAME, BADGE_VETERAN_DESCRIPTION, Resource.Drawable.badge_veteran1, Badge.BadgeType.NORMAL);
-		private static Badge BADGE_SELF_IMPROVEMENT = createBadge (BADGE_SELF_IMPROVEMENT_NAME, BADGE_SELF_IMPROVEMENT_DESCRIPTION, Resource.Drawable.badge_selfImprovement1, Badge.BadgeType.LEVEL);
-		private static Badge BADGE_PERFECTIONIST = createBadge (BADGE_PERFECTIONIST_NAME, BADGE_PERFECTIONIST_DESCRIPTION, Resource.Drawable.badge_perfectionist1, Badge.BadgeType.LEVEL);
-		private static Badge BADGE_UNTOUCHABLE = createBadge (BADGE_UNTOUCHABLE_NAME, BADGE_UNTOUCHABLE_DESCRIPTION, Resource.Drawable.Icon, Badge.BadgeType.LEVEL);
+		private static Badge BADGE_FIRST_TRIP = createBadge (BADGE_FIRST_TRIP_NAME, BADGE_FIRST_TRIP_DESCRIPTION, Resource.Drawable.badge_firstTrip);
+		private static Badge BADGE_PERFECT_TRIP = createBadge (BADGE_PERFECT_TRIP_NAME, BADGE_PERFECT_TRIP_DESCRIPTION, Resource.Drawable.badge_perfectTrip);
+		private static Badge BADGE_SAFETY_FIRST = createBadge (BADGE_SAFETY_FIRST_NAME, BADGE_SAFETY_FIRST_DESCRIPTION, Resource.Drawable.badge_safetyFirst);
+		private static Badge BADGE_EFFICIENT = createBadge (BADGE_EFFICIENT_NAME, BADGE_EFFICIENT_DESCRIPTION, Resource.Drawable.badge_efficiency);
+		private static Badge BADGE_HIGH_ACHIEVER = createBadge (BADGE_HIGH_ACHIEVER_NAME, BADGE_HIGH_ACHIEVER_DESCRIPTION, Resource.Drawable.badge_highAchiever);
+		private static Badge BADGE_VETERAN = createBadge (BADGE_VETERAN_NAME, BADGE_VETERAN_DESCRIPTION, Resource.Drawable.badge_veteran1);
+		private static Badge BADGE_SELF_IMPROVEMENT = createBadge (BADGE_SELF_IMPROVEMENT_NAME, BADGE_SELF_IMPROVEMENT_DESCRIPTION, Resource.Drawable.badge_selfImprovement1);
+		private static Badge BADGE_PERFECTIONIST = createBadge (BADGE_PERFECTIONIST_NAME, BADGE_PERFECTIONIST_DESCRIPTION, Resource.Drawable.badge_perfectionist1);
+		private static Badge BADGE_UNTOUCHABLE = createBadge (BADGE_UNTOUCHABLE_NAME, BADGE_UNTOUCHABLE_DESCRIPTION, Resource.Drawable.Icon);
 
 		//Badge Unlock Check Delegates
 		private static CheckAchievementDelegate BADGE_FIRST_TRIP_CHECK_DELEGATE = CheckFirstTripAchievement;
@@ -65,18 +65,10 @@ namespace Mojio.Gamification.Android
 		private static UpdateAchievementDelegate BADGE_PERFECTIONIST_UPDATE_DELEGATE = UpdateNullAchievement;
 		private static UpdateAchievementDelegate BADGE_UNTOUCHABLE_UPDATE_DELEGATE = UpdateUntouchableAchievement;
 
-		private const int BADGE_SELF_IMPROVEMENT_LEVEL_1_STREAK = 5;
-		private const int BADGE_SELF_IMPROVEMENT_LEVEL_2_STREAK = 10;
-		private const int BADGE_SELF_IMPROVEMENT_LEVEL_3_STREAK = 20;
-
-		private const int BADGE_PERFECTIONIST_LEVEL_1_STREAK = 5;
-		private const int BADGE_PERFECTIONIST_LEVEL_2_STREAK = 10;
-		private const int BADGE_PERFECTIONIST_LEVEL_3_STREAK = 20;
-
+		private const int BADGE_SELF_IMPROVEMENT_STREAK = 5;
+		private const int BADGE_PERFECTIONIST_STREAK = 5;
+		private const int BADGE_UNTOUCHABLE_STREAK = 10000;
 		private const string BADGE_UNTOUCHABLE_KM_PROP = "distanceTravelled";
-		private const int BADGE_UNTOUCHABLE_LEVEL_1_STREAK = 10000;
-		private const int BADGE_UNTOUCHABLE_LEVEL_2_STREAK = 20000;
-		private const int BADGE_UNTOUCHABLE_LEVEL_3_STREAK = 30000;
 
 		public static Dictionary<string, CheckAchievementDelegate> badgeCheckDelegateMapping = new Dictionary<string, CheckAchievementDelegate> ()
 		{
@@ -138,15 +130,9 @@ namespace Mojio.Gamification.Android
 			SyncFromDb ();
 		}
 
-		private static Badge createBadge (string badgeName, string badgeDescription, int badgeDrawable, Badge.BadgeType badgeType)
+		private static Badge createBadge (string badgeName, string badgeDescription, int badgeDrawable)
 		{
-			Badge.BadgeType type = badgeType;
-			switch (type) {
-			case Badge.BadgeType.NORMAL: 	return new Badge (badgeName, badgeDescription, badgeDrawable);
-			case Badge.BadgeType.COUNT: 	return new CountBadge (badgeName, badgeDescription, badgeDrawable);
-			case Badge.BadgeType.LEVEL:		return new LevelBadge (badgeName, badgeDescription, badgeDrawable);
-			default: 						throw new ArgumentException (String.Format ("Invalid badge type - {0}.", type));
-			}
+			return new Badge (badgeName, badgeDescription, badgeDrawable);
 		}
 
 		private void SyncFromDb ()
@@ -207,7 +193,7 @@ namespace Mojio.Gamification.Android
 		{
 			List<Badge> lockedBadges = GetLockedBadgeCollection ();
 			foreach (Badge lockedBadge in lockedBadges) {
-
+				lockedBadge.UpdateAchievement ();
 			}
 		}
 
@@ -274,18 +260,11 @@ namespace Mojio.Gamification.Android
 
 		private static bool CheckSelfImprovementAchievement () 
 		{
-			int records = 0;
-			LevelBadge badge = (LevelBadge) GetInstance ().GetBadge (BADGE_SELF_IMPROVEMENT_NAME);
-			switch (badge.GetLevel ()) {
-			case 0: records = BADGE_SELF_IMPROVEMENT_LEVEL_1_STREAK; 	break;
-			case 1:	records = BADGE_SELF_IMPROVEMENT_LEVEL_2_STREAK;	break;
-			case 2:	records = BADGE_SELF_IMPROVEMENT_LEVEL_3_STREAK;	break;
-			}
-
-			List<TripDataModel> tripRecords = GamificationApp.GetInstance ().MyTripHistoryManager.GetRecords ();
-			if (tripRecords.Count < records) return false;
+			int numRecords = BADGE_SELF_IMPROVEMENT_STREAK + 1;
+			List<TripDataModel> tripRecords = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecords (numRecords);
+			if (tripRecords.Count < numRecords+1) return false;
 			double previousScore = 0;
-			for (int count = 0; count < records; count++) {
+			for (int count = 0; count < numRecords; count++) {
 				TripDataModel tripRecord = tripRecords [count];
 				double safetyScore = tripRecord.TripSafetyScore;
 				double efficiencyScore = tripRecord.TripEfficiencyScore;
@@ -298,16 +277,8 @@ namespace Mojio.Gamification.Android
 
 		private static bool CheckPerfectionistAchievement () 
 		{
-			int records = 0;
-			LevelBadge badge = (LevelBadge) GetInstance ().GetBadge (BADGE_PERFECTIONIST_NAME);
-			switch (badge.GetLevel ()) {
-			case 0: records = BADGE_PERFECTIONIST_LEVEL_1_STREAK; 	break;
-			case 1:	records = BADGE_PERFECTIONIST_LEVEL_2_STREAK;	break;
-			case 2:	records = BADGE_PERFECTIONIST_LEVEL_3_STREAK;	break;
-			}
-
-			List<TripDataModel> tripRecords = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecords (records);
-			if (tripRecords.Count < records) return false;
+			List<TripDataModel> tripRecords = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecords (BADGE_PERFECTIONIST_STREAK);
+			if (tripRecords.Count < BADGE_PERFECTIONIST_STREAK) return false;
 			foreach (TripDataModel tripRecord in tripRecords) {
 				double safetyScore = tripRecord.TripSafetyScore;
 				double efficiencyScore = tripRecord.TripEfficiencyScore;
@@ -318,21 +289,14 @@ namespace Mojio.Gamification.Android
 
 		private static bool CheckUntouchableAchievement ()
 		{
-			LevelBadge badge = (LevelBadge) GetInstance ().GetBadge (BADGE_UNTOUCHABLE_NAME);
-			double threshold = 0;
-			switch (badge.GetLevel ()) {
-			case 0: threshold = BADGE_UNTOUCHABLE_LEVEL_1_STREAK; 	break;
-			case 1:	threshold = BADGE_UNTOUCHABLE_LEVEL_2_STREAK;	break;
-			case 2:	threshold = BADGE_UNTOUCHABLE_LEVEL_3_STREAK;	break;
-			}
-
+			Badge badge = GetInstance ().GetBadge (BADGE_UNTOUCHABLE_NAME);
 			double? distanceWithoutAccident = badge.GetProperty (BADGE_UNTOUCHABLE_KM_PROP);
-			return distanceWithoutAccident.HasValue && distanceWithoutAccident.Value >= threshold;
+			return distanceWithoutAccident.HasValue && distanceWithoutAccident.Value >= BADGE_UNTOUCHABLE_STREAK;
 		}
 
 		private static void UpdateUntouchableAchievement ()
 		{
-			LevelBadge badge = (LevelBadge) GetInstance ().GetBadge (BADGE_UNTOUCHABLE_NAME);
+			Badge badge = GetInstance ().GetBadge (BADGE_UNTOUCHABLE_NAME);
 			TripDataModel tripRecord = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecord ();
 			if (tripRecord == null)	return;
 			if (tripRecord.AccidentEventMetric.Count > 0) {

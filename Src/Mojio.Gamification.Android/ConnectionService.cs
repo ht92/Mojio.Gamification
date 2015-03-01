@@ -13,7 +13,8 @@ namespace Mojio.Gamification.Android
 {
 	public class ConnectionService
 	{
-		public event EventHandler<LoginEventArgs> LoginEvent;
+		public event EventHandler<ConnectionEventArgs> LoginEvent;
+		public event EventHandler<ConnectionEventArgs> LogoutEvent;
 
 		private static ConnectionService _instance;
 
@@ -21,8 +22,8 @@ namespace Mojio.Gamification.Android
 		private string Password;
 		private MojioClient mClient;
 
-		private readonly static LoginEventArgs LOGIN_SUCCESS = new LoginEventArgs (true);
-		private readonly static LoginEventArgs LOGIN_FAIL = new LoginEventArgs (false);
+		private readonly static ConnectionEventArgs SUCCESS = new ConnectionEventArgs (true);
+		private readonly static ConnectionEventArgs FAIL = new ConnectionEventArgs (false);
 
 		public static ConnectionService GetInstance ()
 		{
@@ -42,6 +43,11 @@ namespace Mojio.Gamification.Android
 			UserName = username;
 			Password = password;
 			initializeConnection (username, password);
+		}
+
+		public void Logout ()
+		{
+			uninitializeConnection ();
 		}
 
 		private async Task initializeConnection (string username, string password)
@@ -72,6 +78,16 @@ namespace Mojio.Gamification.Android
 			}
 		}
 
+		private async Task uninitializeConnection ()
+		{
+			var response = await mClient.ClearUserAsync ();
+			if (response.StatusCode == HttpStatusCode.OK) {
+				OnLogoutSuccessfulEvent ();
+			} else {
+				OnLogoutFailEvent ();
+			}
+		}
+
 		public async Task<Tuple<Trip, List<Event>>> FetchLatestTripAsync () {
 
 			//setting up mojioID/vehicleID 
@@ -98,18 +114,28 @@ namespace Mojio.Gamification.Android
 
 		private void OnLoginSuccessfulEvent ()
 		{
-			LoginEvent (this, LOGIN_SUCCESS);
+			LoginEvent (this, SUCCESS);
 		}
 
 		private void OnLoginFailEvent ()
 		{
-			LoginEvent (this, LOGIN_FAIL);
+			LoginEvent (this, FAIL);
 		}
 
-		public class LoginEventArgs : EventArgs 
+		private void OnLogoutSuccessfulEvent ()
+		{
+			LogoutEvent (this, SUCCESS);
+		}
+
+		private void OnLogoutFailEvent ()
+		{
+			LogoutEvent (this, FAIL);
+		}
+
+		public class ConnectionEventArgs : EventArgs 
 		{
 			public bool IsSuccess { get; set; }
-			public LoginEventArgs (bool isSuccess) 
+			public ConnectionEventArgs (bool isSuccess) 
 			{
 				IsSuccess = isSuccess;
 			}

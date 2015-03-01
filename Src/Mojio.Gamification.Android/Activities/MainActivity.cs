@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
-
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
 using Android.Content.PM;
 using Android.Locations;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
-using Android.Support.V7.Widget;
-
-using Mojio;
-using Mojio.Client;
-using Mojio.Gamification.Core;
 
 using Fragment = Android.App.Fragment;
 
@@ -29,25 +22,33 @@ namespace Mojio.Gamification.Android
 		private DrawerLayout mDrawerLayout;
 		private ListView mDrawerList;
 		private String mDrawerTitle;
-		private String[] mPageTitles;
+		private List<String> mNavigationDestinations = new List<string> ();
+		private List<string> mNavigationPages;
+		private String mNavigationLogout;
 
 		private ActionBarDrawerToggle mDrawerToggle;
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
+			attachListeners ();
+
 			RequestedOrientation = ScreenOrientation.Portrait;
-			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
 			Window.DecorView.SetBackgroundResource (getActivityBackground ());
 				
 			mDrawerTitle = this.Resources.GetString (Resource.String.navigation_drawer_title);
-			mPageTitles = this.Resources.GetStringArray (Resource.Array.pages_array);
+			mNavigationPages = new List<string> (this.Resources.GetStringArray (Resource.Array.pages_array));
+			mNavigationLogout = Resources.GetString (Resource.String.navigation_logout);
+			mNavigationDestinations.AddRange (mNavigationPages);
+			mNavigationDestinations.Add (mNavigationLogout);
+
 			mDrawerLayout = FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			mDrawerList = FindViewById<ListView> (Resource.Id.drawer_list);
 
 			mDrawerLayout.SetDrawerShadow (Resource.Drawable.drawer_shadow, GravityCompat.Start);
-			ArrayAdapter listAdapter = new ArrayAdapter (this, Android.Resource.Layout.drawer_list_item, mPageTitles);
+
+			ArrayAdapter listAdapter = new ArrayAdapter (this, Android.Resource.Layout.drawer_list_item, mNavigationDestinations);
 			mDrawerList.Adapter = listAdapter;
 			mDrawerList.ItemClick += navDrawer_onClick;
 				
@@ -60,6 +61,7 @@ namespace Mojio.Gamification.Android
 			if (savedInstanceState == null) {
 				SelectFragment ((int)AbstractNavigationFragment.NavigationFragmentType.NAV_HOME);
 			}
+
 		}
 
 		protected override void OnPause ()
@@ -102,7 +104,7 @@ namespace Mojio.Gamification.Android
 			var fragmentManager = this.FragmentManager;
 			Fragment currentFragment = fragmentManager.FindFragmentByTag ("0");
 			if (currentFragment != null && currentFragment.IsVisible) {
-				base.OnBackPressed ();
+				MoveTaskToBack (true);
 			} else {
 				SelectFragment ((int)AbstractNavigationFragment.NavigationFragmentType.NAV_HOME);
 			}
@@ -111,10 +113,14 @@ namespace Mojio.Gamification.Android
 		private void navDrawer_onClick (object sender, AdapterView.ItemClickEventArgs e) 
 		{
 			int position = e.Position;
-			mDrawerList.SetItemChecked (position, true);
-			Title = mPageTitles [position];
-			mDrawerLayout.CloseDrawer (mDrawerList);
-			SelectFragment (position);
+			if (mNavigationDestinations [position].Equals (mNavigationLogout)) {
+				logout ();
+			} else {
+				mDrawerList.SetItemChecked (position, true);
+				Title = mNavigationPages [position];
+				mDrawerLayout.CloseDrawer (mDrawerList);
+				SelectFragment (position);
+			}
 		}
 
 		public void SelectFragment (int position)
@@ -128,6 +134,11 @@ namespace Mojio.Gamification.Android
 			transaction.SetCustomAnimations (Resource.Animator.fade_in, Resource.Animator.fade_out, Resource.Animator.slide_in_left, Resource.Animator.fade_out);
 			transaction.Replace (Resource.Id.content_frame, fragment, position.ToString ());
 			transaction.Commit ();
+		}
+
+		private void logout ()
+		{
+			GamificationApp.GetInstance ().MyConnectionService.Logout ();
 		}
 
 		private int getActivityBackground ()
@@ -147,6 +158,22 @@ namespace Mojio.Gamification.Android
 			default: 
 				return Resource.Drawable.back_sunny;
 			}
+		}
+
+		private void attachListeners ()
+		{
+			GamificationApp.GetInstance ().MyConnectionService.LogoutEvent += (sender, e) => 
+			{
+				if (e.IsSuccess) {
+					Intent i = BaseContext.PackageManager.GetLaunchIntentForPackage (BaseContext.PackageName);
+					i.AddFlags (ActivityFlags.ClearTop);
+					Finish ();
+					StartActivity (i);
+					OverridePendingTransition (Resource.Animation.abc_fade_in, Resource.Animation.abc_fade_out);
+				} else {
+					Toast.MakeText (ApplicationContext, "Failed to logout...", ToastLength.Long).Show ();
+				}
+			};
 		}
 			
 		internal class NavigationDrawerToggle : ActionBarDrawerToggle

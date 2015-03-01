@@ -52,9 +52,9 @@ namespace Mojio.Gamification.Android
 			TextView notifiedBadgesTitle = view.FindViewById<TextView> (Resource.Id.notificationView_badges_title);
 			LinearLayout notifiedBadgesLayout = view.FindViewById<LinearLayout> (Resource.Id.notificationView_badges_layout);
 			foreach (Badge badge in AppNotificationService.GetInstance ().NotifiedBadges) {
-				TextView badgeText = new TextView (Activity);
-				badgeText.Text = badge.GetDisplayName ();
-				notifiedBadgesLayout.AddView (badgeText);
+				BadgeRowView badgeRow = new BadgeRowView (Activity);
+				badgeRow.SetBadge (badge);
+				notifiedBadgesLayout.AddView (badgeRow);
 			}
 			notifiedBadgesTitle.Visibility = ViewStates.Visible;
 			notifiedBadgesLayout.Visibility = ViewStates.Visible;

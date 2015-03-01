@@ -42,11 +42,13 @@
                 android:layout_gravity="center_vertical"
                 android:minWidth="100dp" />
             <EditText
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/login_username_field"
                 android:minWidth="180dp"
-                android:inputType="text" />
+                android:maxWidth="180dp"
+                android:maxLines="1" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -69,7 +71,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/login_password_field"
-                android:minWidth="180dp" />
+                android:minWidth="180dp"
+                android:maxWidth="180dp"
+                android:maxLines="1" />
         </LinearLayout>
         <Button
             android:id="@+id/login_button"

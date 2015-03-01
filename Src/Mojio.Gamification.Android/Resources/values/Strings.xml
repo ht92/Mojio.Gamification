@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Connect to Mojio</string>
+	<string name="facebook_app_id">1544639629137406</string>
 	<string name="app_name">Mojio Gamification</string>
 	<string name="drawer_open">Open Drawer</string>
 	<string name="drawer_close">Close Drawer</string>
@@ -22,4 +23,5 @@
 	<string name="login_username_label">Username</string>
 	<string name="login_password_label">Password</string>
 	<string name="login_button_label">Login</string>
+	<string name="navigation_logout">Logout</string>
 </resources>

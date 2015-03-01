@@ -6,13 +6,6 @@ namespace Mojio.Gamification.Android
 {
 	public class Badge
 	{
-		public enum BadgeType
-		{
-			NORMAL = 0,
-			COUNT = 1,
-			LEVEL = 2
-		}
-
 		[JsonProperty]
 		protected string mBadgeName;
 		[JsonProperty]
