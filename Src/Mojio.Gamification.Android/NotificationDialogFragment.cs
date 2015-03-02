@@ -2,6 +2,9 @@
 using Android.OS;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
+using Android.Graphics.Drawables;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Mojio.Gamification.Core;
@@ -10,60 +13,69 @@ namespace Mojio.Gamification.Android
 {
 	public class NotificationDialogFragment : DialogFragment
 	{
+		private static float WIDTH_SCALE = 0.9f;
+		private static float HEIGHT_SCALE = 0.6f;
+		private static string TAB_NEW_TRIPS_TAG = "tab0";
+		private static string TAB_NEW_BADGES_TAG = "tab1";
+		private TabHost mTabHost;
+		private TabHost.ITabContentFactory mTabContentFactory;
+
 		public override Dialog OnCreateDialog (Bundle savedInstanceState)
 		{			
-			AlertDialog.Builder builder = new AlertDialog.Builder (Activity);
 			LayoutInflater layoutInflater = Activity.LayoutInflater;
 			View rootView = layoutInflater.Inflate (Resource.Layout.notification_view_layout, null);
-			initializedDialog (rootView);
-			builder.SetView (rootView);
+			mTabHost = rootView.FindViewById<TabHost> (Resource.Id.notification_view_tabhost);
+			mTabHost.Setup ();
+			mTabContentFactory = new NotificationDialogTabContentFactory (rootView.Context);
+			initializeTabHostView ();
+			return createDialog (rootView);
+		}
+
+		public override void OnStart ()
+		{
+			base.OnStart ();
+			if (Dialog == null)
+				return;
+			DisplayMetrics metric = new DisplayMetrics ();
+			Activity.WindowManager.DefaultDisplay.GetMetrics (metric);
+			int dialogWidth = (int) (metric.WidthPixels * WIDTH_SCALE);
+			int dialogHeight = (int) (metric.HeightPixels * HEIGHT_SCALE);
+			Dialog.Window.SetLayout (dialogWidth, dialogHeight);
+			Dialog.Window.SetBackgroundDrawable (new ColorDrawable (Resources.GetColor (Resource.Color.transparent_black)));
+		}
+
+		private Dialog createDialog (View view)
+		{
+			AlertDialog.Builder builder = new AlertDialog.Builder (Activity);
+			builder.SetView (view);
 			return builder.Create ();
 		}
 
-		private void initializedDialog (View view)
+		private void initializeTabHostView ()
 		{
-			initializeCloseButton (view);
 			if (AppNotificationService.GetInstance ().HasTripNotifications ()) {
-				populateTripsLayout (view);
+				populateTripsLayout ();
 			}
 			if (AppNotificationService.GetInstance ().HasBadgeNotifications ()) {
-				populateBadgesLayout (view);
+				populateBadgesLayout ();
 			}
 		}
 			
-		private void populateTripsLayout (View view)
+		private void populateTripsLayout ()
 		{
-			TextView notifiedTripsTitle = view.FindViewById<TextView> (Resource.Id.notificationView_trips_title);
-			LinearLayout notifiedTripsLayout = view.FindViewById<LinearLayout> (Resource.Id.notificationView_trips_layout);
-			foreach (TripDataModel tripDataModel in AppNotificationService.GetInstance ().NotifiedTrips) {
-				ScoreRowView overallScoreRow = new ScoreRowView (Activity);
-				ScoreWrapper overallScore = ScoreWrapper.WrapScore (ScoreCalculator.CalculateOverallScore (tripDataModel.TripSafetyScore, tripDataModel.TripEfficiencyScore));
-				overallScoreRow.SetScoreLabel (tripDataModel.MyTrip.StartTime.ToString ("MMMM dd, yyyy h:mm tt"));
-				overallScoreRow.SetScore (overallScore.Score);
-				overallScoreRow.SetRankLabel (String.Format ("RANK {0}", overallScore.Rank));
-				notifiedTripsLayout.AddView (overallScoreRow);
-			}
-			notifiedTripsTitle.Visibility = ViewStates.Visible;
-			notifiedTripsLayout.Visibility = ViewStates.Visible;
+			TabHost.TabSpec tabSpec = mTabHost.NewTabSpec (TAB_NEW_TRIPS_TAG);
+			tabSpec.SetIndicator (Resources.GetString (Resource.String.notification_view_new_trips));
+			tabSpec.SetContent (mTabContentFactory);
+			mTabHost.AddTab (tabSpec);
+
 		}
 
-		private void populateBadgesLayout (View view)
+		private void populateBadgesLayout ()
 		{
-			TextView notifiedBadgesTitle = view.FindViewById<TextView> (Resource.Id.notificationView_badges_title);
-			LinearLayout notifiedBadgesLayout = view.FindViewById<LinearLayout> (Resource.Id.notificationView_badges_layout);
-			foreach (Badge badge in AppNotificationService.GetInstance ().NotifiedBadges) {
-				BadgeRowView badgeRow = new BadgeRowView (Activity);
-				badgeRow.SetBadge (badge);
-				notifiedBadgesLayout.AddView (badgeRow);
-			}
-			notifiedBadgesTitle.Visibility = ViewStates.Visible;
-			notifiedBadgesLayout.Visibility = ViewStates.Visible;
-		}
-
-		private void initializeCloseButton (View view)
-		{
-			ImageView closeButton = view.FindViewById<ImageView> (Resource.Id.notificationView_close_button);
-			closeButton.Click += dialog_onClose;
+			TabHost.TabSpec tabSpec = mTabHost.NewTabSpec (TAB_NEW_BADGES_TAG);
+			tabSpec.SetIndicator (Resources.GetString (Resource.String.notification_view_new_badges));
+			tabSpec.SetContent (mTabContentFactory);
+			mTabHost.AddTab (tabSpec);
 		}
 
 		public override void OnDismiss (IDialogInterface dialog)
@@ -72,8 +84,50 @@ namespace Mojio.Gamification.Android
 			base.OnDismiss (dialog);
 		}
 
-		private void dialog_onClose (object sender, EventArgs e) {
-			this.Dialog.Dismiss ();
+		internal class NotificationDialogTabContentFactory : Java.Lang.Object, TabHost.ITabContentFactory
+		{
+			private Context _context;
+
+			public NotificationDialogTabContentFactory (Context context)
+			{
+				_context = context;
+			}
+			public View CreateTabContent (string tag)
+			{
+				if (tag.Equals (TAB_NEW_TRIPS_TAG)) return createNewTripsView ();
+				else if (tag.Equals (TAB_NEW_BADGES_TAG)) return createNewBadgesView ();
+				else throw new ArgumentException (String.Format ("Invalid tag provided: {0}", tag));
+			}
+
+			private View createNewTripsView ()
+			{
+				ScrollView view = new ScrollView (_context);
+				LinearLayout layout = new LinearLayout (_context);
+				layout.Orientation = Orientation.Vertical;
+				foreach (TripDataModel tripDataModel in AppNotificationService.GetInstance ().NotifiedTrips) {
+					ScoreRowView overallScoreRow = new ScoreRowView (_context);
+					ScoreWrapper overallScore = ScoreWrapper.WrapScore (ScoreCalculator.CalculateOverallScore (tripDataModel.TripSafetyScore, tripDataModel.TripEfficiencyScore));
+					overallScoreRow.SetScoreLabel (tripDataModel.MyTrip.StartTime.ToString ("MMM dd, yyyy h:mm tt"));
+					overallScoreRow.SetScore (overallScore);
+					layout.AddView (overallScoreRow);
+				}
+				view.AddView (layout);
+				return view;
+			}
+
+			private View createNewBadgesView ()
+			{
+				ScrollView view = new ScrollView (_context);
+				LinearLayout layout = new LinearLayout (_context);
+				layout.Orientation = Orientation.Vertical;
+				foreach (Badge badge in AppNotificationService.GetInstance ().NotifiedBadges) {
+					BadgeRowView badgeRow = new BadgeRowView (_context);
+					badgeRow.SetBadge (badge);
+					layout.AddView (badgeRow);
+				}
+				view.AddView (layout);
+				return view;
+			}
 		}
 	}
 }

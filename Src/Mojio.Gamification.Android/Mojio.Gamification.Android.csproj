@@ -114,7 +114,6 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\layout\drawer_list_item.axml" />
-    <AndroidResource Include="Resources\Menu\navigation_drawer.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\action_search.png" />
     <AndroidResource Include="Resources\drawable-hdpi\drawer_shadow.9.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_drawer.png" />
@@ -222,8 +221,8 @@
     <AndroidResource Include="Resources\drawable-ldpi\back_login.jpg" />
     <AndroidResource Include="Resources\drawable-mdpi\back_login.jpg" />
     <AndroidResource Include="Resources\drawable-xhdpi\back_login.jpg" />
-    <AndroidResource Include="Resources\drawable\notification_view_background.axml" />
     <AndroidResource Include="Resources\drawable\login_input_background.axml" />
+    <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

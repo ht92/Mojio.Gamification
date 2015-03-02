@@ -12,10 +12,13 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
+using Mojio.Gamification.Core;
+
 namespace Mojio.Gamification.Android
 {
 	public class ScoreRowView : LinearLayout
 	{
+		private static string RANK_LABEL = "RANK";
 		private TextView mScoreLabelTextView;
 		private CircularIndicatorView mScoreIndicatorView;
 		private TextView mRankLabelTextView;
@@ -23,56 +26,44 @@ namespace Mojio.Gamification.Android
 		public ScoreRowView (Context context) :
 			base (context)
 		{
-			LayoutInflater.From (context).Inflate (Resource.Layout.score_row_layout, this);
+			initViews (context, null);
 		}
 
 		public ScoreRowView (Context context, IAttributeSet attrs) :
-			base (context, attrs)
+		base (context, attrs)
 		{
 			initViews (context, attrs);
 		}
 
 		public ScoreRowView (Context context, IAttributeSet attrs, int defStyle) :
-			base (context, attrs, defStyle)
+		base (context, attrs, defStyle)
 		{
 			initViews (context, attrs);
 		}
 
 		private void initViews(Context context, IAttributeSet attrs)
 		{
-			TypedArray arr = context.Theme.ObtainStyledAttributes (attrs, Resource.Styleable.ScoreRowView, 0, 0);
-			string scoreLabelText = arr.GetString (Resource.Styleable.ScoreRowView_scoreLabel);
-			string rankLabelText = arr.GetString (Resource.Styleable.ScoreRowView_rankLabel);
-			arr.Recycle ();
-
 			LayoutInflater.From (context).Inflate (Resource.Layout.score_row_layout, this);
-
-			SetScoreLabel (scoreLabelText);
-			SetRankLabel (rankLabelText);
 		}
 
 		public void SetScoreLabel(string label)
 		{
 			if (mScoreLabelTextView == null) {
-				mScoreLabelTextView = (TextView)FindViewById<TextView> (Resource.Id.sr_scoreLabelTextView);
+				mScoreLabelTextView = FindViewById<TextView> (Resource.Id.sr_scoreLabelTextView);
 			}
 			mScoreLabelTextView.Text = label;
 		}
 
-		public void SetRankLabel(string label)
-		{
-			if (mRankLabelTextView == null) {
-				mRankLabelTextView = (TextView)FindViewById<TextView> (Resource.Id.sr_rankLabelTextView);
-			}
-			mRankLabelTextView.Text = label;
-		}
-
-		public void SetScore(double score)
+		public void SetScore(ScoreWrapper score)
 		{
 			if (mScoreIndicatorView == null) {
-				mScoreIndicatorView = (CircularIndicatorView)FindViewById<CircularIndicatorView> (Resource.Id.sr_scoreIndicator);
+				mScoreIndicatorView = FindViewById<CircularIndicatorView> (Resource.Id.sr_scoreIndicator);
 			}
-			mScoreIndicatorView.SetIndicatorValue (Math.Round(score, MidpointRounding.AwayFromZero));
+			if (mRankLabelTextView == null) {
+				mRankLabelTextView = FindViewById<TextView> (Resource.Id.sr_rankLabelTextView);
+			}
+			mScoreIndicatorView.SetIndicatorValue (Math.Round(score.Score, MidpointRounding.AwayFromZero));
+			mRankLabelTextView.Text = String.Format ("{0} {1}", RANK_LABEL, score.Rank);
 		}
 	}
 }

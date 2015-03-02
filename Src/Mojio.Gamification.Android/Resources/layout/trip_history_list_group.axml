@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:background="#99000000"
+    android:background="@color/transparent_black"
     android:minWidth="25px"
     android:minHeight="25px">
     <Mojio.Gamification.Android.ScoreRowView xmlns:indicator="http://schemas.android.com/apk/res-auto"

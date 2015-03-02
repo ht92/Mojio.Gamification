@@ -41,11 +41,9 @@ namespace Mojio.Gamification.Android
 			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (dataModel.TripSafetyScore);
 			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (dataModel.TripEfficiencyScore);
 			tripRecordSafetyScore.SetScoreLabel ("SAFETY");
-			tripRecordSafetyScore.SetScore (safetyScore.Score);
-			tripRecordSafetyScore.SetRankLabel (String.Format ("RANK {0}", safetyScore.Rank));
+			tripRecordSafetyScore.SetScore (safetyScore);
 			tripRecordEfficiencyScore.SetScoreLabel ("EFFICIENCY");
-			tripRecordEfficiencyScore.SetScore (efficiencyScore.Score);
-			tripRecordEfficiencyScore.SetRankLabel (String.Format ("RANK {0}", efficiencyScore.Rank));
+			tripRecordEfficiencyScore.SetScore (efficiencyScore);
 			return convertView;
 		}
 
@@ -79,9 +77,8 @@ namespace Mojio.Gamification.Android
 			ScoreRowView tripRecordHeader = convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordHeader);
 			TripDataModel dataModel = mListData [groupPosition];
 			ScoreWrapper overallScore = ScoreWrapper.WrapScore (ScoreCalculator.CalculateOverallScore (dataModel.TripSafetyScore, dataModel.TripEfficiencyScore));
-			tripRecordHeader.SetScoreLabel (dataModel.MyTrip.StartTime.ToString ("MMMM dd, yyyy h:mm tt"));
-			tripRecordHeader.SetScore (overallScore.Score);
-			tripRecordHeader.SetRankLabel (String.Format ("RANK {0}", overallScore.Rank));
+			tripRecordHeader.SetScoreLabel (dataModel.MyTrip.StartTime.ToString ("MMM dd, yyyy h:mm tt"));
+			tripRecordHeader.SetScore (overallScore);
 			return convertView;
 		}
 

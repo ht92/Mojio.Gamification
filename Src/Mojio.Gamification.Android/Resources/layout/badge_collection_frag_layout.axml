@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:minWidth="25px"
     android:minHeight="25px"
-    android:background="#99000000">
+    android:background="@color/transparent_black">
     <ExpandableListView
         android:minWidth="25px"
         android:minHeight="25px"

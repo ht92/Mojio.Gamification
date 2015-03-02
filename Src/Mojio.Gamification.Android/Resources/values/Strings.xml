@@ -5,8 +5,6 @@
 	<string name="app_name">Mojio Gamification</string>
 	<string name="drawer_open">Open Drawer</string>
 	<string name="drawer_close">Close Drawer</string>
-	<string name="action_websearch">Web search</string>
-	<string name="app_not_available">Sorry, there\'s no web browser available</string>
 	<string name="navigation_drawer_title">Navigation</string>
     <string-array name="pages_array">
         <item>Home</item>
@@ -19,6 +17,8 @@
 	<string name="notification_dialog_title">Updates</string>
 	<string name="notification_new_trips">You have new trips!</string>
 	<string name="notification_new_badges">You have unlocked new badges!</string>
+	<string name="notification_view_new_trips">New Trips</string>
+	<string name="notification_view_new_badges">New Badges</string>
 	<string name="close_label">Close</string>
 	<string name="login_username_label">Username</string>
 	<string name="login_password_label">Password</string>

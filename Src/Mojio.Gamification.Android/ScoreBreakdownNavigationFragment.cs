@@ -44,20 +44,17 @@ namespace Mojio.Gamification.Android
 			ScoreRowView overallScoreRow = new ScoreRowView (context);
 			ScoreWrapper overallScore = ScoreWrapper.WrapScore (statsManager.OverallScore);
 			overallScoreRow.SetScoreLabel ("OVERALL");
-			overallScoreRow.SetScore (overallScore.Score);
-			overallScoreRow.SetRankLabel ("RANK " + overallScore.Rank.ToString ());
+			overallScoreRow.SetScore (overallScore);
 
 			ScoreRowView safetyScoreRow = new ScoreRowView (context);
 			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (statsManager.MyStats.safetyScore);
 			safetyScoreRow.SetScoreLabel ("SAFETY");
-			safetyScoreRow.SetScore (safetyScore.Score);
-			safetyScoreRow.SetRankLabel ("RANK " + safetyScore.Rank.ToString ());
+			safetyScoreRow.SetScore (safetyScore);
 
 			ScoreRowView efficiencyScoreRow = new ScoreRowView (context);
 			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (statsManager.MyStats.efficiencyScore);
 			efficiencyScoreRow.SetScoreLabel ("EFFICIENCY");
-			efficiencyScoreRow.SetScore (efficiencyScore.Score);
-			efficiencyScoreRow.SetRankLabel ("RANK " + efficiencyScore.Rank.ToString ());
+			efficiencyScoreRow.SetScore (efficiencyScore);
 
 			mScoreBreakdownLayout.AddView (overallScoreRow);
 			mScoreBreakdownLayout.AddView (safetyScoreRow);

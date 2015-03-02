@@ -1,10 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-	<declare-styleable name="ScoreRowView">
-		<attr name="scoreLabel" format="string" />
-		<attr name="rankLabel" format="string" />
-	</declare-styleable>
-
 	<declare-styleable name="CircularIndicator">
 		<attr name="indicatorColor" format="color" />
 		<attr name="textSize" format="dimension" />

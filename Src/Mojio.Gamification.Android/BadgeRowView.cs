@@ -13,7 +13,7 @@ namespace Mojio.Gamification.Android
 		public BadgeRowView (Context context) :
 		base (context)
 		{
-			LayoutInflater.From (context).Inflate (Resource.Layout.badge_row_layout, this);
+			initViews (context, null);
 		}
 
 		public BadgeRowView (Context context, IAttributeSet attrs) :
