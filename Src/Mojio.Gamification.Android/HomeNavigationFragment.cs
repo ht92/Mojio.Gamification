@@ -24,45 +24,6 @@ namespace Mojio.Gamification.Android
 		private CircularIndicatorView mDriverScoreIndicator;
 		private ImageView mNotificationIndicator;
 
-		private UiLifecycleHelper mUiHelper;
-
-		public override void OnCreate (Bundle savedInstanceState)
-		{
-			base.OnCreate (savedInstanceState);
-			mUiHelper = new UiLifecycleHelper (this.Activity, null);
-			mUiHelper.OnCreate (savedInstanceState);
-		}
-
-		public override void OnActivityResult (int requestCode, Result resultCode, Intent data)
-		{
-			base.OnActivityResult (requestCode, resultCode, data);
-			mUiHelper.OnActivityResult (requestCode, (int)resultCode, data, new ShareDialogCallback ());
-		}
-
-		public override void OnResume ()
-		{
-			base.OnResume ();
-			mUiHelper.OnResume ();
-		}
-
-		public override void OnPause ()
-		{
-			base.OnPause ();
-			mUiHelper.OnPause ();
-		}
-
-		public override void OnDestroy ()
-		{
-			base.OnDestroy ();
-			mUiHelper.OnDestroy ();
-		}
-
-		public override void OnSaveInstanceState (Bundle outState)
-		{
-			base.OnSaveInstanceState (outState);
-			mUiHelper.OnSaveInstanceState (outState);
-		}
-			
 		/*
 		 * Draw user interface and layout of the fragment.
 		 * Returns the root of the layout as a View, null if the fragment does not provide a UI.
@@ -78,9 +39,7 @@ namespace Mojio.Gamification.Android
 			mDriverScoreIndicator = rootView.FindViewById<CircularIndicatorView> (Resource.Id.home_circularIndicator);
 			mDriverScoreIndicator.SetIndicatorWidth (60);
 			mDriverScoreIndicator.SetIndicatorValue (GamificationApp.GetInstance ().MyStatisticsManager.OverallScore);
-			//mDriverScoreIndicator.SetOnTouchListener (this);
 			mDriverScoreIndicator.Click += mScoreButton_onClick;
-			//mDriverScoreIndicator.Click += mShareButton_onClick;
 
 			mNotificationIndicator = rootView.FindViewById<ImageView> (Resource.Id.home_notificationIndicator);
 			mNotificationIndicator.Click += mScoreButton_onClick;
@@ -137,57 +96,7 @@ namespace Mojio.Gamification.Android
 				notificationDialog.Show (FragmentManager, "notification");
 			}
 		}
-
-		private void mShareButton_onClick (object sender, EventArgs e)
-		{
-			showShareDialog ();
-		}
-
-		private async Task showShareDialog ()
-		{
-			Badge b = GamificationApp.GetInstance ().MyAchievementManager.GetBadge (AchievementManager.BADGE_FIRST_TRIP_NAME);
-
-			IOpenGraphObject badge = OpenGraphObjectFactory.CreateForPost ("mojiogamification:badge");
-			badge.SetProperty ("title", b.GetDisplayName ());
-			badge.SetProperty ("description", b.GetDescription ());
-
-			IOpenGraphAction action = OpenGraphActionFactory.CreateForPost ("mojiogamification:unlock");
-			action.SetProperty ("badge", (Java.Lang.Object) badge);
-
-			Bitmap badgeIcon = ((BitmapDrawable) Resources.GetDrawable (b.GetDrawableResource ())).Bitmap;
-
-			FacebookDialog.OpenGraphActionDialogBuilder builder = new FacebookDialog.OpenGraphActionDialogBuilder (this.Activity, action, "mojiogamification:unlock", "badge");
-			builder.SetImageAttachmentsForAction (new List<Bitmap> { badgeIcon });
-			FacebookDialog shareDialog = builder.Build ();
-			mUiHelper.TrackPendingDialogCall (shareDialog.Present ());
-		}
 	}
-
-	/*
-	 * Callback handler for when share dialog closes and control returns to the calling app
-	 */
-	public class ShareDialogCallback : FacebookDialog.ICallback 
-	{
-		public void OnComplete (FacebookDialog.PendingCall pendingCall, Bundle data)
-		{
-			Logger.GetInstance ().Info ("ShareDialog successfully completed.");
-		}
-
-		public void OnError (FacebookDialog.PendingCall pendingCall, Java.Lang.Exception error, Bundle data)
-		{
-			Logger.GetInstance ().Error (String.Format("ShareDialog error - {0}", error));
-		}
-
-		public void Dispose ()
-		{
-			throw new NotImplementedException ();
-		}
-			
-		public IntPtr Handle {
-			get {
-				throw new NotImplementedException ();
-			}
-		}
-	}
+		
 }
 

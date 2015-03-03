@@ -4,28 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:background="@color/transparent_black"
-    android:minWidth="25px"
-    android:minHeight="25px"
     android:paddingTop="16dp"
     android:paddingBottom="16dp">
     <LinearLayout
-        android:orientation="vertical"
-        android:minWidth="25px"
-        android:minHeight="25px"
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/badgeRowListItem">
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-            android:id="@+id/badgeRowDescription"
-            android:textStyle="bold" />
-        <TextView
-            android:layout_width="match_parent"
+            android:layout_weight="3">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+                android:id="@+id/badgeRowDescription"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+                android:id="@+id/badgeRowUnlockDate"
+                android:textStyle="italic" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/badgeRowShareButton"
+            android:text="@string/share_button_label"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-            android:id="@+id/badgeRowUnlockDate"
-            android:textStyle="italic" />
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/rounded_button_selector" />
     </LinearLayout>
 </LinearLayout>

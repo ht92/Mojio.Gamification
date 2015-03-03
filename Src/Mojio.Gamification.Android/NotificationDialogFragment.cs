@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Android.OS;
 using Android.App;
 using Android.Content;
-using Android.Graphics;
-using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -41,7 +40,7 @@ namespace Mojio.Gamification.Android
 			int dialogWidth = (int) (metric.WidthPixels * WIDTH_SCALE);
 			int dialogHeight = (int) (metric.HeightPixels * HEIGHT_SCALE);
 			Dialog.Window.SetLayout (dialogWidth, dialogHeight);
-			Dialog.Window.SetBackgroundDrawable (new ColorDrawable (Resources.GetColor (Resource.Color.transparent_black)));
+			Dialog.Window.SetBackgroundDrawableResource (Resource.Color.transparent_black);
 		}
 
 		private Dialog createDialog (View view)
@@ -101,32 +100,34 @@ namespace Mojio.Gamification.Android
 
 			private View createNewTripsView ()
 			{
-				ScrollView view = new ScrollView (_context);
-				LinearLayout layout = new LinearLayout (_context);
-				layout.Orientation = Orientation.Vertical;
-				foreach (TripDataModel tripDataModel in AppNotificationService.GetInstance ().NotifiedTrips) {
-					ScoreRowView overallScoreRow = new ScoreRowView (_context);
-					ScoreWrapper overallScore = ScoreWrapper.WrapScore (ScoreCalculator.CalculateOverallScore (tripDataModel.TripSafetyScore, tripDataModel.TripEfficiencyScore));
-					overallScoreRow.SetScoreLabel (tripDataModel.MyTrip.StartTime.ToString ("MMM dd, yyyy h:mm tt"));
-					overallScoreRow.SetScore (overallScore);
-					layout.AddView (overallScoreRow);
-				}
-				view.AddView (layout);
-				return view;
+				List<TripDataModel> data = new List<TripDataModel> (AppNotificationService.GetInstance ().NotifiedTrips);
+				TripHistoryExpandableListAdapter listAdapter = new TripHistoryExpandableListAdapter (_context, data);
+				return createListView (listAdapter);
 			}
 
 			private View createNewBadgesView ()
 			{
-				ScrollView view = new ScrollView (_context);
-				LinearLayout layout = new LinearLayout (_context);
-				layout.Orientation = Orientation.Vertical;
-				foreach (Badge badge in AppNotificationService.GetInstance ().NotifiedBadges) {
-					BadgeRowView badgeRow = new BadgeRowView (_context);
-					badgeRow.SetBadge (badge);
-					layout.AddView (badgeRow);
+				List<Badge> data = new List<Badge> (AppNotificationService.GetInstance ().NotifiedBadges);
+				BadgeCollectionExpandableListAdapter listAdapter = new BadgeCollectionExpandableListAdapter (_context, data);
+				return createListView (listAdapter);
+			}
+
+			private ExpandableListView createListView (IExpandableListAdapter adapter)
+			{
+				ExpandableListView listView = new ExpandableListView (_context);
+				listView.SetGroupIndicator (null);
+				listView.ChoiceMode = ChoiceMode.Single;
+				listView.SetOnGroupClickListener (new NotificationDialogListOnGroupClickListener ());
+				listView.SetAdapter (adapter);
+				return listView;
+			}
+
+			internal class NotificationDialogListOnGroupClickListener : Java.Lang.Object, ExpandableListView.IOnGroupClickListener
+			{
+				bool ExpandableListView.IOnGroupClickListener.OnGroupClick (ExpandableListView parent, View clickedView, int groupPosition, long id)
+				{
+					return true;
 				}
-				view.AddView (layout);
-				return view;
 			}
 		}
 	}

@@ -93,7 +93,6 @@
     <Compile Include="TripHistoryNavigationFragment.cs" />
     <Compile Include="TripHistoryExpandableListAdapter.cs" />
     <Compile Include="Activities\SplashScreen.cs" />
-    <Compile Include="BadgeCollectionExpandableListAdapter.cs" />
     <Compile Include="AppNotificationService.cs" />
     <Compile Include="NotificationDialogFragment.cs" />
     <Compile Include="TripHistoryManager.cs" />
@@ -102,6 +101,8 @@
     <Compile Include="Activities\LoginActivity.cs" />
     <Compile Include="JsonSerializationUtility.cs" />
     <Compile Include="ConnectionService.cs" />
+    <Compile Include="AbstractExpandableListAdapter.cs" />
+    <Compile Include="BadgeCollectionExpandableListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -223,6 +224,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\back_login.jpg" />
     <AndroidResource Include="Resources\drawable\login_input_background.axml" />
     <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\drawable\rounded_button_selector.xml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

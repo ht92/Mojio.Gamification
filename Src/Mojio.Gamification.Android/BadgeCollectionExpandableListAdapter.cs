@@ -1,34 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android;
 using Android.Content;
-using Android.Graphics;
 using Android.Views;
 using Android.Widget;
-
 using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
 {
-	public class BadgeCollectionExpandableListAdapter : BaseExpandableListAdapter
+	public class BadgeCollectionExpandableListAdapter : AbstractExpandableListAdapter<Badge>
 	{
-		private Context mContext;
-		private List<Badge> mListData;
+		private BadgeNavigationFragment mParentFragment;
+		private bool mShareEnabled = false;
 
-		public BadgeCollectionExpandableListAdapter (Context context, List<Badge> listData)
+		public BadgeCollectionExpandableListAdapter (Context context, List<Badge> data)
+			: base (context, data)
 		{
-			mContext = context;
-			mListData = listData;
 		}
 
-		public override Java.Lang.Object GetChild (int groupPosition, int childPosition)
+		public BadgeCollectionExpandableListAdapter (BadgeNavigationFragment parent, Context context, List<Badge> data)
+			: base (context, data)
 		{
-			return null;
-		}
-
-		public override long GetChildId (int groupPosition, int childPosition)
-		{
-			return childPosition;
+			mParentFragment = parent;
+			mShareEnabled = true;
 		}
 
 		public override View GetChildView (int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent)
@@ -37,33 +30,18 @@ namespace Mojio.Gamification.Android
 				LayoutInflater li = (LayoutInflater) mContext.GetSystemService (Context.LayoutInflaterService);
 				convertView = li.Inflate (Resource.Layout.badge_collection_item, null);
 			}
-			TextView descriptionView = (TextView)convertView.FindViewById<TextView> (Resource.Id.badgeRowDescription);
-			TextView unlockDateView = (TextView)convertView.FindViewById<TextView> (Resource.Id.badgeRowUnlockDate);
-			Badge badge = mListData [groupPosition];
+			TextView descriptionView = convertView.FindViewById<TextView> (Resource.Id.badgeRowDescription);
+			TextView unlockDateView = convertView.FindViewById<TextView> (Resource.Id.badgeRowUnlockDate);
+			Button shareButton = convertView.FindViewById<Button> (Resource.Id.badgeRowShareButton);
+			Badge badge = mData [groupPosition];
 			descriptionView.Text = badge.GetDescription ();
 			unlockDateView.Text = String.Format ("Unlocked on {0}", badge.GetUnlockDate ().Value.ToString (DateTimeUtility.FORMAT_MMMM_DD_YYYY_H_MM_TT));
+			shareButton.Click += (sender, e) => {
+				if (mShareEnabled && mParentFragment != null) {
+					mParentFragment.ShareBadge (badge);
+				}
+			};
 			return convertView;
-		}
-
-		public override int GetChildrenCount (int groupPosition)
-		{
-			return 1;
-		}
-
-		public override Java.Lang.Object GetGroup (int groupPosition)
-		{
-			return null;
-		}
-
-		public override int GroupCount {
-			get {
-				return mListData.Count;
-			}
-		}
-
-		public override long GetGroupId (int groupPosition)
-		{
-			return groupPosition;
 		}
 
 		public override View GetGroupView (int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
@@ -72,21 +50,10 @@ namespace Mojio.Gamification.Android
 				LayoutInflater li = (LayoutInflater)mContext.GetSystemService (Context.LayoutInflaterService);
 				convertView = li.Inflate (Resource.Layout.badge_collection_group, null);
 			}
-			Badge badge = mListData [groupPosition];
-			BadgeRowView badgeRowView = (BadgeRowView)convertView.FindViewById<BadgeRowView> (Resource.Id.badgeRowHeader);
+			Badge badge = mData [groupPosition];
+			BadgeRowView badgeRowView = convertView.FindViewById<BadgeRowView> (Resource.Id.badgeRowHeader);
 			badgeRowView.SetBadge (badge);
 			return convertView;
-		}
-
-		public override bool HasStableIds {
-			get {
-				return false;
-			}
-		}
-
-		public override bool IsChildSelectable (int groupPosition, int childPosition)
-		{
-			return false;
 		}
 	}
 }
