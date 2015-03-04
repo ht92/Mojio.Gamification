@@ -61,22 +61,21 @@ namespace Mojio.Gamification.Android
 			if (savedInstanceState == null) {
 				SelectFragment ((int)AbstractNavigationFragment.NavigationFragmentType.NAV_HOME);
 			}
-
 		}
 
 		protected override void OnPause ()
 		{
-			base.OnPause ();
 			AppNotificationService.GetInstance ().Activate ();
+			base.OnPause ();
 		}
 
 		protected override void OnResume ()
 		{
-			base.OnResume ();
 			AppNotificationService.GetInstance ().Deactivate ();
 			if (!GamificationApp.GetInstance ().MyConnectionService.IsConnected ()) {
 				logout ();
 			}
+			base.OnResume ();
 		}
 
 		protected override void OnPostCreate(Bundle savedInstanceState)

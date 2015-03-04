@@ -11,6 +11,8 @@ namespace Mojio.Gamification.Android
 {
 	public class AppNotificationService
 	{
+		public event EventHandler NotificationEvent;
+
 		private const int NOTIFICATION_LIGHT_ON = 1000;
 		private const int NOTIFICATION_LIGHT_OFF = 3000;
 		private const int NOTIFICATION_DEFAULT_FLAGS = (int) (NotificationDefaults.Sound | NotificationDefaults.Vibrate);
@@ -95,6 +97,7 @@ namespace Mojio.Gamification.Android
 
 		private void issueNotification (NotificationType type, string title, string text)
 		{
+			onNotificationEvent ();
 			if (isActive) {
 				NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder (GamificationApp.GetInstance ())
 					.SetSmallIcon (NOTIFICATION_ICON_RES)
@@ -111,6 +114,11 @@ namespace Mojio.Gamification.Android
 				notificationBuilder.SetContentIntent (resultPendingIntent);
 				mNotificationManager.Notify ((int)type, notificationBuilder.Build ());
 			}
+		}
+
+		private void onNotificationEvent ()
+		{
+			NotificationEvent (this, EventArgs.Empty);
 		}
 	}
 }

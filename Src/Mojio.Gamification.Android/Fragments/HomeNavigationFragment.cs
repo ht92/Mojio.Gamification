@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Android.App;
-using Android.Content;
-using Android.Graphics;
-using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
-using Mojio.Gamification.Core;
-using Xamarin.Facebook;
-using Xamarin.Facebook.Model;
-using Xamarin.Facebook.Widget;
 
 namespace Mojio.Gamification.Android
 {

@@ -11,6 +11,9 @@
 		<activity android:name="mojio.gamification.android.LoginActivity" android:label="@string/app_name" android:screenOrientation="portrait" android:theme="@android:style/Theme.Black.NoTitleBar"></activity>
 		<activity android:name="mojio.gamification.android.MainActivity" android:label="@string/app_name"></activity>
 		<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
+		<provider android:authorities="@string/facebook_native_app_call_content_provider"
+			android:name="com.facebook.NativeAppCallContentProvider"
+			android:exported="true"/>
 		<!-- component definitions -->
 	</application>
 	<uses-permission android:name="android.permission.INTERNET" />

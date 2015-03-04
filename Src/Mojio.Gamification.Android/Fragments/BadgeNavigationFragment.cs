@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -95,9 +94,8 @@ namespace Mojio.Gamification.Android
 			action.SetProperty ("badge", (Java.Lang.Object) badge);
 
 			Bitmap badgeIcon = ((BitmapDrawable) Resources.GetDrawable (b.GetDrawableResource ())).Bitmap;
-
 			FacebookDialog.OpenGraphActionDialogBuilder builder = new FacebookDialog.OpenGraphActionDialogBuilder (this.Activity, action, "mojiogamification:unlock", "badge");
-			//builder.SetImageAttachmentsForAction (new List<Bitmap> { badgeIcon });
+			builder.SetImageAttachmentsForObject ("badge",  new List<Bitmap> { badgeIcon });
 			FacebookDialog shareDialog = builder.Build ();
 			mUiHelper.TrackPendingDialogCall (shareDialog.Present ());
 		}

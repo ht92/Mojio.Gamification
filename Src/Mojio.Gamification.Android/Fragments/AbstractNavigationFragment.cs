@@ -1,16 +1,6 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
+﻿using Android.App;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
-using Android.Widget;
 
 namespace Mojio.Gamification.Android
 {
@@ -28,8 +18,9 @@ namespace Mojio.Gamification.Android
 			NAV_DIAGNOSTICS
 		};
 
-		public AbstractNavigationFragment ()
+		protected AbstractNavigationFragment ()
 		{
+			attachListeners ();
 		}
 
 		public static AbstractNavigationFragment NewInstance(NavigationFragmentType type)
@@ -60,6 +51,17 @@ namespace Mojio.Gamification.Android
 
 		public abstract override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
+		protected void attachListeners ()
+		{
+			GamificationApp.GetInstance ().MyNotificationService.NotificationEvent += (sender, e) => {
+				if (this.IsAdded && this.IsVisible) {
+					FragmentTransaction fragTransaction = FragmentManager.BeginTransaction ();
+					fragTransaction.Detach (this);
+					fragTransaction.Attach (this);
+					fragTransaction.Commit ();
+				}
+			};
+		}
 	}
 }
 
