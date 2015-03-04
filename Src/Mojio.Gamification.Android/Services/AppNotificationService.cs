@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Support.V4.App;
+using Mojio.Events;
 using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
@@ -78,6 +80,7 @@ namespace Mojio.Gamification.Android
 		{
 			NotifiedTrips.Clear ();
 			NotifiedBadges.Clear ();
+			mNotificationManager.CancelAll ();
 		}
 
 		public void Activate ()
@@ -101,8 +104,9 @@ namespace Mojio.Gamification.Android
 					.SetLights (Color.White, NOTIFICATION_LIGHT_ON, NOTIFICATION_LIGHT_OFF)
 					.SetDefaults (NOTIFICATION_DEFAULT_FLAGS);
 
-				Intent resultIntent = new Intent (GamificationApp.GetInstance (), typeof(SplashScreen));
-				resultIntent.AddFlags (ActivityFlags.ClearTop | ActivityFlags.SingleTop | ActivityFlags.NewTask);
+				Intent resultIntent = new Intent (GamificationApp.GetInstance (), typeof(MainActivity));
+				resultIntent.SetAction (Intent.ActionMain);
+				resultIntent.AddCategory (Intent.CategoryLauncher);
 				PendingIntent resultPendingIntent = PendingIntent.GetActivity (GamificationApp.GetInstance (), 0, resultIntent, PendingIntentFlags.UpdateCurrent);
 				notificationBuilder.SetContentIntent (resultPendingIntent);
 				mNotificationManager.Notify ((int)type, notificationBuilder.Build ());

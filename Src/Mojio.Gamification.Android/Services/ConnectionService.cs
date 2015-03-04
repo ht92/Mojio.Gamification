@@ -24,6 +24,7 @@ namespace Mojio.Gamification.Android
 
 		private readonly static ConnectionEventArgs SUCCESS = new ConnectionEventArgs (true);
 		private readonly static ConnectionEventArgs FAIL = new ConnectionEventArgs (false);
+		private readonly static EventType[] SUBSCRIBE_EVENTS = { EventType.IgnitionOff };
 
 		public static ConnectionService GetInstance ()
 		{
@@ -50,6 +51,11 @@ namespace Mojio.Gamification.Android
 			uninitializeConnection ();
 		}
 
+		public bool IsConnected ()
+		{
+			return mClient.IsLoggedIn ();
+		}
+
 		private async Task initializeConnection (string username, string password)
 		{			
 			//------------------Initializing the SDK----------------------//
@@ -71,8 +77,8 @@ namespace Mojio.Gamification.Android
 					}
 				}
 				Logger.GetInstance ().Info ("Connected to Mojio servers!");
-				EventType[] types = { EventType.IgnitionOff, EventType.IgnitionOn, EventType.HardAcceleration };
-				await mClient.Subscribe<Vehicle> (vehicleID, types);
+				mClient.EventHandler += (evt) => ReceiveEvent (evt);
+				await mClient.Subscribe<Vehicle> (vehicleID, SUBSCRIBE_EVENTS);
 				Logger.GetInstance ().Info ("Subscribed to Mojio events!");
 				OnLoginSuccessfulEvent ();
 			}
@@ -87,7 +93,17 @@ namespace Mojio.Gamification.Android
 				OnLogoutFailEvent ();
 			}
 		}
-
+			
+		private async Task ReceiveEvent (Event e)
+		{
+			if (e.EventType == EventType.IgnitionOff) {
+				var latestTrip = await FetchLatestTripAsync ();
+				Trip trip = latestTrip.Item1;
+				List<Event> events = latestTrip.Item2;
+				GamificationApp.GetInstance ().MyStatisticsManager.AddTrip (trip, events);
+			}
+		}
+			
 		public async Task<Tuple<Trip, List<Event>>> FetchLatestTripAsync () {
 
 			//setting up mojioID/vehicleID 
@@ -96,10 +112,9 @@ namespace Mojio.Gamification.Android
 			//------Fetching the trips from mojio server--------//
 
 			// Fetch first page of 15 trips
-			mClient.PageSize = 15;
-			var results = await mClient.GetAsync<Trip> ();
+			var results = await mClient.GetAsync<Trip> (1, null, true, null);
 			//get the most recent trip because we only interested in the last trip.
-			Trip mostRecentTrip = results.Data.Data.Last();		
+			Trip mostRecentTrip = results.Data.Data.First();
 			Guid mostRecentTripId = mostRecentTrip.Id;
 
 			// Fetch all events by Trip ID

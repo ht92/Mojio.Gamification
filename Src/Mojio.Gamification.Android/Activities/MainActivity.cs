@@ -66,14 +66,17 @@ namespace Mojio.Gamification.Android
 
 		protected override void OnPause ()
 		{
-			AppNotificationService.GetInstance ().Activate ();
 			base.OnPause ();
+			AppNotificationService.GetInstance ().Activate ();
 		}
 
 		protected override void OnResume ()
 		{
-			AppNotificationService.GetInstance ().Deactivate ();
 			base.OnResume ();
+			AppNotificationService.GetInstance ().Deactivate ();
+			if (!GamificationApp.GetInstance ().MyConnectionService.IsConnected ()) {
+				logout ();
+			}
 		}
 
 		protected override void OnPostCreate(Bundle savedInstanceState)
@@ -116,7 +119,6 @@ namespace Mojio.Gamification.Android
 			if (mNavigationDestinations [position].Equals (mNavigationLogout)) {
 				logout ();
 			} else {
-				mDrawerList.SetItemChecked (position, true);
 				Title = mNavigationPages [position];
 				mDrawerLayout.CloseDrawer (mDrawerList);
 				SelectFragment (position);
@@ -126,6 +128,7 @@ namespace Mojio.Gamification.Android
 		public void SelectFragment (int position)
 		{
 			//programmatically add fragment to activity layout
+			mDrawerList.SetItemChecked (position, true);
 			var fragmentManager = this.FragmentManager;
 			AbstractNavigationFragment currentFragment = fragmentManager.FindFragmentByTag<AbstractNavigationFragment> (position.ToString ());
 			if (currentFragment != null && currentFragment.IsVisible) { return; }

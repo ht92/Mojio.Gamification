@@ -38,15 +38,8 @@ namespace Mojio.Gamification.Android
 			mAddTripDataButton = (Button)rootView.FindViewById<Button> (Resource.Id.diag_addTripButton);
 			mResetDataButton = (Button) rootView.FindViewById<Button> (Resource.Id.diag_resetDataButton);
 
-			mFetchButton.Click += mFetchButton_onClick;
 			mAddTripDataButton.Click += mAddTripDataButton_onClick;
 			return rootView;
-		}
-
-		private async void mFetchButton_onClick (object sender, EventArgs e)
-		{
-			var tripData = await GamificationApp.GetInstance ().MyConnectionService.FetchLatestTripAsync ();
-			((GamificationApp)Activity.Application).MyStatisticsManager.AddTrip (tripData.Item1, tripData.Item2);
 		}
 
 		private void mAddTripDataButton_onClick (object sender, EventArgs e)

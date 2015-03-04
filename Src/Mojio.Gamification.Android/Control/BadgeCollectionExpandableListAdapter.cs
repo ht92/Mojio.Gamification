@@ -35,7 +35,7 @@ namespace Mojio.Gamification.Android
 			Button shareButton = convertView.FindViewById<Button> (Resource.Id.badgeRowShareButton);
 			Badge badge = mData [groupPosition];
 			descriptionView.Text = badge.GetDescription ();
-			unlockDateView.Text = String.Format ("Unlocked on {0}", badge.GetUnlockDate ().Value.ToString (DateTimeUtility.FORMAT_MMMM_DD_YYYY_H_MM_TT));
+			unlockDateView.Text = String.Format ("Unlocked on {0}", badge.GetUnlockDate ().Value.ToString (DateTimeUtility.FORMAT_MMMM_DD_YYYY));
 			shareButton.Click += (sender, e) => {
 				if (mShareEnabled && mParentFragment != null) {
 					mParentFragment.ShareBadge (badge);

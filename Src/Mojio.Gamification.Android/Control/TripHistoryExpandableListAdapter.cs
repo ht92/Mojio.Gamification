@@ -42,7 +42,7 @@ namespace Mojio.Gamification.Android
 			ScoreRowView tripRecordHeader = convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordHeader);
 			TripDataModel dataModel = mData [groupPosition];
 			ScoreWrapper overallScore = ScoreWrapper.WrapScore (ScoreCalculator.CalculateOverallScore (dataModel.TripSafetyScore, dataModel.TripEfficiencyScore));
-			tripRecordHeader.SetScoreLabel (dataModel.MyTrip.StartTime.ToString ("MMM dd, yyyy h:mm tt"));
+			tripRecordHeader.SetScoreLabel (dataModel.MyTrip.StartTime.ToLocalTime ().ToString (DateTimeUtility.FORMAT_MMM_DD_YYYY_H_MM_TT));
 			tripRecordHeader.SetScore (overallScore);
 			return convertView;
 		}

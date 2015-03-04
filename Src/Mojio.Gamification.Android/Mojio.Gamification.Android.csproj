@@ -73,36 +73,36 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="DataManagerHelper.cs" />
     <Compile Include="GamificationApp.cs" />
-    <Compile Include="UserStatsRepository.cs" />
     <Compile Include="Activities\MainActivity.cs" />
-    <Compile Include="HomeNavigationFragment.cs" />
-    <Compile Include="ScoreBreakdownNavigationFragment.cs" />
-    <Compile Include="BadgeView.cs" />
-    <Compile Include="AbstractNavigationFragment.cs" />
-    <Compile Include="DiagnosticNavigationFragment.cs" />
-    <Compile Include="ScoreRowView.cs" />
-    <Compile Include="StatisticsManager.cs" />
-    <Compile Include="CircularIndicatorView.cs" />
-    <Compile Include="WeatherManager.cs" />
-    <Compile Include="AchievementManager.cs" />
-    <Compile Include="BadgeNavigationFragment.cs" />
-    <Compile Include="BadgeRowView.cs" />
-    <Compile Include="Badge.cs" />
-    <Compile Include="TripHistoryNavigationFragment.cs" />
-    <Compile Include="TripHistoryExpandableListAdapter.cs" />
     <Compile Include="Activities\SplashScreen.cs" />
-    <Compile Include="AppNotificationService.cs" />
-    <Compile Include="NotificationDialogFragment.cs" />
-    <Compile Include="TripHistoryManager.cs" />
-    <Compile Include="UserBadgesRepository.cs" />
-    <Compile Include="UserTripRecordsRepository.cs" />
     <Compile Include="Activities\LoginActivity.cs" />
-    <Compile Include="JsonSerializationUtility.cs" />
-    <Compile Include="ConnectionService.cs" />
-    <Compile Include="AbstractExpandableListAdapter.cs" />
-    <Compile Include="BadgeCollectionExpandableListAdapter.cs" />
+    <Compile Include="Views\BadgeRowView.cs" />
+    <Compile Include="Views\BadgeView.cs" />
+    <Compile Include="Views\ScoreRowView.cs" />
+    <Compile Include="Fragments\NotificationDialogFragment.cs" />
+    <Compile Include="Fragments\DiagnosticNavigationFragment.cs" />
+    <Compile Include="Fragments\BadgeNavigationFragment.cs" />
+    <Compile Include="Fragments\AbstractNavigationFragment.cs" />
+    <Compile Include="Fragments\HomeNavigationFragment.cs" />
+    <Compile Include="Fragments\ScoreBreakdownNavigationFragment.cs" />
+    <Compile Include="Fragments\TripHistoryNavigationFragment.cs" />
+    <Compile Include="Utilities\JsonSerializationUtility.cs" />
+    <Compile Include="Services\AppNotificationService.cs" />
+    <Compile Include="Services\ConnectionService.cs" />
+    <Compile Include="Database\UserBadgesRepository.cs" />
+    <Compile Include="Database\UserStatsRepository.cs" />
+    <Compile Include="Database\UserTripRecordsRepository.cs" />
+    <Compile Include="Database\DataManagerHelper.cs" />
+    <Compile Include="Control\AchievementManager.cs" />
+    <Compile Include="Control\StatisticsManager.cs" />
+    <Compile Include="Control\TripHistoryManager.cs" />
+    <Compile Include="Control\WeatherManager.cs" />
+    <Compile Include="Views\CircularIndicatorView.cs" />
+    <Compile Include="Models\Badge.cs" />
+    <Compile Include="Control\AbstractExpandableListAdapter.cs" />
+    <Compile Include="Control\BadgeCollectionExpandableListAdapter.cs" />
+    <Compile Include="Control\TripHistoryExpandableListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -252,5 +252,12 @@
     <Folder Include="Activities\" />
     <Folder Include="Resources\Animator\" />
     <Folder Include="Resources\drawable-ldpi\" />
+    <Folder Include="Views\" />
+    <Folder Include="Fragments\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Services\" />
+    <Folder Include="Database\" />
+    <Folder Include="Control\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>
