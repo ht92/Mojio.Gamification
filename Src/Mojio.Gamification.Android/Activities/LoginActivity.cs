@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using Refractored.Xam.Settings;
 
 namespace Mojio.Gamification.Android
 {
@@ -26,12 +27,29 @@ namespace Mojio.Gamification.Android
 			mProgressBar = FindViewById<ProgressBar> (Resource.Id.login_progressBar);
 			mLoginButton.Click += loginButton_onClick;
 			attachListeners ();
+			initializeFields ();
+		}
+
+		private void initializeFields ()
+		{
+			string username = CrossSettings.Current.GetValueOrDefault<string> (Resources.GetString (Resource.String.settings_username));
+			string password = CrossSettings.Current.GetValueOrDefault<string> (Resources.GetString (Resource.String.settings_password));
+			if (!(String.IsNullOrWhiteSpace (username) || String.IsNullOrWhiteSpace (password))) {
+				mUsernameField.Text = username;
+				mPasswordField.Text = password;
+				login ();
+			}
 		}
 
 		private void loginButton_onClick (object sender, EventArgs e) 
 		{
 			InputMethodManager imm = (InputMethodManager) GetSystemService (InputMethodService);
 			imm.HideSoftInputFromWindow (CurrentFocus.WindowToken, HideSoftInputFlags.NotAlways);
+			login ();
+		}
+
+		private void login ()
+		{
 			string username = mUsernameField.Text;
 			string password = mPasswordField.Text;
 			GamificationApp.GetInstance ().MyConnectionService.Login (username, password);

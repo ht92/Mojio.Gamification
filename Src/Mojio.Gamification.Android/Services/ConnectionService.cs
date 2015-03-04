@@ -129,6 +129,8 @@ namespace Mojio.Gamification.Android
 
 		private void OnLoginSuccessfulEvent ()
 		{
+			CrossSettings.Current.AddOrUpdateValue (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_username), UserName);
+			CrossSettings.Current.AddOrUpdateValue (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_password), Password);
 			LoginEvent (this, SUCCESS);
 		}
 
@@ -139,6 +141,8 @@ namespace Mojio.Gamification.Android
 
 		private void OnLogoutSuccessfulEvent ()
 		{
+			CrossSettings.Current.Remove (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_username));
+			CrossSettings.Current.Remove (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_password));
 			LogoutEvent (this, SUCCESS);
 		}
 
