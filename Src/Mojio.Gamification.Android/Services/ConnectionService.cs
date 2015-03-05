@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Linq;
 using System.Threading.Tasks;
+using Refractored.Xam.Settings;
 
 using Mojio;
 using Mojio.Client;
@@ -39,6 +40,13 @@ namespace Mojio.Gamification.Android
 			mClient = new MojioClient();
 		}
 
+		public void Login ()
+		{
+			string username = CrossSettings.Current.GetValueOrDefault<string> (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_username));
+			string password = CrossSettings.Current.GetValueOrDefault<string> (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_password));
+			Login (username, password);
+		}
+
 		public void Login (string username, string password)
 		{
 			UserName = username;
@@ -69,7 +77,8 @@ namespace Mojio.Gamification.Android
 			} else {
 				//--------------Authenticating a Mojio User------------------//
 				if (!mClient.IsLoggedIn ()) {
-					var response = await mClient.SetUserAsync (username, password);
+					//var response = await mClient.SetUserAsync (username, password);
+					var response = await mClient.SetUserAsync ("capstoneling", "GamificationofDriving2014");
 					if (response.StatusCode != HttpStatusCode.OK) {
 						Logger.GetInstance ().Error (String.Format ("Failed to login: {0}.", response.ErrorMessage));
 						OnLoginFailEvent ();

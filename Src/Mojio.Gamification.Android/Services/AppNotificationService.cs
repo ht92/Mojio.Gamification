@@ -22,7 +22,6 @@ namespace Mojio.Gamification.Android
 		private static string NOTIFICATION_NEW_BADGE_TEXT = GamificationApp.GetInstance ().Resources.GetString (Resource.String.notification_new_badges);
 		private static int NOTIFICATION_ICON_RES = Resource.Drawable.Icon;
 
-		private bool isActive;
 		public List<TripDataModel> NotifiedTrips { get; private set; }
 		public List<Badge> NotifiedBadges { get; private set; }
 
@@ -48,7 +47,6 @@ namespace Mojio.Gamification.Android
 			mNotificationManager = (NotificationManager) GamificationApp.GetInstance ().GetSystemService (Context.NotificationService);
 			NotifiedTrips = new List<TripDataModel> ();
 			NotifiedBadges = new List<Badge> ();
-			isActive = false;
 		}
 
 		public void IssueTripNotification (TripDataModel tripDataModel)
@@ -85,35 +83,23 @@ namespace Mojio.Gamification.Android
 			mNotificationManager.CancelAll ();
 		}
 
-		public void Activate ()
-		{
-			isActive = true;
-		}
-
-		public void Deactivate ()
-		{
-			isActive = false;
-		}
-
 		private void issueNotification (NotificationType type, string title, string text)
 		{
-			onNotificationEvent ();
-			if (isActive) {
-				NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder (GamificationApp.GetInstance ())
-					.SetSmallIcon (NOTIFICATION_ICON_RES)
-					.SetContentTitle (title)
-					.SetContentText (text)
-					.SetAutoCancel (true)
-					.SetLights (Color.White, NOTIFICATION_LIGHT_ON, NOTIFICATION_LIGHT_OFF)
-					.SetDefaults (NOTIFICATION_DEFAULT_FLAGS);
+			NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder (GamificationApp.GetInstance ())
+				.SetSmallIcon (NOTIFICATION_ICON_RES)
+				.SetContentTitle (title)
+				.SetContentText (text)
+				.SetAutoCancel (true)
+				.SetLights (Color.White, NOTIFICATION_LIGHT_ON, NOTIFICATION_LIGHT_OFF)
+				.SetDefaults (NOTIFICATION_DEFAULT_FLAGS);
 
-				Intent resultIntent = new Intent (GamificationApp.GetInstance (), typeof(MainActivity));
-				resultIntent.SetAction (Intent.ActionMain);
-				resultIntent.AddCategory (Intent.CategoryLauncher);
-				PendingIntent resultPendingIntent = PendingIntent.GetActivity (GamificationApp.GetInstance (), 0, resultIntent, PendingIntentFlags.UpdateCurrent);
-				notificationBuilder.SetContentIntent (resultPendingIntent);
-				mNotificationManager.Notify ((int)type, notificationBuilder.Build ());
-			}
+			Intent resultIntent = new Intent (GamificationApp.GetInstance (), typeof(MainActivity));
+			resultIntent.SetAction (Intent.ActionMain);
+			resultIntent.AddCategory (Intent.CategoryLauncher);
+			PendingIntent resultPendingIntent = PendingIntent.GetActivity (GamificationApp.GetInstance (), 0, resultIntent, PendingIntentFlags.UpdateCurrent);
+			notificationBuilder.SetContentIntent (resultPendingIntent);
+			mNotificationManager.Notify ((int)type, notificationBuilder.Build ());
+			onNotificationEvent ();
 		}
 
 		private void onNotificationEvent ()

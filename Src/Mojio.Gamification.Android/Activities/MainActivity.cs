@@ -63,17 +63,10 @@ namespace Mojio.Gamification.Android
 			}
 		}
 
-		protected override void OnPause ()
-		{
-			AppNotificationService.GetInstance ().Activate ();
-			base.OnPause ();
-		}
-
 		protected override void OnResume ()
 		{
-			AppNotificationService.GetInstance ().Deactivate ();
 			if (!GamificationApp.GetInstance ().MyConnectionService.IsConnected ()) {
-				logout ();
+				GamificationApp.GetInstance ().MyConnectionService.Login ();
 			}
 			base.OnResume ();
 		}
