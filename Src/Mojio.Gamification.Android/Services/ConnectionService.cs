@@ -138,8 +138,8 @@ namespace Mojio.Gamification.Android
 
 		private void OnLoginSuccessfulEvent ()
 		{
-			CrossSettings.Current.AddOrUpdateValue (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_username), UserName);
-			CrossSettings.Current.AddOrUpdateValue (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_password), Password);
+			CrossSettings.Current.AddOrUpdateValue<string> (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_username), UserName);
+			CrossSettings.Current.AddOrUpdateValue<string> (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_password), Password);
 			LoginEvent (this, SUCCESS);
 		}
 

@@ -16,6 +16,11 @@ namespace Mojio.Gamification.Android
 			mContext = context;
 			mData = data;
 		}
+
+		public List<T> GetData ()
+		{
+			return mData;
+		}
 			
 		public override Java.Lang.Object GetChild (int groupPosition, int childPosition)
 		{

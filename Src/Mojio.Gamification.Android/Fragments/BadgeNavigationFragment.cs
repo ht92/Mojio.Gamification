@@ -35,6 +35,7 @@ namespace Mojio.Gamification.Android
 			prepareListData ();
 			mBadgeCollectionExpandableListAdapter = new BadgeCollectionExpandableListAdapter (this, rootView.Context, mListData);
 			mBadgeCollectionExpandableListView.SetAdapter (mBadgeCollectionExpandableListAdapter);
+			mBadgeCollectionExpandableListView.SetOnGroupClickListener (new BadgeCollectionGroupClickListener ());
 			return rootView;
 		}
 
@@ -78,10 +79,10 @@ namespace Mojio.Gamification.Android
 		private void prepareListData ()
 		{
 			mListData = new List<Badge> ();
-			List<Badge> unlockedBadges = ((GamificationApp)Activity.Application).MyAchievementManager.GetUnlockedBadgeCollection ();
-			foreach (Badge badge in unlockedBadges) {
-				mListData.Add (badge);
-			}
+			List<Badge> unlockedBadges = GamificationApp.GetInstance ().MyAchievementManager.GetUnlockedBadgeCollection ();
+			List<Badge> lockedBadges = GamificationApp.GetInstance ().MyAchievementManager.GetLockedBadgeCollection ();
+			mListData.AddRange (unlockedBadges);
+			mListData.AddRange (lockedBadges);
 		}
 
 		public void ShareBadge (Badge b)
@@ -98,6 +99,16 @@ namespace Mojio.Gamification.Android
 			builder.SetImageAttachmentsForObject ("badge",  new List<Bitmap> { badgeIcon });
 			FacebookDialog shareDialog = builder.Build ();
 			mUiHelper.TrackPendingDialogCall (shareDialog.Present ());
+		}
+
+		internal class BadgeCollectionGroupClickListener : Java.Lang.Object, ExpandableListView.IOnGroupClickListener
+		{
+			bool ExpandableListView.IOnGroupClickListener.OnGroupClick (ExpandableListView parent, View clickedView, int groupPosition, long id)
+			{
+				BadgeCollectionExpandableListAdapter adapter = (BadgeCollectionExpandableListAdapter)parent.ExpandableListAdapter;
+				List<Badge> data = adapter.GetData ();
+				return !(data [groupPosition].IsUnlocked ());
+			}
 		}
 			
 		/*
