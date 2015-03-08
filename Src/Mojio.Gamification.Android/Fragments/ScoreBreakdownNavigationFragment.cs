@@ -14,11 +14,6 @@ namespace Mojio.Gamification.Android
 		private LinearLayout mScoreBreakdownLayout;
 		private LinearLayout mUserStatsLayout;
 
-		public override void OnCreate (Bundle savedInstanceState)
-		{
-			base.OnCreate (savedInstanceState);
-		}
-
 		/*
 		 * Draw user interface and layout of the fragment.
 		 * Returns the root of the layout as a View, null if the fragment does not provide a UI.
@@ -29,8 +24,8 @@ namespace Mojio.Gamification.Android
 			View rootView = inflater.Inflate(Resource.Layout.scoring_frag_layout, container, false);
 			this.Activity.Title = Resources.GetStringArray (Resource.Array.pages_array) [Arguments.GetInt (ARG_FRAG_NUMBER)];
 
-			mScoreBreakdownLayout = (LinearLayout) rootView.FindViewById<LinearLayout> (Resource.Id.sbd_breakdownLayout);
-			mUserStatsLayout = (LinearLayout)rootView.FindViewById<LinearLayout> (Resource.Id.sbd_statsLinearLayout);
+			mScoreBreakdownLayout = rootView.FindViewById<LinearLayout> (Resource.Id.sbd_breakdownLayout);
+			mUserStatsLayout = rootView.FindViewById<LinearLayout> (Resource.Id.sbd_statsLinearLayout);
 		
 			initializeScoreBreakdownPanel (rootView.Context);
 			initializeStatsPanel (rootView.Context);

@@ -25,6 +25,7 @@ namespace Mojio.Gamification.Android
 		private List<String> mNavigationDestinations = new List<string> ();
 		private List<string> mNavigationPages;
 		private String mNavigationLogout;
+		private ProgressDialog mLoadingDialog;
 
 		private ActionBarDrawerToggle mDrawerToggle;
 
@@ -43,6 +44,8 @@ namespace Mojio.Gamification.Android
 			mNavigationDestinations.AddRange (mNavigationPages);
 			mNavigationDestinations.Add (mNavigationLogout);
 
+			mLoadingDialog = new ProgressDialog (this);
+			mLoadingDialog.SetMessage (Resources.GetString (Resource.String.loading_label));
 			mDrawerLayout = FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			mDrawerList = FindViewById<ListView> (Resource.Id.drawer_list);
 
@@ -133,6 +136,7 @@ namespace Mojio.Gamification.Android
 
 		private void logout ()
 		{
+			mLoadingDialog.Show ();
 			GamificationApp.GetInstance ().MyConnectionService.Logout ();
 		}
 
@@ -168,6 +172,7 @@ namespace Mojio.Gamification.Android
 				} else {
 					Toast.MakeText (ApplicationContext, "Failed to logout...", ToastLength.Long).Show ();
 				}
+				mLoadingDialog.Dismiss ();
 			};
 		}
 			

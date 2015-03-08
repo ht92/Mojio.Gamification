@@ -28,4 +28,5 @@
 	<string name="login_button_label">Login</string>
 	<string name="navigation_logout">Logout</string>
 	<string name="share_button_label">Share</string>
+	<string name="loading_label">Loading</string>
 </resources>
