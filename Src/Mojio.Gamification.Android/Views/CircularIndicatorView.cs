@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Util;
 using Android.Views;
 using Android.Graphics;
+using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
 {
@@ -162,7 +163,7 @@ namespace Mojio.Gamification.Android
 			canvas.DrawCircle (mBackgroundCenter, mBackgroundCenter, mBackgroundRadius, mBackgroundPaint);
 			canvas.DrawArc (mIndicatorBounds, START_DEGREES, mIndicatorDegrees , false, mIndicatorPaint);
 			canvas.DrawArc (mIndicatorBounds, START_DEGREES, MAX_DEGREES , false, mIndicatorEmptyPaint);
-			canvas.DrawText (mIndicatorValue.ToString (), mIndicatorBounds.CenterX (), mTextPosY, mTextPaint);
+			canvas.DrawText (GetIndicatorValueString (), mIndicatorBounds.CenterX (), mTextPosY, mTextPaint);
 			if (!String.IsNullOrWhiteSpace (mMetricText)) { 
 				canvas.DrawText (mMetricText, mIndicatorBounds.CenterX (), mMetricPosY, mMetricPaint);
 			}
@@ -178,6 +179,12 @@ namespace Mojio.Gamification.Android
 			if (mValueUpdateHandler != null) {
 				mValueUpdateHandler.SendEmptyMessage (0);
 			}
+		}
+
+		public String GetIndicatorValueString ()
+		{
+			NumberDisplayer numberDisplayer = new NumberDisplayer (mIndicatorValue);
+			return numberDisplayer.GetString ();
 		}
 
 		public CircularIndicatorView SetRange(int range) {

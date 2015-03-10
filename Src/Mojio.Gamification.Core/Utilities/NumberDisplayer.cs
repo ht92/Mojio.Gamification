@@ -13,12 +13,14 @@ namespace Mojio.Gamification.Core
 			FUEL_CONSUMPTION
 		}
 
+		public static readonly string NOT_AVAILABLE = "N/A";
 		public static readonly int DEFAULT_DECIMAL_PLACES = 2;
 		public static readonly int NO_DECIMAL_PLACES = 0;
 
 		protected double _value;
 		protected ValueUnit _unit;
 		protected int _decimalPlaces;
+		protected bool _isNaN;
 
 		/*
 		 * Return NumberDisplayer using the default decimal places
@@ -34,40 +36,40 @@ namespace Mojio.Gamification.Core
 			}
 		}
 
-		public NumberDisplayer (double value)
+		public NumberDisplayer (double value) : this (value, NO_DECIMAL_PLACES, ValueUnit.NULL_UNIT)
 		{
-			_value = value;
-			_unit = ValueUnit.NULL_UNIT;
-			_decimalPlaces = NO_DECIMAL_PLACES;
 		}
 
-		public NumberDisplayer (double value, int decimalPlaces)
+		public NumberDisplayer (double value, int decimalPlaces) : this (value, decimalPlaces, ValueUnit.NULL_UNIT)
 		{
-			_value = value;
-			_unit = ValueUnit.NULL_UNIT;
-			_decimalPlaces = decimalPlaces;
 		}
 
 		public NumberDisplayer (double value, int decimalPlaces, ValueUnit unit)
 		{
 			_value = value;
+			_isNaN = Double.IsNaN (value);
 			_unit = unit;
 			_decimalPlaces = decimalPlaces;
 		}
 
 		public virtual string GetValueString()
 		{
-			return string.Format (getDecimalFormatString (), _value);
+			return getFormattedString (_value);
 		}
 
 		public string GetStringWithFullUnit ()
 		{
-			return GetValueString () + " " + _unit.FullUnit;
+			return _isNaN ? NOT_AVAILABLE : GetValueString () + " " + _unit.FullUnit;
 		}
 
 		public string GetString ()
 		{
-			return GetValueString () + " " + _unit.ShortUnit;
+			return _isNaN ? NOT_AVAILABLE : GetValueString () + " " + _unit.ShortUnit;
+		}
+
+		protected virtual string getFormattedString (double value)
+		{
+			return _isNaN ? NOT_AVAILABLE : string.Format (getDecimalFormatString (), value);
 		}
 
 		protected virtual string getDecimalFormatString ()
@@ -91,7 +93,7 @@ namespace Mojio.Gamification.Core
 		public override string GetValueString()
 		{
 			double value = _isMeters ? _value * 1000 : _value;
-			return string.Format (getDecimalFormatString (), value);
+			return getFormattedString (value);
 		}
 	}
 
@@ -124,7 +126,7 @@ namespace Mojio.Gamification.Core
 		public override string GetValueString()
 		{
 			double value = _value * 100;
-			return string.Format (getDecimalFormatString (), value);
+			return getFormattedString (value);
 		}
 	}
 }
