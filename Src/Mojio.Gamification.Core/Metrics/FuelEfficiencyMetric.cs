@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Mojio.Events;
 using Newtonsoft.Json;
 
 namespace Mojio.Gamification.Core
@@ -10,7 +7,7 @@ namespace Mojio.Gamification.Core
 	{
 		private const double MPG_TO_LITRE_PER_100KM = 235.214583;
 		public double TotalConsumption { get; private set; }
-		public double EstimateEfficiency { get; private set; }
+		public double EstimateBaselineEfficiency { get; private set; }
 
 		public static FuelEfficiencyMetric CreateMetric (Guid vehicleId, double fuelEfficiency, double distance)
 		{
@@ -19,7 +16,6 @@ namespace Mojio.Gamification.Core
 
 		[JsonConstructor]
 		public FuelEfficiencyMetric ()
-			: base ()
 		{
 		}
 
@@ -28,7 +24,8 @@ namespace Mojio.Gamification.Core
 		{
 			Measure = fuelEfficiency;
 			TotalConsumption = Measure * TripDistance / 100;
-			EstimateEfficiency = getFuelEconomyEstimates (vehicleId);
+			Weight = Double.IsNaN (fuelEfficiency) ? 0 : Weight;
+			EstimateBaselineEfficiency = getFuelEconomyEstimates (vehicleId);
 		}
 
 		private double getFuelEconomyEstimates (Guid vehicleId)

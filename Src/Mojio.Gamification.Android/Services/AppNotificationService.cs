@@ -20,7 +20,7 @@ namespace Mojio.Gamification.Android
 		private static string NOTIFICATION_TITLE_TEXT = GamificationApp.GetInstance ().Resources.GetString (Resource.String.app_name);
 		private static string NOTIFICATION_NEW_TRIP_TEXT = GamificationApp.GetInstance ().Resources.GetString (Resource.String.notification_new_trips);
 		private static string NOTIFICATION_NEW_BADGE_TEXT = GamificationApp.GetInstance ().Resources.GetString (Resource.String.notification_new_badges);
-		private static int NOTIFICATION_ICON_RES = Resource.Drawable.Icon;
+		private static int NOTIFICATION_ICON_RES = Resource.Drawable.logo_white;
 
 		public List<TripDataModel> NotifiedTrips { get; private set; }
 		public List<Badge> NotifiedBadges { get; private set; }

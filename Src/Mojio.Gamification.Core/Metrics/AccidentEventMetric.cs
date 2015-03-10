@@ -10,10 +10,9 @@ namespace Mojio.Gamification.Core
 	{
 		public IList<Event> Events { get; private set; }
 		public int Count { get; private set; }
-		public int Weight { get; private set; }
 
-		private static int MAX_WEIGHT = 100;
-		private static int MIN_WEIGHT = 1;
+		private static double MAX_WEIGHT = 100;
+		private static double MIN_WEIGHT = 1;
 
 		public static AccidentEventMetric CreateMetric(IList<Event> accidentEvents, double distance)
 		{

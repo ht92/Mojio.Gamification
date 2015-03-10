@@ -48,7 +48,7 @@ namespace Mojio.Gamification.Android
 			MyConnectionService.LoginEvent += (sender, e) => {
 				if (e.IsSuccess) {
 					initializeDatabase ();
-					if (!MyUserStatsRepository.DoesUserExist (MyConnectionService.UserName)) {
+					if (!MyUserStatsRepository.DoesUserExist (MyConnectionService.CurrentUserName)) {
 						initializeNewUser ();
 					}
 					initializeManagers ();
@@ -73,9 +73,9 @@ namespace Mojio.Gamification.Android
 
 		private void initializeNewUser ()
 		{
-			MyUserStatsRepository.AddUserStats (UserStats.CreateStats (MyConnectionService.UserName));
+			MyUserStatsRepository.AddUserStats (UserStats.CreateStats (MyConnectionService.CurrentUserName));
 			MyUserBadgesRepository.UpdateBadges (JsonSerializationUtility.Serialize (AchievementManager.DEFAULT_BADGE_COLLECTION));
-			MyUserTripRecordsRepository.UpdateTripRecords (JsonSerializationUtility.Serialize (new List<TripDataModel> ()));
+			MyUserTripRecordsRepository.UpdateTripRecords (JsonSerializationUtility.Serialize (TripHistoryManager.CreateNewHistory ()));
 		}
 
 		private void initializeManagers () 

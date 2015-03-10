@@ -37,14 +37,14 @@ namespace Mojio.Gamification.Android
 		{
 			Trip trip = new Trip ();
 			trip.Distance = rnd.Next (1, 100);
-			trip.StartTime = DateTime.Now;
+			trip.StartTime = DateTime.UtcNow;
 			trip.EndTime = trip.StartTime.AddMinutes (rnd.Next (1, 100));
 			trip.VehicleId = Guid.Empty;
-			trip.FuelEfficiency = rnd.Next (7, 15);
+			trip.FuelEfficiency = rnd.Next (0, 2) == 1 ? rnd.Next (7, 15) : trip.FuelEfficiency;
 
 			List<Event> events = new List<Event>();
 			for (int j = 0; j < 4; j++) {
-				int num = rnd.Next (0, 1);
+				int num = rnd.Next (0, 2);
 				for (int i = 0; i < num; i++) {
 					switch (j) 
 					{

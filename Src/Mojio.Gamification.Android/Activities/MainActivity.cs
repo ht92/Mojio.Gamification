@@ -33,6 +33,7 @@ namespace Mojio.Gamification.Android
 		{
 			base.OnCreate (savedInstanceState);
 			attachListeners ();
+			syncLatestData ();
 
 			RequestedOrientation = ScreenOrientation.Portrait;
 			SetContentView(Resource.Layout.Main);
@@ -132,6 +133,11 @@ namespace Mojio.Gamification.Android
 			transaction.SetCustomAnimations (Resource.Animator.fade_in, Resource.Animator.fade_out, Resource.Animator.slide_in_left, Resource.Animator.fade_out);
 			transaction.Replace (Resource.Id.content_frame, fragment, position.ToString ());
 			transaction.Commit ();
+		}
+
+		private void syncLatestData ()
+		{
+			GamificationApp.GetInstance ().MyConnectionService.FetchLatestTripsSinceLastReceivedAsync ();
 		}
 
 		private void logout ()

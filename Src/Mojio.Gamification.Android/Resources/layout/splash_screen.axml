@@ -15,7 +15,7 @@
         android:layout_centerInParent="true" />
     <Mojio.Gamification.Android.BadgeView
         android:id="@+id/splash_icon"
-        android:src="@drawable/Icon"
+        android:src="@drawable/logo"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"

@@ -33,11 +33,10 @@ namespace Mojio.Gamification.Android
 		private void prepareListData ()
 		{
 			mListData = new List<TripDataModel> ();
-			List<TripDataModel> tripRecords = GamificationApp.GetInstance ().MyTripHistoryManager.GetRecords ();
+			IList<TripDataModel> tripRecords = GamificationApp.GetInstance ().MyTripHistoryManager.GetRecords ();
 			foreach (TripDataModel record in tripRecords) {
 				mListData.Add (record);
 			}
-			mListData.Reverse ();
 		}
 	}
 }

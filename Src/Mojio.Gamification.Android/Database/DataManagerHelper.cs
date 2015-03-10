@@ -31,17 +31,7 @@ namespace Mojio.Gamification.Android
 			db.ExecSQL (@"
 						CREATE TABLE IF NOT EXISTS UserStats (
 							uid						VARCHAR PRIMARY KEY,
-							totalTrips				INTEGER NOT NULL,
-							totalDistance			DOUBLE NOT NULL,
-							totalDuration			DOUBLE NOT NULL,
-							totalHardAccelerations  INTEGER NOT NULL,
-							totalHardBrakes			INTEGER NOT NULL,
-							totalHardLefts			INTEGER NOT NULL,
-							totalHardRights			INTEGER NOT NULL,
-							totalAccidents			INTEGER NOT NULL,
-							totalFuelConsumption    DOUBLE NOT NULL,
-							safetyScore				DOUBLE NOT NULL,
-							efficiencyScore			DOUBLE NOT NULL)");
+							userStatsData			VARCHAR NOT NULL)");
 			db.ExecSQL (@"
 						CREATE TABLE IF NOT EXISTS UserBadges (
 							uid						VARCHAR PRIMARY KEY,

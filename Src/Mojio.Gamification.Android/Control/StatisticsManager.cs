@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Mojio.Events;
 
-
 using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
@@ -12,11 +11,11 @@ namespace Mojio.Gamification.Android
 		public event EventHandler<TripsAddedEventArgs> TripsAddedEvent;
 		public event EventHandler StatisticsUpdatedEvent;
 
-		public UserStats MyStats { get; private set; } 
+		public UserStatsModel MyStats { get; private set; } 
 		public double OverallScore;
 
-		private ConnectionService _loginManager;
-		private UserStatsRepository _userStatsRepository;
+		private ConnectionService mConnectionService;
+		private UserStatsRepository mUserStatsRepository;
 		private static StatisticsManager _instance;
 
 		public static StatisticsManager GetInstance()
@@ -32,7 +31,7 @@ namespace Mojio.Gamification.Android
 			if (TripDataModel.IsTripValid (trip)) {
 				TripDataModel tripData = new TripDataModel (trip, events);
 				OnTripsAddedEvent (new TripsAddedEventArgs (tripData));
-				RecalculateScore (tripData, events);
+				RecalculateScore (tripData);
 			} else {
 				Logger.GetInstance ().Warning (String.Format ("Invalid trip detected - {0}. Discarding...", trip.Id.ToString ()));
 			}
@@ -41,11 +40,10 @@ namespace Mojio.Gamification.Android
 		private StatisticsManager () 
 		{
 			//initialize with the current stats
-			_userStatsRepository = GamificationApp.GetInstance ().MyUserStatsRepository;
-			_loginManager = GamificationApp.GetInstance ().MyConnectionService;
+			mUserStatsRepository = GamificationApp.GetInstance ().MyUserStatsRepository;
+			mConnectionService = GamificationApp.GetInstance ().MyConnectionService;
 			attachListeners ();
-			MyStats = _userStatsRepository.GetUserStats ();
-			setOverallScore ();
+			initializeScore ();
 		}
 
 		private void setOverallScore()
@@ -53,24 +51,39 @@ namespace Mojio.Gamification.Android
 			OverallScore = ScoreCalculator.CalculateOverallScore (MyStats.safetyScore, MyStats.efficiencyScore);
 		}
 
-		private void RecalculateScore (TripDataModel tripData, IList<Event> events)
+		private void RecalculateScore (TripDataModel tripData)
 		{
-			UserStats tripStats = tripData.GetTripStats ();
-			UserStats newStats = UserStats.SumStats (MyStats, tripStats);
-			_userStatsRepository.UpdateUserStats (newStats);
+			UserStatsModel tripStats = tripData.GetTripStats ();
+			UserStatsModel newStats = UserStatsModel.SumStatsModel (MyStats, tripStats);
+			syncToDatabase (newStats);
 			GamificationApp.GetInstance ().MyNotificationService.IssueTripNotification (tripData);
 		}
 
 		private void attachListeners ()
 		{
-			_userStatsRepository.UserStatsUpdatedEvent += (object sender, EventArgs e) => syncWithDatabase ();
+			mUserStatsRepository.UserStatsUpdatedEvent += (sender, e) => syncFromDatabase ();
 		}
-			
-		private void syncWithDatabase ()
+
+		private void initializeScore ()
 		{
-			MyStats = _userStatsRepository.GetUserStats ();
+			UserStats userStats = mUserStatsRepository.GetUserStats ();
+			MyStats = (UserStatsModel) JsonSerializationUtility.Deserialize (userStats.userStatsData);
+			setOverallScore ();
+		}
+
+		private void syncFromDatabase ()
+		{			
+			UserStats userStats = mUserStatsRepository.GetUserStats ();
+			MyStats = (UserStatsModel) JsonSerializationUtility.Deserialize (userStats.userStatsData);
 			setOverallScore ();
 			OnStatisticsUpdatedEvent (EventArgs.Empty);
+		}
+
+		private void syncToDatabase (UserStatsModel newStats)
+		{
+			UserStats userStats = UserStats.CreateStats (mConnectionService.CurrentUserName);
+			userStats.userStatsData = JsonSerializationUtility.Serialize (newStats);
+			mUserStatsRepository.UpdateUserStats (userStats);
 		}
 
 		protected void OnTripsAddedEvent (TripsAddedEventArgs e)

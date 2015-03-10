@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using Mojio.Gamification.Core;
 
 namespace Mojio.Gamification.Android
@@ -10,9 +9,9 @@ namespace Mojio.Gamification.Android
 		private static TripHistoryManager _instance;
 		private const int TRIP_HISTORY_MAX_COUNT = 30;
 
-		private List<TripDataModel> mTripRecords = new List<TripDataModel> ();
-		private UserTripRecordsRepository _userTripRecordsRepository;
-		private StatisticsManager _statsManager;
+		private SortedList<DateTime,TripDataModel> mTripRecords;
+		private readonly UserTripRecordsRepository mUserTripRecordsRepository;
+		private StatisticsManager mStatsManager;
 
 		public static TripHistoryManager GetInstance ()
 		{
@@ -24,24 +23,35 @@ namespace Mojio.Gamification.Android
 
 		private TripHistoryManager ()
 		{
-			_userTripRecordsRepository = GamificationApp.GetInstance ().MyUserTripRecordsRepository;
-			_statsManager = GamificationApp.GetInstance ().MyStatisticsManager;
+			mTripRecords = CreateNewHistory ();
+			mUserTripRecordsRepository = GamificationApp.GetInstance ().MyUserTripRecordsRepository;
+			mStatsManager = GamificationApp.GetInstance ().MyStatisticsManager;
 			attachListeners ();
 			SyncFromDb ();
 		}
 
+		public static SortedList<DateTime,TripDataModel> CreateNewHistory ()
+		{
+			return new SortedList<DateTime,TripDataModel> (TRIP_HISTORY_MAX_COUNT, new ByDateTimeComparer ()); 
+		}
+
 		public void AddRecord (TripDataModel tripRecord)
 		{
-			if (mTripRecords.Count > TRIP_HISTORY_MAX_COUNT) {
-				mTripRecords.RemoveAt (0);
+			int numRecords = mTripRecords.Count;
+			if (numRecords >= TRIP_HISTORY_MAX_COUNT) {
+				mTripRecords.RemoveAt(numRecords-1);
 			}
-			mTripRecords.Add (tripRecord);
+			try {
+				mTripRecords.Add (tripRecord.MyTrip.StartTime, tripRecord);
+			} catch (ArgumentException e) {
+				Logger.GetInstance ().Warning (e.Message);
+			}
 			SyncToDb ();
 		}
 
-		public List<TripDataModel> GetRecords ()
+		public IList<TripDataModel> GetRecords ()
 		{
-			return mTripRecords;
+			return mTripRecords.Values;
 		}
 
 		public TripDataModel GetLatestRecord ()
@@ -59,32 +69,44 @@ namespace Mojio.Gamification.Android
 			List<TripDataModel> latestRecords = new List<TripDataModel> ();
 			int count = mTripRecords.Count;
 			if (count > 0) {
-				int startingIndex = Math.Max (count - numRecords, 0);
 				int range = count > numRecords ? numRecords : count;
-				latestRecords.AddRange (mTripRecords.GetRange (startingIndex, range));
+				for (int i = 0; i < range; i++) {
+					latestRecords.Add (mTripRecords.Values [i]);
+				}
 			}
 			return latestRecords;
 		}
 
 		private void attachListeners ()
 		{
-			_statsManager.TripsAddedEvent += (object sender, StatisticsManager.TripsAddedEventArgs e) => AddRecord (e.TripData);
+			mStatsManager.TripsAddedEvent += (sender, e) => AddRecord (e.TripData);
 		}
 
 		private void SyncFromDb ()
 		{
 			mTripRecords.Clear ();
-			UserTripRecords data = _userTripRecordsRepository.GetTripRecords ();
-			List<TripDataModel> tripRecords = (List<TripDataModel>) JsonSerializationUtility.Deserialize (data.tripHistoryData);
-			foreach (TripDataModel tripRecord in tripRecords) {
-				mTripRecords.Add (tripRecord);
+			UserTripRecords data = mUserTripRecordsRepository.GetTripRecords ();
+			var deserialized = (SortedList<DateTime,TripDataModel>) JsonSerializationUtility.Deserialize (data.tripHistoryData);
+			foreach (TripDataModel trip in deserialized.Values) {
+				mTripRecords.Add (trip.MyTrip.StartTime, trip);
 			}
 		}
 
 		private void SyncToDb ()
 		{
 			string tripRecordsJson = JsonSerializationUtility.Serialize (mTripRecords);
-			_userTripRecordsRepository.UpdateTripRecords (tripRecordsJson);
+			mUserTripRecordsRepository.UpdateTripRecords (tripRecordsJson);
+		}
+
+		/*
+		 * Comparer to sort list by DateTime in descending order.
+		 */
+		public class ByDateTimeComparer : IComparer<DateTime>
+		{
+			public int Compare (DateTime x, DateTime y)
+			{
+				return Comparer<DateTime>.Default.Compare (y, x);
+			}
 		}
 	}
 }

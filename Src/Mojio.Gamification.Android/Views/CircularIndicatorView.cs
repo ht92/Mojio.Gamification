@@ -25,7 +25,7 @@ namespace Mojio.Gamification.Android
 	
 		private float mIndicatorWidth = DEFAULT_INDICATOR_WIDTH;
 		private int mIndicatorDegrees;
-		private int mIndicatorValue = DEFAULT_START_VALUE;
+		private double mIndicatorValue = DEFAULT_START_VALUE;
 		private int mIndicatorRange = DEFAULT_MAX_VALUE;
 		private Color mIndicatorColor = Color.White;
 		private Color mTextColor = Color.White;
@@ -174,7 +174,7 @@ namespace Mojio.Gamification.Android
 			} else {
 				mIndicatorDegrees = MAX_DEGREES;
 			}
-			mIndicatorValue = (int) Math.Round (value, MidpointRounding.AwayFromZero);
+			mIndicatorValue = Math.Round (value, MidpointRounding.AwayFromZero);
 			if (mValueUpdateHandler != null) {
 				mValueUpdateHandler.SendEmptyMessage (0);
 			}

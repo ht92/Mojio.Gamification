@@ -6,7 +6,7 @@
     android:background="@drawable/back_login">
     <Mojio.Gamification.Android.BadgeView
         android:id="@+id/login_icon"
-        android:src="@drawable/Icon"
+        android:src="@drawable/logo"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center_horizontal"

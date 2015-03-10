@@ -41,7 +41,7 @@ namespace Mojio.Gamification.Android
 		private static Badge BADGE_VETERAN = createBadge (BADGE_VETERAN_NAME, BADGE_VETERAN_DESCRIPTION, Resource.Drawable.badge_veteran1);
 		private static Badge BADGE_SELF_IMPROVEMENT = createBadge (BADGE_SELF_IMPROVEMENT_NAME, BADGE_SELF_IMPROVEMENT_DESCRIPTION, Resource.Drawable.badge_selfImprovement1);
 		private static Badge BADGE_PERFECTIONIST = createBadge (BADGE_PERFECTIONIST_NAME, BADGE_PERFECTIONIST_DESCRIPTION, Resource.Drawable.badge_perfectionist1);
-		private static Badge BADGE_UNTOUCHABLE = createBadge (BADGE_UNTOUCHABLE_NAME, BADGE_UNTOUCHABLE_DESCRIPTION, Resource.Drawable.Icon);
+		private static Badge BADGE_UNTOUCHABLE = createBadge (BADGE_UNTOUCHABLE_NAME, BADGE_UNTOUCHABLE_DESCRIPTION, Resource.Drawable.logo);
 
 		//Badge Unlock Check Delegates
 		private static CheckAchievementDelegate BADGE_FIRST_TRIP_CHECK_DELEGATE = CheckFirstTripAchievement;

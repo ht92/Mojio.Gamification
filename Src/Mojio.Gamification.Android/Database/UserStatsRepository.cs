@@ -10,7 +10,7 @@ namespace Mojio.Gamification.Android
 		public event EventHandler UserStatsUpdatedEvent;
 
 		private readonly DataManagerHelper _helper;
-		private readonly ConnectionService _loginManager;
+		private readonly ConnectionService mConnectionService;
 		private static UserStatsRepository _instance;
 
 		public static UserStatsRepository GetInstance()
@@ -24,7 +24,7 @@ namespace Mojio.Gamification.Android
 		private UserStatsRepository ()
 		{
 			_helper = GamificationApp.GetInstance ().MyDataManagerHelper;
-			_loginManager = GamificationApp.GetInstance ().MyConnectionService;
+			mConnectionService = GamificationApp.GetInstance ().MyConnectionService;
 		}
 
 		public long AddUserStats (UserStats addUser)
@@ -59,7 +59,7 @@ namespace Mojio.Gamification.Android
 		{
 			using (var database = new SQLiteConnection (_helper.ReadableDatabase.Path)) 
 			{
-				SQLiteCommand command = database.CreateCommand ("SELECT * FROM UserStats WHERE uid = ?", _loginManager.UserName);
+				SQLiteCommand command = database.CreateCommand ("SELECT * FROM UserStats WHERE uid = ?", mConnectionService.CurrentUserName);
 				List<UserStats> userStatsList = command.ExecuteQuery<UserStats> ();
 				return userStatsList[0];
 			}

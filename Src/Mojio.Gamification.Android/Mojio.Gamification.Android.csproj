@@ -93,7 +93,6 @@
     <Compile Include="Fragments\HomeNavigationFragment.cs" />
     <Compile Include="Fragments\ScoreBreakdownNavigationFragment.cs" />
     <Compile Include="Fragments\TripHistoryNavigationFragment.cs" />
-    <Compile Include="Utilities\JsonSerializationUtility.cs" />
     <Compile Include="Services\AppNotificationService.cs" />
     <Compile Include="Services\ConnectionService.cs" />
     <Compile Include="Database\UserBadgesRepository.cs" />
@@ -119,7 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\layout\drawer_list_item.axml" />
     <AndroidResource Include="Resources\drawable-hdpi\action_search.png" />
@@ -232,6 +230,9 @@
     <AndroidResource Include="Resources\drawable\login_input_background.axml" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\drawable\rounded_button_selector.xml" />
+    <AndroidResource Include="Resources\drawable\Icon.png" />
+    <AndroidResource Include="Resources\drawable\logo.ico" />
+    <AndroidResource Include="Resources\drawable\logo_white.ico" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

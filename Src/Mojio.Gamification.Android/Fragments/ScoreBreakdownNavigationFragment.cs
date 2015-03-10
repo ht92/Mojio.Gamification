@@ -58,7 +58,7 @@ namespace Mojio.Gamification.Android
 
 		private void initializeStatsPanel(Context context)
 		{
-			UserStats stats = ((GamificationApp)(Activity.Application)).MyStatisticsManager.MyStats;
+			UserStatsModel stats = ((GamificationApp)(Activity.Application)).MyStatisticsManager.MyStats;
 
 			string totalTrips = NumberDisplayer.CreateNumberDisplayer (stats.totalTrips, NumberDisplayer.NumberType.INTEGER).GetString ();
 			string totalDistance = NumberDisplayer.CreateNumberDisplayer (stats.totalDistance, NumberDisplayer.NumberType.DISTANCE).GetString ();

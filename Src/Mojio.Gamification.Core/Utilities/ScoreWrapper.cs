@@ -4,7 +4,15 @@ namespace Mojio.Gamification.Core
 {
 	public class ScoreWrapper
 	{
-		public enum ScoreRank { S, A, B, C, D, F };
+		public enum ScoreRank { 
+			S, 
+			A, 
+			B, 
+			C, 
+			D, 
+			F, 
+			NA 
+		}
 
 		public double Score { get; private set;}
 		public ScoreRank Rank { get; private set;}
@@ -26,11 +34,12 @@ namespace Mojio.Gamification.Core
 
 			Score = score;
 			if (score < 50) { Rank = ScoreRank.F; } 
-			else if (score < 60) { Rank = ScoreRank.D; } 
-			else if (score < 70) { Rank = ScoreRank.C; } 
+			else if (score < 60) { Rank = ScoreRank.D; }
+			else if (score < 70) { Rank = ScoreRank.C; }
 			else if (score < 80) { Rank = ScoreRank.B; }
-			else if (score < 90) { Rank = ScoreRank.A; } 
-			else { Rank = ScoreRank.S; }
+			else if (score < 90) { Rank = ScoreRank.A; }
+			else if (score > 90) { Rank = ScoreRank.S; }
+			else { Rank = ScoreRank.NA; }
 		}
 	}
 }

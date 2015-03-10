@@ -7,7 +7,7 @@ namespace Mojio.Gamification.Android
 	public class UserTripRecordsRepository
 	{
 		private readonly DataManagerHelper _helper;
-		private readonly ConnectionService _loginManager;
+		private readonly ConnectionService mConnectionService;
 		private static UserTripRecordsRepository _instance;
 
 		public static UserTripRecordsRepository GetInstance ()
@@ -21,7 +21,7 @@ namespace Mojio.Gamification.Android
 		private UserTripRecordsRepository ()
 		{
 			_helper = GamificationApp.GetInstance ().MyDataManagerHelper;
-			_loginManager = GamificationApp.GetInstance ().MyConnectionService;
+			mConnectionService = GamificationApp.GetInstance ().MyConnectionService;
 		}
 		
 
@@ -29,7 +29,7 @@ namespace Mojio.Gamification.Android
 		{
 			using (var db = new SQLiteConnection (_helper.WritableDatabase.Path)) {
 				UserTripRecords tripRecords = new UserTripRecords ();
-				tripRecords.uid = _loginManager.UserName;
+				tripRecords.uid = mConnectionService.CurrentUserName;
 				tripRecords.tripHistoryData = tripRecordsJson;
 				if (db.Update (tripRecords) == 0) {
 					db.Insert (tripRecords);
@@ -40,7 +40,7 @@ namespace Mojio.Gamification.Android
 		public UserTripRecords GetTripRecords ()
 		{
 			using (var database = new SQLiteConnection (_helper.ReadableDatabase.Path)) {
-				SQLiteCommand command = database.CreateCommand ("SELECT * FROM UserTripRecords WHERE uid = ?", _loginManager.UserName);
+				SQLiteCommand command = database.CreateCommand ("SELECT * FROM UserTripRecords WHERE uid = ?", mConnectionService.CurrentUserName);
 				List<UserTripRecords> userTripRecords = command.ExecuteQuery<UserTripRecords> ();
 				return userTripRecords [0];		
 			}

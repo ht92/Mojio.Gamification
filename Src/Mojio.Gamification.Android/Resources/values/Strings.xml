@@ -5,7 +5,7 @@
 	<string name="facebook_native_app_call_content_provider">com.facebook.app.NativeAppCallContentProvider1544639629137406</string>
 	<string name="settings_username">username</string>
 	<string name="settings_password">password</string>
-	<string name="app_name">Mojio Gamification</string>
+	<string name="app_name">Driver Score</string>
 	<string name="drawer_open">Open Drawer</string>
 	<string name="drawer_close">Close Drawer</string>
 	<string name="navigation_drawer_title">Navigation</string>

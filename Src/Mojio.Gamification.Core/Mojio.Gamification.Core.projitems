@@ -9,22 +9,30 @@
     <Import_RootNamespace>Mojio.Gamification.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)SQLite.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserStats.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ScoreWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ScoreCalculator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Metric.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HardEventMetric.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FuelEfficiencyMetric.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TripDataModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DistanceBasedMetric.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TimeBasedMetric.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NumberDisplayer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ValueUnit.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)AccidentEventMetric.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DateTimeUtility.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserBadges.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserTripRecords.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\JsonSerializationUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\DateTimeUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\SQLite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\UserBadges.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\UserStats.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\UserTripRecords.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\TripDataModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserStatsModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Metrics\AccidentEventMetric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Metrics\DistanceBasedMetric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Metrics\FuelEfficiencyMetric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Metrics\HardEventMetric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Metrics\Metric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\NumberDisplayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ScoreCalculator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ScoreWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Metrics\TimeBasedMetric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ValueUnit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Utilities\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Database\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Metrics\" />
   </ItemGroup>
 </Project>
