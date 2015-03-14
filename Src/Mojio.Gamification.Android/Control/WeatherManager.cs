@@ -11,6 +11,7 @@ namespace Mojio.Gamification.Android
 {
 	public static class WeatherManager
 	{
+		private static int REQ_TIMEOUT = 10000;
 
 		public enum WeatherType 
 		{ 
@@ -28,6 +29,7 @@ namespace Mojio.Gamification.Android
 
 				request.KeepAlive = false;
 				request.Method = "GET";
+				request.Timeout = REQ_TIMEOUT;
 
 				HttpWebResponse response = (HttpWebResponse) request.GetResponse ();
 				using (StreamReader reader = new StreamReader (response.GetResponseStream ())) {
