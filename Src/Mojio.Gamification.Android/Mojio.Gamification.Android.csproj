@@ -232,7 +232,10 @@
     <AndroidResource Include="Resources\drawable\rounded_button_selector.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\drawable\logo.ico" />
-    <AndroidResource Include="Resources\drawable\logo_white.ico" />
+    <AndroidResource Include="Resources\drawable-hdpi\logo_white.png" />
+    <AndroidResource Include="Resources\drawable-ldpi\logo_white.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\logo_white.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\logo_white.png" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
