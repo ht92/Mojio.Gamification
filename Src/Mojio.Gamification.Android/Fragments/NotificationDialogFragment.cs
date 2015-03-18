@@ -35,12 +35,7 @@ namespace Mojio.Gamification.Android
 			base.OnStart ();
 			if (Dialog == null)
 				return;
-			DisplayMetrics metric = new DisplayMetrics ();
-			Activity.WindowManager.DefaultDisplay.GetMetrics (metric);
-			int dialogWidth = (int) (metric.WidthPixels * WIDTH_SCALE);
-			int dialogHeight = (int) (metric.HeightPixels * HEIGHT_SCALE);
-			Dialog.Window.SetLayout (dialogWidth, dialogHeight);
-			Dialog.Window.SetBackgroundDrawableResource (Resource.Color.transparent_black);
+			resizeDialog ();
 		}
 
 		private Dialog createDialog (View view)
@@ -48,6 +43,16 @@ namespace Mojio.Gamification.Android
 			AlertDialog.Builder builder = new AlertDialog.Builder (Activity);
 			builder.SetView (view);
 			return builder.Create ();
+		}
+
+		private void resizeDialog () 
+		{
+			DisplayMetrics metric = new DisplayMetrics ();
+			Activity.WindowManager.DefaultDisplay.GetMetrics (metric);
+			int dialogWidth = (int) (metric.WidthPixels * WIDTH_SCALE);
+			int dialogHeight = (int) (metric.HeightPixels * HEIGHT_SCALE);
+			Dialog.Window.SetLayout (dialogWidth, dialogHeight);
+			Dialog.Window.SetBackgroundDrawableResource (Resource.Color.transparent_black);
 		}
 
 		private void initializeTabHostView ()
@@ -66,7 +71,6 @@ namespace Mojio.Gamification.Android
 			tabSpec.SetIndicator (Resources.GetString (Resource.String.notification_view_new_trips));
 			tabSpec.SetContent (mTabContentFactory);
 			mTabHost.AddTab (tabSpec);
-
 		}
 
 		private void populateBadgesLayout ()
@@ -77,24 +81,23 @@ namespace Mojio.Gamification.Android
 			mTabHost.AddTab (tabSpec);
 		}
 
-		public override void OnDismiss (IDialogInterface dialog)
-		{
-			AppNotificationService.GetInstance ().ClearNotifications ();
-			base.OnDismiss (dialog);
-		}
-
 		internal class NotificationDialogTabContentFactory : Java.Lang.Object, TabHost.ITabContentFactory
 		{
 			private Context _context;
+			private View _tripsTab;
+			private View _badgesTab;
 
 			public NotificationDialogTabContentFactory (Context context)
 			{
 				_context = context;
+				_tripsTab = createNewTripsView ();
+				_badgesTab = createNewBadgesView ();
 			}
+
 			public View CreateTabContent (string tag)
 			{
-				if (tag.Equals (TAB_NEW_TRIPS_TAG)) return createNewTripsView ();
-				else if (tag.Equals (TAB_NEW_BADGES_TAG)) return createNewBadgesView ();
+				if (tag.Equals (TAB_NEW_TRIPS_TAG)) return _tripsTab;
+				else if (tag.Equals (TAB_NEW_BADGES_TAG)) return _badgesTab;
 				else throw new ArgumentException (String.Format ("Invalid tag provided: {0}", tag));
 			}
 
