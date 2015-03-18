@@ -131,7 +131,7 @@ namespace Mojio.Gamification.Android
 		{
 			List<Tuple<Trip, List<Event>>> mostRecentTrips = new List<Tuple<Trip, List<Event>>> ();
 			TripDataModel lastReceivedTrip = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecord ();
-			string tripStartTime = lastReceivedTrip != null ? String.Format ("StartTime={0}", lastReceivedTrip.MyTrip.StartTime.ToString ("yyyy.MM.dd HH:mm:ss-")) : null;
+			string tripStartTime = lastReceivedTrip != null ? String.Format ("StartTime={0}", lastReceivedTrip.MyTrip.StartTime.AddSeconds(1).ToString ("yyyy.MM.dd HH:mm:ss-")) : null;
 			var results = await mClient.GetAsync<Trip> (sortBy: t => t.StartTime, desc: true, criteria: tripStartTime); //sort the trip based on the last to first trip
 			List<Trip> trips = (List<Trip>)results.Data.Data;
 			foreach (Trip trip in trips) {

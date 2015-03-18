@@ -36,6 +36,7 @@ namespace Mojio.Gamification.Android
 			if (Dialog == null)
 				return;
 			resizeDialog ();
+			GamificationApp.GetInstance ().MyNotificationService.ClearNotifications ();
 		}
 
 		private Dialog createDialog (View view)
@@ -57,10 +58,10 @@ namespace Mojio.Gamification.Android
 
 		private void initializeTabHostView ()
 		{
-			if (AppNotificationService.GetInstance ().HasTripNotifications ()) {
+			if (GamificationApp.GetInstance ().MyNotificationService.HasTripNotifications ()) {
 				populateTripsLayout ();
 			}
-			if (AppNotificationService.GetInstance ().HasBadgeNotifications ()) {
+			if (GamificationApp.GetInstance ().MyNotificationService.HasBadgeNotifications ()) {
 				populateBadgesLayout ();
 			}
 		}
@@ -103,14 +104,14 @@ namespace Mojio.Gamification.Android
 
 			private View createNewTripsView ()
 			{
-				List<TripDataModel> data = new List<TripDataModel> (AppNotificationService.GetInstance ().NotifiedTrips);
+				List<TripDataModel> data = new List<TripDataModel> (GamificationApp.GetInstance ().MyNotificationService.NotifiedTrips);
 				TripHistoryExpandableListAdapter listAdapter = new TripHistoryExpandableListAdapter (_context, data);
 				return createListView (listAdapter);
 			}
 
 			private View createNewBadgesView ()
 			{
-				List<Badge> data = new List<Badge> (AppNotificationService.GetInstance ().NotifiedBadges);
+				List<Badge> data = new List<Badge> (GamificationApp.GetInstance ().MyNotificationService.NotifiedBadges);
 				BadgeCollectionExpandableListAdapter listAdapter = new BadgeCollectionExpandableListAdapter (_context, data);
 				return createListView (listAdapter);
 			}
