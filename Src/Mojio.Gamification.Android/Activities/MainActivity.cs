@@ -75,7 +75,8 @@ namespace Mojio.Gamification.Android
 
 		protected override void OnResume ()
 		{
-			if (!GamificationApp.GetInstance ().MyConnectionService.IsConnected ()) {
+			if (!GamificationApp.GetInstance ().MyConnectionService.IsConnected () 
+				|| GamificationApp.GetInstance ().MyConnectionService.HasTokenExpired ()) {
 				GamificationApp.GetInstance ().MyConnectionService.Login ();
 			}
 			base.OnResume ();

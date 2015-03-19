@@ -74,6 +74,12 @@ namespace Mojio.Gamification.Android
 			return mClient.IsLoggedIn ();
 		}
 
+		public bool HasTokenExpired ()
+		{
+			bool hasExpired = DateTime.Compare (DateTime.UtcNow, mClient.Token.ValidUntil) >= 0;
+			return hasExpired;
+		}
+
 		private async Task initializeConnection (string username, string password)
 		{			
 			//------------------Initializing the SDK----------------------//
