@@ -55,8 +55,14 @@ namespace Mojio.Gamification.Android
 
 			mSyncingProgressDialog = new ProgressDialog (this);
 			mSyncingProgressDialog.SetMessage (Resources.GetString (Resource.String.sync_data_dialog_progress));
+			mSyncingProgressDialog.SetCancelable (false);
+			mSyncingProgressDialog.SetCanceledOnTouchOutside (false);
+
 			mLoadingDialog = new ProgressDialog (this);
 			mLoadingDialog.SetMessage (Resources.GetString (Resource.String.loading_label));
+			mLoadingDialog.SetCancelable (false);
+			mLoadingDialog.SetCanceledOnTouchOutside (false);
+
 			mDrawerLayout = FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			mDrawerList = FindViewById<ListView> (Resource.Id.drawer_list);
 
