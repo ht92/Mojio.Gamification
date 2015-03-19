@@ -8,8 +8,8 @@ namespace Mojio.Gamification.Core
 {
 	public class HardEventMetric : DistanceBasedMetric
 	{
-		public IList<HardEvent> Events { get; private set; }
-		public int Count { get; private set; }
+		public IList<HardEvent> Events { get; set; }
+		public int Count { get; set; }
 	
 		public enum HardEventSeverity { Minor,	Major, Severe };
 

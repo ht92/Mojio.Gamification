@@ -31,4 +31,18 @@
 	<string name="loading_label">Loading</string>
 	<string name="not_available">N/A</string>
 	<string name="sync_data_dialog_progress">Syncing</string>
+	<string name="stat_totalTrips">Total Trips</string>
+	<string name="stat_totalDistance">Total Distance Travelled</string>
+	<string name="stat_totalTime">Total Time Driven</string>
+	<string name="stat_averageDistance">Average Trip Distance</string>
+	<string name="stat_averageDuration">Average Trip Duration</string>
+	<string name="stat_totalHardAccelerations">Total Hard Accelerations</string>
+	<string name="stat_totalHardBrakes">Total Hard Brakes</string>
+	<string name="stat_totalHardLefts">Total Hard Lefts</string>
+	<string name="stat_totalHardRights">Total Hard Rights</string>
+	<string name="stat_hardEventFrequency">Hard Event Frequency</string>
+	<string name="stat_totalAccidents">Total Accidents</string>
+	<string name="stat_accidentFrequency">Accident Frequency</string>
+	<string name="stat_fuelEfficiency">Fuel Efficiency</string>
+	<string name="stat_fuelConsumption">Total Fuel Consumption</string>
 </resources>

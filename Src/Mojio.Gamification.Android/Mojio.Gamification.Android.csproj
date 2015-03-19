@@ -108,6 +108,7 @@
     <Compile Include="Control\AbstractExpandableListAdapter.cs" />
     <Compile Include="Control\BadgeCollectionExpandableListAdapter.cs" />
     <Compile Include="Control\TripHistoryExpandableListAdapter.cs" />
+    <Compile Include="Views\StatRowFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

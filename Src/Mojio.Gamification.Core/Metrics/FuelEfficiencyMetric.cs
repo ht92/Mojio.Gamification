@@ -6,8 +6,8 @@ namespace Mojio.Gamification.Core
 	public class FuelEfficiencyMetric : DistanceBasedMetric
 	{
 		private const double MPG_TO_LITRE_PER_100KM = 235.214583;
-		public double TotalConsumption { get; private set; }
-		public double EstimateBaselineEfficiency { get; private set; }
+		public double TotalConsumption { get; set; }
+		public double EstimateBaselineEfficiency { get; set; }
 
 		public static FuelEfficiencyMetric CreateMetric (Guid vehicleId, double fuelEfficiency, double distance)
 		{

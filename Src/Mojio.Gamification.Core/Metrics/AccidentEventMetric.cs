@@ -8,8 +8,8 @@ namespace Mojio.Gamification.Core
 {
 	public class AccidentEventMetric : DistanceBasedMetric
 	{
-		public IList<Event> Events { get; private set; }
-		public int Count { get; private set; }
+		public IList<Event> Events { get; set; }
+		public int Count { get; set; }
 
 		private static double MAX_WEIGHT = 100;
 		private static double MIN_WEIGHT = 1;
