@@ -16,6 +16,7 @@ namespace Mojio.Gamification.Android
 	{
 		public event EventHandler<ConnectionEventArgs> LoginEvent;
 		public event EventHandler<ConnectionEventArgs> LogoutEvent;
+		public event EventHandler FetchTripsCompletedEvent;
 	
 		private static ConnectionService _instance;
 
@@ -123,6 +124,7 @@ namespace Mojio.Gamification.Android
 		private void receiveEvent (Event e)
 		{
 			if (e.EventType == EventType.IgnitionOff) {
+				Logger.GetInstance ().Info ("Received ignition off event!");
 				FetchLatestTripsSinceLastReceivedAsync ();
 			}
 		}
@@ -132,12 +134,14 @@ namespace Mojio.Gamification.Android
 			List<Tuple<Trip, List<Event>>> mostRecentTrips = new List<Tuple<Trip, List<Event>>> ();
 			TripDataModel lastReceivedTrip = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecord ();
 			string tripStartTime = lastReceivedTrip != null ? String.Format ("StartTime={0}", lastReceivedTrip.MyTrip.StartTime.AddSeconds(1).ToString ("yyyy.MM.dd HH:mm:ss-")) : null;
+			Logger.GetInstance ().Info (String.Format ("Requesting for trips since {0}", tripStartTime));
 			var results = await mClient.GetAsync<Trip> (sortBy: t => t.StartTime, desc: true, criteria: tripStartTime); //sort the trip based on the last to first trip
 			List<Trip> trips = (List<Trip>)results.Data.Data;
 			foreach (Trip trip in trips) {
 				List<Event> relevantTripEvents = await fetchRelevantTripEventsAsync (trip);
 				GamificationApp.GetInstance ().MyStatisticsManager.AddTrip (trip, relevantTripEvents);
 			}
+			OnFetchTripsCompletedEvent ();
 		}
 
 		private async Task<List<Event>> fetchRelevantTripEventsAsync (Trip trip)
@@ -184,6 +188,11 @@ namespace Mojio.Gamification.Android
 		private void OnLogoutFailEvent ()
 		{
 			LogoutEvent (this, FAIL);
+		}
+
+		private void OnFetchTripsCompletedEvent ()
+		{
+			FetchTripsCompletedEvent (this, EventArgs.Empty);
 		}
 
 		public class ConnectionEventArgs : EventArgs 

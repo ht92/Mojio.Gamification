@@ -18,18 +18,8 @@ namespace Mojio.Gamification.Android
 		public override View GetChildView (int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent)
 		{
 			if (convertView == null) {
-				LayoutInflater li = (LayoutInflater) mContext.GetSystemService (Context.LayoutInflaterService);
-				convertView = li.Inflate (Resource.Layout.trip_history_list_item, null);
+				convertView = createChildView (mData [groupPosition]);
 			}
-			ScoreRowView tripRecordSafetyScore = convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordListItem_safetyScore);
-			ScoreRowView tripRecordEfficiencyScore = convertView.FindViewById<ScoreRowView> (Resource.Id.tripRecordListItem_efficiencyScore);
-			TripDataModel dataModel = mData [groupPosition];
-			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (dataModel.TripSafetyScore);
-			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (dataModel.TripEfficiencyScore);
-			tripRecordSafetyScore.SetScoreLabel ("SAFETY");
-			tripRecordSafetyScore.SetScore (safetyScore);
-			tripRecordEfficiencyScore.SetScoreLabel ("EFFICIENCY");
-			tripRecordEfficiencyScore.SetScore (efficiencyScore);
 			return convertView;
 		}
 			
@@ -45,6 +35,23 @@ namespace Mojio.Gamification.Android
 			tripRecordHeader.SetScoreLabel (dataModel.MyTrip.StartTime.ToLocalTime ().ToString (DateTimeUtility.FORMAT_MMM_DD_YYYY_H_MM_TT));
 			tripRecordHeader.SetScore (overallScore);
 			return convertView;
+		}
+
+		private LinearLayout createChildView (TripDataModel dataModel)
+		{
+			LinearLayout layout = new LinearLayout (mContext);
+			layout.Orientation = Orientation.Vertical;
+			ScoreRowView tripRecordSafetyScore = new ScoreRowView (mContext);
+			ScoreRowView tripRecordEfficiencyScore = new ScoreRowView (mContext);
+			ScoreWrapper safetyScore = ScoreWrapper.WrapScore (dataModel.TripSafetyScore);
+			ScoreWrapper efficiencyScore = ScoreWrapper.WrapScore (dataModel.TripEfficiencyScore);
+			tripRecordSafetyScore.SetScoreLabel ("SAFETY");
+			tripRecordSafetyScore.SetScore (safetyScore);
+			tripRecordEfficiencyScore.SetScoreLabel ("EFFICIENCY");
+			tripRecordEfficiencyScore.SetScore (efficiencyScore);
+			layout.AddView (tripRecordSafetyScore);
+			layout.AddView (tripRecordEfficiencyScore);
+			return layout;
 		}
 	}
 }

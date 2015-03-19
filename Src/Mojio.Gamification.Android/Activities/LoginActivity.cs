@@ -59,20 +59,28 @@ namespace Mojio.Gamification.Android
 
 		private void attachListeners ()
 		{
-			GamificationApp.GetInstance ().InitializationCompleteEvent += (sender, e) => {
-				Intent i = new Intent (this, typeof(MainActivity));
-				i.SetFlags (ActivityFlags.NewTask | ActivityFlags.ClearTask);
-				StartActivity (i);
-				Finish ();
-				OverridePendingTransition (Resource.Animation.abc_fade_in, Resource.Animation.abc_fade_out);
-			};
+			GamificationApp.GetInstance ().InitializationCompleteEvent += (sender, e) => startNextActivity ();
 			GamificationApp.GetInstance ().MyConnectionService.LoginEvent += (sender, e) => {
 				if (!e.IsSuccess) {
-					mProgressBar.Visibility = ViewStates.Gone;
-					enableInputControls (true);
-					Toast.MakeText (ApplicationContext, "Failed to login...", ToastLength.Long).Show ();
+					handleUnsuccessfulLogin ();
 				}
 			};
+		}
+
+		private void startNextActivity ()
+		{
+			Intent i = new Intent (this, typeof(MainActivity));
+			i.SetFlags (ActivityFlags.NewTask | ActivityFlags.ClearTask);
+			StartActivity (i);
+			Finish ();
+			OverridePendingTransition (Resource.Animation.abc_fade_in, Resource.Animation.abc_fade_out);
+		}
+
+		private void handleUnsuccessfulLogin ()
+		{
+			mProgressBar.Visibility = ViewStates.Gone;
+			enableInputControls (true);
+			Toast.MakeText (ApplicationContext, "Failed to login...", ToastLength.Long).Show ();
 		}
 
 		private void enableInputControls (bool enable)

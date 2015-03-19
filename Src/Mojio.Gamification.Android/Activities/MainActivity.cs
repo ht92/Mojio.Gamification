@@ -26,6 +26,7 @@ namespace Mojio.Gamification.Android
 		private List<string> mNavigationPages;
 		private String mNavigationLogout;
 		private ProgressDialog mLoadingDialog;
+		private ProgressDialog mSyncingProgressDialog;
 
 		private ActionBarDrawerToggle mDrawerToggle;
 
@@ -33,18 +34,27 @@ namespace Mojio.Gamification.Android
 		{
 			base.OnCreate (savedInstanceState);
 			attachListeners ();
+			initializeComponents ();
 			syncLatestData ();
+			if (savedInstanceState == null) {
+				SelectFragment ((int)AbstractNavigationFragment.NavigationFragmentType.NAV_HOME);
+			}
+		}
 
+		private void initializeComponents ()
+		{
 			RequestedOrientation = ScreenOrientation.Portrait;
 			SetContentView(Resource.Layout.Main);
 			Window.DecorView.SetBackgroundResource (getActivityBackground ());
-				
+
 			mDrawerTitle = this.Resources.GetString (Resource.String.navigation_drawer_title);
 			mNavigationPages = new List<string> (this.Resources.GetStringArray (Resource.Array.pages_array));
 			mNavigationLogout = Resources.GetString (Resource.String.navigation_logout);
 			mNavigationDestinations.AddRange (mNavigationPages);
 			mNavigationDestinations.Add (mNavigationLogout);
 
+			mSyncingProgressDialog = new ProgressDialog (this);
+			mSyncingProgressDialog.SetMessage (Resources.GetString (Resource.String.sync_data_dialog_progress));
 			mLoadingDialog = new ProgressDialog (this);
 			mLoadingDialog.SetMessage (Resources.GetString (Resource.String.loading_label));
 			mDrawerLayout = FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
@@ -52,19 +62,15 @@ namespace Mojio.Gamification.Android
 
 			mDrawerLayout.SetDrawerShadow (Resource.Drawable.drawer_shadow, GravityCompat.Start);
 
-			ArrayAdapter listAdapter = new ArrayAdapter (this, Android.Resource.Layout.drawer_list_item, mNavigationDestinations);
+			ArrayAdapter listAdapter = new ArrayAdapter (this, Resource.Layout.drawer_list_item, mNavigationDestinations);
 			mDrawerList.Adapter = listAdapter;
 			mDrawerList.ItemClick += navDrawer_onClick;
-				
+
 			this.ActionBar.SetDisplayHomeAsUpEnabled (true);
 			this.ActionBar.SetHomeButtonEnabled (true);
 
 			mDrawerToggle = new NavigationDrawerToggle (this, mDrawerLayout, Resource.Drawable.ic_drawer, Resource.String.drawer_open, Resource.String.drawer_close);
 			mDrawerLayout.SetDrawerListener (mDrawerToggle);
-
-			if (savedInstanceState == null) {
-				SelectFragment ((int)AbstractNavigationFragment.NavigationFragmentType.NAV_HOME);
-			}
 		}
 
 		protected override void OnResume ()
@@ -138,6 +144,7 @@ namespace Mojio.Gamification.Android
 		private void syncLatestData ()
 		{
 			GamificationApp.GetInstance ().MyConnectionService.FetchLatestTripsSinceLastReceivedAsync ();
+			mSyncingProgressDialog.Show ();
 		}
 
 		private void logout ()
@@ -167,6 +174,7 @@ namespace Mojio.Gamification.Android
 
 		private void attachListeners ()
 		{
+			GamificationApp.GetInstance ().MyConnectionService.FetchTripsCompletedEvent += (sender, e) => mSyncingProgressDialog.Dismiss ();
 			GamificationApp.GetInstance ().MyConnectionService.LogoutEvent += (sender, e) => 
 			{
 				if (e.IsSuccess) {

@@ -158,7 +158,6 @@
     <AndroidResource Include="Resources\layout\badge_row_layout.axml" />
     <AndroidResource Include="Resources\layout\trip_history_frag_layout.axml" />
     <AndroidResource Include="Resources\layout\trip_history_list_group.axml" />
-    <AndroidResource Include="Resources\layout\trip_history_list_item.axml" />
     <AndroidResource Include="Resources\Animator\fade_in.xml" />
     <AndroidResource Include="Resources\layout\splash_screen.axml" />
     <AndroidResource Include="Resources\layout\badge_collection_group.axml" />
