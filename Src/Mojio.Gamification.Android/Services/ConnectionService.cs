@@ -141,11 +141,17 @@ namespace Mojio.Gamification.Android
 			TripDataModel lastReceivedTrip = GamificationApp.GetInstance ().MyTripHistoryManager.GetLatestRecord ();
 			string tripStartTime = lastReceivedTrip != null ? String.Format ("StartTime={0}", lastReceivedTrip.MyTrip.StartTime.AddSeconds(1).ToString ("yyyy.MM.dd HH:mm:ss-")) : null;
 			Logger.GetInstance ().Info (String.Format ("Requesting for trips since {0}", tripStartTime));
-			var results = await mClient.GetAsync<Trip> (sortBy: t => t.StartTime, desc: true, criteria: tripStartTime); //sort the trip based on the last to first trip
-			List<Trip> trips = (List<Trip>)results.Data.Data;
-			foreach (Trip trip in trips) {
-				List<Event> relevantTripEvents = await fetchRelevantTripEventsAsync (trip);
-				GamificationApp.GetInstance ().MyStatisticsManager.AddTrip (trip, relevantTripEvents);
+
+			int index = 1;
+			while (true) {
+				var results = await mClient.GetAsync<Trip> (page: index, sortBy: t => t.StartTime, desc: false, criteria: tripStartTime); //sort the trip based on the last to first trip
+				List<Trip> trips = (List<Trip>)results.Data.Data;
+				if (trips.Count == 0) break;
+				foreach (Trip trip in trips) {
+					List<Event> relevantTripEvents = await fetchRelevantTripEventsAsync (trip);
+					GamificationApp.GetInstance ().MyStatisticsManager.AddTrip (trip, relevantTripEvents);
+				}
+				index++;
 			}
 			OnFetchTripsCompletedEvent ();
 		}
