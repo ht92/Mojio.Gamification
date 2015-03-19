@@ -94,8 +94,7 @@ namespace Mojio.Gamification.Android
 				.SetDefaults (NOTIFICATION_DEFAULT_FLAGS);
 
 			Intent resultIntent = new Intent (GamificationApp.GetInstance (), typeof(MainActivity));
-			resultIntent.SetAction (Intent.ActionMain);
-			resultIntent.AddCategory (Intent.CategoryLauncher);
+			resultIntent.SetFlags (ActivityFlags.ClearTop | ActivityFlags.SingleTop);
 			PendingIntent resultPendingIntent = PendingIntent.GetActivity (GamificationApp.GetInstance (), 0, resultIntent, PendingIntentFlags.UpdateCurrent);
 			notificationBuilder.SetContentIntent (resultPendingIntent);
 			mNotificationManager.Notify ((int)type, notificationBuilder.Build ());
