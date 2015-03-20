@@ -198,7 +198,7 @@ namespace Mojio.Gamification.Android
 					StartActivity (i);
 					OverridePendingTransition (Resource.Animation.abc_fade_in, Resource.Animation.abc_fade_out);
 				} else {
-					Toast.MakeText (ApplicationContext, "Failed to logout...", ToastLength.Long).Show ();
+					Toast.MakeText (ApplicationContext, Resource.String.error_failed_logout, ToastLength.Long).Show ();
 				}
 				mLoadingDialog.Dismiss ();
 			};

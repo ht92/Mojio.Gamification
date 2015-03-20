@@ -68,7 +68,7 @@ namespace Mojio.Gamification.Android
 		{
 			mProgressBar.Visibility = ViewStates.Gone;
 			enableInputControls (true);
-			Toast.MakeText (ApplicationContext, "Failed to login...", ToastLength.Long).Show ();
+			Toast.MakeText (ApplicationContext, Resource.String.error_failed_login, ToastLength.Long).Show ();
 		}
 
 		private void enableInputControls (bool enable)

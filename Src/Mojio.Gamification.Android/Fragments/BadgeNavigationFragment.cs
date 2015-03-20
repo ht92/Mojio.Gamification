@@ -87,18 +87,22 @@ namespace Mojio.Gamification.Android
 
 		public void ShareBadge (Badge b)
 		{
-			IOpenGraphObject badge = OpenGraphObjectFactory.CreateForPost ("mojiogamification:badge");
-			badge.SetProperty ("title", b.GetDisplayName ());
-			badge.SetProperty ("description", b.GetDescription ());
+			if (!FacebookDialog.CanPresentShareDialog (GamificationApp.GetInstance ().ApplicationContext, FacebookDialog.ShareDialogFeature.ShareDialog)) {
+				Toast.MakeText (GamificationApp.GetInstance ().ApplicationContext, Resource.String.error_facebook_app_not_installed, ToastLength.Long).Show ();
+			} else {
+				IOpenGraphObject badge = OpenGraphObjectFactory.CreateForPost ("mojiogamification:badge");
+				badge.SetProperty ("title", b.GetDisplayName ());
+				badge.SetProperty ("description", b.GetDescription ());
 
-			IOpenGraphAction action = OpenGraphActionFactory.CreateForPost ("mojiogamification:unlock");
-			action.SetProperty ("badge", (Java.Lang.Object) badge);
+				IOpenGraphAction action = OpenGraphActionFactory.CreateForPost ("mojiogamification:unlock");
+				action.SetProperty ("badge", (Java.Lang.Object)badge);
 
-			Bitmap badgeIcon = ((BitmapDrawable) Resources.GetDrawable (b.GetDrawableResource ())).Bitmap;
-			FacebookDialog.OpenGraphActionDialogBuilder builder = new FacebookDialog.OpenGraphActionDialogBuilder (this.Activity, action, "mojiogamification:unlock", "badge");
-			builder.SetImageAttachmentsForObject ("badge",  new List<Bitmap> { badgeIcon });
-			FacebookDialog shareDialog = builder.Build ();
-			mUiHelper.TrackPendingDialogCall (shareDialog.Present ());
+				Bitmap badgeIcon = ((BitmapDrawable)Resources.GetDrawable (b.GetDrawableResource ())).Bitmap;
+				FacebookDialog.OpenGraphActionDialogBuilder builder = new FacebookDialog.OpenGraphActionDialogBuilder (this.Activity, action, "mojiogamification:unlock", "badge");
+				builder.SetImageAttachmentsForObject ("badge", new List<Bitmap> { badgeIcon });
+				FacebookDialog shareDialog = builder.Build ();
+				mUiHelper.TrackPendingDialogCall (shareDialog.Present ());
+			}
 		}
 
 		internal class BadgeCollectionGroupClickListener : Java.Lang.Object, ExpandableListView.IOnGroupClickListener

@@ -47,4 +47,7 @@
 	<string name="stat_fuelConsumption">Total Fuel Consumption</string>
 	<string name="logging_out">Logging out.</string>
 	<string name="session_expired">Session expired. Logging out.</string>
+	<string name="error_failed_login">Failed to login...</string>
+	<string name="error_failed_logout">Failed to logout...</string>
+	<string name="error_facebook_app_not_installed">Unable to share. Facebook app is not installed.</string>
 </resources>
