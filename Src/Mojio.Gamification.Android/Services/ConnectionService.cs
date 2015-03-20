@@ -78,7 +78,7 @@ namespace Mojio.Gamification.Android
 			} else {
 				//--------------Authenticating a Mojio User------------------//
 				if (!mClient.IsLoggedIn ()) {
-					var setUserResponse = await mClient.SetUserAsync ("alaraozturk@hotmail.com", "Capstone2015");
+					var setUserResponse = await mClient.SetUserAsync (username, password);
 					if (setUserResponse.StatusCode != HttpStatusCode.OK) {
 						Logger.GetInstance ().Error (String.Format ("Failed to login: {0}.", setUserResponse.ErrorMessage));
 						OnLoginFailEvent ();

@@ -192,6 +192,7 @@ namespace Mojio.Gamification.Android
 			GamificationApp.GetInstance ().MyConnectionService.LogoutEvent += (sender, e) => 
 			{
 				if (e.IsSuccess) {
+					GamificationApp.GetInstance ().MyNotificationService.ClearNotifications ();
 					Intent i = BaseContext.PackageManager.GetLaunchIntentForPackage (BaseContext.PackageName);
 					i.AddFlags (ActivityFlags.ClearTop);
 					Finish ();
