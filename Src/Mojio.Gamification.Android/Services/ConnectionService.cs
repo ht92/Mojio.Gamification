@@ -20,8 +20,6 @@ namespace Mojio.Gamification.Android
 	
 		private static ConnectionService _instance;
 
-		private string mUsername;
-		private string mPassword;
 		private MojioClient mClient;
 		public User CurrentUser { get; private set; }
 		public string CurrentUserName { get; private set; }
@@ -50,17 +48,8 @@ namespace Mojio.Gamification.Android
 			mClient.PageSize = 30;
 		}
 
-		public void Login ()
-		{
-			string username = CrossSettings.Current.GetValueOrDefault<string> (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_username));
-			string password = CrossSettings.Current.GetValueOrDefault<string> (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_password));
-			Login (username, password);
-		}
-
 		public void Login (string username, string password)
 		{
-			mUsername = username;
-			mPassword = password;
 			initializeConnection (username, password);
 		}
 
@@ -180,8 +169,6 @@ namespace Mojio.Gamification.Android
 
 		private void OnLoginSuccessfulEvent ()
 		{
-			CrossSettings.Current.AddOrUpdateValue<string> (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_username), mUsername);
-			CrossSettings.Current.AddOrUpdateValue<string> (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_password), mPassword);
 			LoginEvent (this, SUCCESS);
 		}
 
@@ -192,8 +179,6 @@ namespace Mojio.Gamification.Android
 
 		private void OnLogoutSuccessfulEvent ()
 		{
-			CrossSettings.Current.Remove (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_username));
-			CrossSettings.Current.Remove (GamificationApp.GetInstance ().Resources.GetString (Resource.String.settings_password));
 			LogoutEvent (this, SUCCESS);
 		}
 

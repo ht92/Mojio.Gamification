@@ -27,18 +27,6 @@ namespace Mojio.Gamification.Android
 			mProgressBar = FindViewById<ProgressBar> (Resource.Id.login_progressBar);
 			mLoginButton.Click += loginButton_onClick;
 			attachListeners ();
-			initializeFields ();
-		}
-
-		private void initializeFields ()
-		{
-			string username = CrossSettings.Current.GetValueOrDefault<string> (Resources.GetString (Resource.String.settings_username));
-			string password = CrossSettings.Current.GetValueOrDefault<string> (Resources.GetString (Resource.String.settings_password));
-			if (!(String.IsNullOrWhiteSpace (username) || String.IsNullOrWhiteSpace (password))) {
-				mUsernameField.Text = username;
-				mPasswordField.Text = password;
-				login ();
-			}
 		}
 
 		private void loginButton_onClick (object sender, EventArgs e) 

@@ -59,7 +59,6 @@ namespace Mojio.Gamification.Android
 			mSyncingProgressDialog.SetCanceledOnTouchOutside (false);
 
 			mLoadingDialog = new ProgressDialog (this);
-			mLoadingDialog.SetMessage (Resources.GetString (Resource.String.loading_label));
 			mLoadingDialog.SetCancelable (false);
 			mLoadingDialog.SetCanceledOnTouchOutside (false);
 
@@ -83,7 +82,7 @@ namespace Mojio.Gamification.Android
 		{
 			if (!GamificationApp.GetInstance ().MyConnectionService.IsConnected () 
 				|| GamificationApp.GetInstance ().MyConnectionService.HasTokenExpired ()) {
-				GamificationApp.GetInstance ().MyConnectionService.Login ();
+				sessionExpired ();
 			}
 			base.OnResume ();
 		}
@@ -154,8 +153,16 @@ namespace Mojio.Gamification.Android
 			mSyncingProgressDialog.Show ();
 		}
 
+		private void sessionExpired ()
+		{
+			mLoadingDialog.SetMessage (Resources.GetString (Resource.String.session_expired));
+			mLoadingDialog.Show ();
+			GamificationApp.GetInstance ().MyConnectionService.Logout ();
+		}
+
 		private void logout ()
 		{
+			mLoadingDialog.SetMessage (Resources.GetString (Resource.String.logging_out));
 			mLoadingDialog.Show ();
 			GamificationApp.GetInstance ().MyConnectionService.Logout ();
 		}

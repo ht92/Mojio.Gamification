@@ -45,4 +45,6 @@
 	<string name="stat_accidentFrequency">Accident Frequency</string>
 	<string name="stat_fuelEfficiency">Fuel Efficiency</string>
 	<string name="stat_fuelConsumption">Total Fuel Consumption</string>
+	<string name="logging_out">Logging out.</string>
+	<string name="session_expired">Session expired. Logging out.</string>
 </resources>
