@@ -13,8 +13,8 @@
         <item>Home</item>
         <item>Score Breakdown</item>
         <item>Badges</item>
-        <item>Trip History </item>
-        <item>Help</item>
+        <item>Trip History</item>
+        <item>About</item>
         <item>Diagnostics</item>
     </string-array>
 	<string name="notification_dialog_title">Updates</string>
@@ -50,4 +50,14 @@
 	<string name="error_failed_login">Failed to login...</string>
 	<string name="error_failed_logout">Failed to logout...</string>
 	<string name="error_facebook_app_not_installed">Unable to share. Facebook app is not installed.</string>
+    <string name="app_about">
+        <![CDATA[
+	           \nDriver Score is a Mojio powered app that scores you based on your driving skills. The goal is to promote and encourage responsible driving.\n
+	           \nScores are calculated from the vehicle\'s trip data extracted from your Mojio Dongle Device.\n
+	           \nThere are 2 categories of score - Safety & Efficiency.\n1. Safety - based on hard event frequency.\n2. Efficiency - based on fuel efficiency.\n
+	           \nIn addition to your score, badges can be unlocked for achieving various feats, and can be shared with your friends via Facebook.\n
+	           \nFor more information on Driver Score, please visit us at https://github.com/ht92/Mojio.Gamification\n
+	           \nFor more information on Mojio, visit https://www.moj.io/
+        ]]>
+    </string>
 </resources>

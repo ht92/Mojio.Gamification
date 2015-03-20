@@ -109,6 +109,7 @@
     <Compile Include="Control\BadgeCollectionExpandableListAdapter.cs" />
     <Compile Include="Control\TripHistoryExpandableListAdapter.cs" />
     <Compile Include="Views\StatRowFactory.cs" />
+    <Compile Include="Fragments\AboutNavigationFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -236,6 +237,7 @@
     <AndroidResource Include="Resources\drawable-ldpi\logo_white.png" />
     <AndroidResource Include="Resources\drawable-mdpi\logo_white.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\logo_white.png" />
+    <AndroidResource Include="Resources\layout\about_frag_layout.axml" />
   </ItemGroup>
   <Import Project="..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems" Label="Shared" Condition="Exists('..\Mojio.Gamification.Core\Mojio.Gamification.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

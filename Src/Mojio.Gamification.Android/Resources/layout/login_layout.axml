@@ -16,56 +16,24 @@
         android:background="@drawable/login_input_background"
         android:id="@+id/login_input_layout"
         android:layout_centerInParent="true">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:minWidth="25px"
-            android:minHeight="25px"
+        <EditText
+            android:inputType="text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/login_username_layout">
-            <TextView
-                android:text="@string/login_username_label"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/primary_text_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/login_username_label"
-                android:layout_gravity="center_vertical"
-                android:minWidth="100dp" />
-            <EditText
-                android:inputType="text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/login_username_field"
-                android:minWidth="180dp"
-                android:maxWidth="180dp"
-                android:maxLines="1" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:minWidth="25px"
-            android:minHeight="25px"
+            android:id="@+id/login_username_field"
+            android:hint="@string/login_username_label"
+            android:minWidth="260dp"
+            android:maxWidth="260dp"
+            android:maxLines="1" />
+        <EditText
+            android:inputType="textPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/login_password_layout">
-            <TextView
-                android:text="@string/login_password_label"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/primary_text_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/login_password_label"
-                android:layout_gravity="center_vertical"
-                android:minWidth="100dp" />
-            <EditText
-                android:inputType="textPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/login_password_field"
-                android:minWidth="180dp"
-                android:maxWidth="180dp"
-                android:maxLines="1" />
-        </LinearLayout>
+            android:id="@+id/login_password_field"
+            android:hint="@string/login_password_label"
+            android:minWidth="260dp"
+            android:maxWidth="260dp"
+            android:maxLines="1" />
         <Button
             android:id="@+id/login_button"
             android:text="@string/login_button_label"
