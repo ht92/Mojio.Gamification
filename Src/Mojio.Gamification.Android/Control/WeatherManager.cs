@@ -11,7 +11,7 @@ namespace Mojio.Gamification.Android
 {
 	public static class WeatherManager
 	{
-		private static int REQ_TIMEOUT = 10000;
+		private static int REQ_TIMEOUT = 5000;
 
 		public enum WeatherType 
 		{ 

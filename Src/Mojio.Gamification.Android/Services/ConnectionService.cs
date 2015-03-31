@@ -24,6 +24,7 @@ namespace Mojio.Gamification.Android
 		public User CurrentUser { get; private set; }
 		public string CurrentUserName { get; private set; }
 		public List<Mojio> CurrentUserDevices { get; private set; }
+		public bool IsLive {get; private set; }
 
 		private readonly static ConnectionEventArgs SUCCESS = new ConnectionEventArgs (true);
 		private readonly static ConnectionEventArgs FAIL = new ConnectionEventArgs (false);
@@ -45,12 +46,17 @@ namespace Mojio.Gamification.Android
 		private ConnectionService ()
 		{
 			mClient = new MojioClient();
-			mClient.PageSize = 30;
+			mClient.PageSize = 10;
+		}
+
+		public void Login (string username, string password, bool isLive)
+		{
+			initializeConnection (username, password, isLive);
 		}
 
 		public void Login (string username, string password)
 		{
-			initializeConnection (username, password);
+			initializeConnection (username, password, true);
 		}
 
 		public void Logout ()
@@ -69,10 +75,11 @@ namespace Mojio.Gamification.Android
 			return hasExpired;
 		}
 
-		private async Task initializeConnection (string username, string password)
+		private async Task initializeConnection (string username, string password, bool isLive)
 		{			
 			//------------------Initializing the SDK----------------------//
-			var result = await mClient.BeginAsync (APP_ID, LIVE_KEY); 	//return true if connected to the server  //takes a while to connect
+			IsLive = isLive;
+			var result = await mClient.BeginAsync (APP_ID, isLive ? LIVE_KEY : SANDBOX_KEY); 	//return true if connected to the server  //takes a while to connect
 			if (!result) {
 				OnLoginFailEvent ();
 			} else {
@@ -132,16 +139,21 @@ namespace Mojio.Gamification.Android
 			Logger.GetInstance ().Info (String.Format ("Requesting for trips since {0}", tripStartTime));
 
 			int index = 1;
-			while (true) {
-				var results = await mClient.GetAsync<Trip> (page: index, sortBy: t => t.StartTime, desc: false, criteria: tripStartTime); //sort the trip based on the last to first trip
+			//while (true) {
+				var results = await mClient.GetAsync<Trip> (page: index, sortBy: t => t.StartTime, desc: true, criteria: tripStartTime); //sort the trip based on the last to first trip
 				List<Trip> trips = (List<Trip>)results.Data.Data;
-				if (trips.Count == 0) break;
+			//	if (trips.Count == 0) break;
 				foreach (Trip trip in trips) {
-					List<Event> relevantTripEvents = await fetchRelevantTripEventsAsync (trip);
-					GamificationApp.GetInstance ().MyStatisticsManager.AddTrip (trip, relevantTripEvents);
+					try {
+						List<Event> relevantTripEvents = await fetchRelevantTripEventsAsync (trip);
+						GamificationApp.GetInstance ().MyStatisticsManager.AddTrip (trip, relevantTripEvents);
+					} catch (Exception e) {
+						Logger.GetInstance ().Warning (String.Format("Failed to get trip - {0}", trip.IdToString));
+					}
+					if (!IsLive) break;
 				}
-				index++;
-			}
+			//	index++;
+			//}
 			OnFetchTripsCompletedEvent ();
 		}
 

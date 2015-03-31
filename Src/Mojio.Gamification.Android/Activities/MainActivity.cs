@@ -149,8 +149,10 @@ namespace Mojio.Gamification.Android
 
 		private void syncLatestData ()
 		{
-			GamificationApp.GetInstance ().MyConnectionService.FetchLatestTripsSinceLastReceivedAsync ();
-			mSyncingProgressDialog.Show ();
+			if (GamificationApp.GetInstance ().MyConnectionService.IsConnected() && GamificationApp.GetInstance ().MyConnectionService.IsLive) {
+				GamificationApp.GetInstance ().MyConnectionService.FetchLatestTripsSinceLastReceivedAsync ();
+				mSyncingProgressDialog.Show ();
+			}
 		}
 
 		private void sessionExpired ()
@@ -193,6 +195,7 @@ namespace Mojio.Gamification.Android
 			{
 				if (e.IsSuccess) {
 					GamificationApp.GetInstance ().MyNotificationService.ClearNotifications ();
+					GamificationApp.GetInstance ().Uninitialize ();
 					Intent i = BaseContext.PackageManager.GetLaunchIntentForPackage (BaseContext.PackageName);
 					i.AddFlags (ActivityFlags.ClearTop);
 					Finish ();

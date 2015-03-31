@@ -26,6 +26,11 @@ namespace Mojio.Gamification.Android
 			return _instance;
 		}
 
+		public static void Uninitialize ()
+		{
+			_instance = null;
+		}
+
 		public void AddTrip (Trip trip, IList<Event> events)
 		{
 			if (TripDataModel.IsTripValid (trip)) {

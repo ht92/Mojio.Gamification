@@ -85,6 +85,13 @@ namespace Mojio.Gamification.Android
 			MyTripHistoryManager = TripHistoryManager.GetInstance ();
 		}
 
+		public void Uninitialize ()
+		{
+			StatisticsManager.Uninitialize ();
+			AchievementManager.Uninitialize ();
+			TripHistoryManager.Uninitialize ();
+		}
+
 		private void OnInitializationCompleteEvent ()
 		{
 			InitializationCompleteEvent (this, EventArgs.Empty);

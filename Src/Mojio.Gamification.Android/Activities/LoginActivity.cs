@@ -5,7 +5,6 @@ using Android.OS;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
-using Refractored.Xam.Settings;
 
 namespace Mojio.Gamification.Android
 {
@@ -15,6 +14,7 @@ namespace Mojio.Gamification.Android
 		private Button mLoginButton;
 		private EditText mUsernameField;
 		private EditText mPasswordField;
+		private CheckBox mIsLiveCheckbox;
 		private ProgressBar mProgressBar;
 
 		protected override void OnCreate (Bundle savedInstanceState)
@@ -25,6 +25,8 @@ namespace Mojio.Gamification.Android
 			mUsernameField = FindViewById<EditText> (Resource.Id.login_username_field);
 			mPasswordField = FindViewById<EditText> (Resource.Id.login_password_field);
 			mProgressBar = FindViewById<ProgressBar> (Resource.Id.login_progressBar);
+			mIsLiveCheckbox = FindViewById<CheckBox> (Resource.Id.isLiveCheckbox);
+			mIsLiveCheckbox.CheckedChange += isLive_onCheckedChange;
 			mLoginButton.Click += loginButton_onClick;
 			attachListeners ();
 		}
@@ -36,11 +38,22 @@ namespace Mojio.Gamification.Android
 			login ();
 		}
 
+		private void isLive_onCheckedChange (object sender, EventArgs e)
+		{
+			if (mIsLiveCheckbox.Checked) {
+				mUsernameField.Text = "alaraozturk@hotmail.com";
+				mPasswordField.Text = "Capstone2015";
+			} else {
+				mUsernameField.Text = "ht92@live.ca";
+				mPasswordField.Text = "Eece419";
+			}
+		}
+
 		private void login ()
 		{
 			string username = mUsernameField.Text;
 			string password = mPasswordField.Text;
-			GamificationApp.GetInstance ().MyConnectionService.Login (username, password);
+			GamificationApp.GetInstance ().MyConnectionService.Login (username, password, mIsLiveCheckbox.Checked);
 			mProgressBar.Visibility = ViewStates.Visible;
 			enableInputControls (false);
 		}

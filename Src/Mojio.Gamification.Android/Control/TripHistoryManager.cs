@@ -21,6 +21,11 @@ namespace Mojio.Gamification.Android
 			return _instance;
 		}
 
+		public static void Uninitialize ()
+		{
+			_instance = null;
+		}
+
 		private TripHistoryManager ()
 		{
 			mTripRecords = CreateNewHistory ();

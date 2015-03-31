@@ -32,8 +32,8 @@ namespace Mojio.Gamification.Core
 		{
 			//send webservice call to http://www.fueleconomy.gov/feg/ws/index.shtml#ft2
 			//get Combined MPG estimates
-			double combinedMPGEstimate = 30; //test value
-			return MPG_TO_LITRE_PER_100KM / combinedMPGEstimate;
+			//double combinedMPGEstimate = 20; //average value
+			return 10;
 		}
 	}
 }

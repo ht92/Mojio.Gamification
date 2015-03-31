@@ -122,6 +122,11 @@ namespace Mojio.Gamification.Android
 			return _instance;
 		}
 
+		public static void Uninitialize ()
+		{
+			_instance = null;
+		}
+
 		private AchievementManager ()
 		{
 			_userBadgeRepository = GamificationApp.GetInstance ().MyUserBadgesRepository;
